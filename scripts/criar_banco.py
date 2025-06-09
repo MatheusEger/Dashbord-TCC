@@ -6,8 +6,6 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT_DIR / "data"
 DB_PATH = DATA_DIR / "fiis.db"
 
-
-
 def criar_banco():
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
