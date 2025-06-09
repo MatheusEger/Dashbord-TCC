@@ -19,11 +19,11 @@ for table in tables:
     count = cur.fetchone()[0]
     print(f"Total de registros: {count}")
     
-    # Mostrar alguns registros de exemplo
+"""    # Mostrar alguns registros de exemplo
     cur.execute(f"SELECT * FROM {table[0]} LIMIT 5")
     rows = cur.fetchall()
     print("Exemplo de registros:")
     for row in rows:
-        print(row)
+        print(row)"""
 
 conn.close() 
