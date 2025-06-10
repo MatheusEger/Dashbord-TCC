@@ -64,7 +64,7 @@ def criar_banco():
     cur.execute("""
         CREATE TABLE IF NOT EXISTS indicadores (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome VARCHAR,
+            nome VARCHAR UNIQUE,
             descricao VARCHAR
         );
     """)
