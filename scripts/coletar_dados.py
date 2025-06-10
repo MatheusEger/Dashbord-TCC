@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 import unicodedata
-
+import json
 
 # === CARREGAR VARIÁVEIS DO .env ===
 load_dotenv()
@@ -127,7 +127,11 @@ if __name__ == '__main__':
     else:
         print("Não foi possível obter o token de autenticação.")
 
-
+    json_path = Path(__file__).resolve().parent.parent / "database" / "dados_fundos.json"
+    json_path.parent.mkdir(exist_ok=True)
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump({"data": dados}, f, ensure_ascii=False, indent=2)
+    print(f"Arquivo JSON salvo em: {json_path}")
 
 def salvar_cotacoes_e_indicadores(dados):
     conn = sqlite3.connect(DB_PATH)
