@@ -6,7 +6,7 @@ import time
 
 # Inicia o navegador e abre a página
 driver = webdriver.Chrome()
-driver.get("https://www.clubefii.com.br/fiis/HGLG11")
+driver.get("https://www.fundsexplorer.com.br/ranking")
 time.sleep(5)  # aguarda o carregamento da página
 html = driver.page_source
 driver.quit()

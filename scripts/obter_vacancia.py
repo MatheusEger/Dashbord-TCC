@@ -2,7 +2,7 @@
 import requests
 import pandas as pd
 # %%
-URL = "https://www.oceans14.com.br/fundos-imobiliarios/hglg11"
+URL = "https://www.fundsexplorer.com.br/funds/HGLG11"
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
 }
