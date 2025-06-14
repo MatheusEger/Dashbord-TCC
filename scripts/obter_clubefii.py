@@ -1,4 +1,3 @@
-# %%
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
@@ -23,31 +22,32 @@ DB_PATH = ROOT_DIR / "data" / "fiis.db"
 # Conecta ao banco e obtém os tickers
 conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
-cursor.execute("SELECT ticker FROM fiis;")
+cursor.execute("SELECT ticker FROM fiis LIMIT 30;")
 tickers = [row[0] for row in cursor.fetchall()]
 conn.close()
 
 # Loop pelos tickers
 for ticker in tickers:
+    driver = None
     try:
 
-        # Inicia o navegador
+        # Inicialização do Chrome
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')  # Roda em segundo plano
+        options.add_argument('--headless')
         options.add_argument('--disable-gpu')
-        options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
+        options.add_argument("user-agent=Mozilla/5.0...")
         driver = webdriver.Chrome(options=options)
 
         print(f"Processando {ticker}...")
         driver.get(f"https://www.clubefii.com.br/fiis/{ticker}")
-        time.sleep(1)  # Pequeno delay para garantir carregamento
+        time.sleep(3)  # Pequeno delay para garantir carregamento
 
+        # Parsing do conteúdo HTML
         soup = BeautifulSoup(driver.page_source, "html.parser")
         info_div = soup.find("div", class_="info")
         
         if not info_div:
-            print(f"[{ticker}] ⚠️ Nenhum bloco 'info' encontrado na página.")
-            print(driver.page_source[:1000])  # Mostra parte do HTML para inspecionar
+            print(f"[{ticker}] ⚠️ Nenhum bloco 'info' encontrado.")
             continue
 
         dados = info_div.find_all("div", recursive=False) if info_div else []
@@ -79,12 +79,12 @@ for ticker in tickers:
             except (IndexError, AttributeError):
                 pass
 
-        if vacancia_percentual is not None and vacancia_area:
+        if vacancia_percentual and vacancia_percentual.lower() != "none%" and vacancia_area:
             vacancia_percentual_valor = limpar_percentual(vacancia_percentual)
             vacancia_area_valor = limpar_area(vacancia_area)
             print(f"{ticker} - {vacancia_label}: {vacancia_percentual_valor}% ({vacancia_area_valor} m²)")
 
-        if ocupacao_percentual is not None and ocupacao_area:
+        if ocupacao_percentual and ocupacao_percentual.lower() != "none%" and ocupacao_area:
             ocupacao_percentual_valor = limpar_percentual(ocupacao_percentual)
             ocupacao_area_valor = limpar_area(ocupacao_area)
             print(f"{ticker} - {ocupacao_label}: {ocupacao_percentual_valor}% ({ocupacao_area_valor} m²)")
@@ -92,6 +92,6 @@ for ticker in tickers:
         driver.close()
     except Exception as e:
         print(f"Erro ao processar {ticker}: {e}")
-
-# Encerra o navegador
-driver.quit()
+    finally:
+        if driver:
+            driver.quit()
