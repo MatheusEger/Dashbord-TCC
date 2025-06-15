@@ -1,20 +1,16 @@
 import streamlit as st
-import pandas as pd
 import sqlite3
-from pathlib import Path
+import pandas as pd
 import plotly.express as px
+from pathlib import Path
+from datetime import datetime
 
-# Config inicial
 st.set_page_config(page_title="Dashboard FIIs", layout="wide")
 
-# Sidebar
-st.sidebar.title("📊 Dashboard FIIs")
-st.sidebar.markdown("---")
-pagina = st.sidebar.radio("Menu", ["🔍 Análise Detalhada", "📋 Lista Completa", "❓ Ajuda"])
-st.sidebar.markdown("---")
-
-# Conexão com banco
+# Banco de dados
 DB_PATH = Path(__file__).resolve().parent / "data" / "fiis.db"
+
+@st.cache_data
 def carregar_dados():
     conn = sqlite3.connect(DB_PATH)
     fiis = pd.read_sql("""
@@ -27,81 +23,61 @@ def carregar_dados():
         SELECT fi.fii_id, f.ticker AS ticker_fii, i.nome AS indicador, fi.valor, fi.data_referencia
         FROM fiis_indicadores fi
         JOIN indicadores i ON i.id = fi.indicador_id
-        JOIN fiis f ON f.id = fi.fii_id 
+        JOIN fiis f ON f.id = fi.fii_id
     """, conn)
     conn.close()
     return fiis, indicadores
 
 fiis, indicadores = carregar_dados()
 
-# Atualizar opções de filtro na sidebar
-disponiveis = sorted(fiis['setor'].unique())
+# Filtros
+st.sidebar.title("Filtros")
+setores = sorted(fiis['setor'].unique())
+setores_selecionados = st.sidebar.multiselect("Setores", setores, default=setores)
+fiis_filtrados = fiis[fiis['setor'].isin(setores_selecionados)]
 
-segmento_filtro = st.sidebar.multiselect(
-    "Filtrar por Segmento:",
-    options=disponiveis,
-    default=disponiveis,
-    key="filtro_segmento"
-)
+indicadores = indicadores[indicadores['fii_id'].isin(fiis_filtrados['id'])]
+indicadores["data_referencia"] = pd.to_datetime(indicadores["data_referencia"])
+data_max = indicadores["data_referencia"].max()
+indicadores_atuais = indicadores[indicadores["data_referencia"] == data_max]
 
-fiis_filtrados = fiis[fiis['setor'].isin(segmento_filtro)]
-
-# === Layout com colunas principais
+# Métricas principais
+st.title("Dashboard FIIs - Indicadores Atuais")
 col1, col2, col3 = st.columns(3)
-col1.metric("Total de FIIs", len(fiis_filtrados))
-col2.metric("Setores", fiis_filtrados['setor'].nunique())
-col3.metric("Indicadores distintos", indicadores.drop_duplicates(subset=["fii_id", "indicador", "data_referencia"]).shape[0])
 
-if pagina == "🔍 Análise Detalhada":
-    # === Gráfico de barras: FIIs por setor
-    st.subheader("Distribuição por Setor")
-    fig_setor = px.histogram(fiis_filtrados, x="setor", color="setor", title="Quantidade de FIIs por Setor")
-    st.plotly_chart(fig_setor, use_container_width=True)
+vac = indicadores_atuais[indicadores_atuais['indicador'] == "Vacância Percentual"]['valor'].mean()
+ocu = indicadores_atuais[indicadores_atuais['indicador'] == "Ocupação Percentual"]['valor'].mean()
+dy = indicadores_atuais[indicadores_atuais['indicador'] == "Dividend Yield"]['valor'].mean()
+pvp = indicadores_atuais[indicadores_atuais['indicador'] == "P/VP"]['valor'].mean()
 
-    # === Gráfico de linha: indicadores agregados
-    st.subheader("Evolução dos Indicadores")
-    indicador_opcoes = indicadores['indicador'].dropna().unique().tolist()
-    if indicador_opcoes:
-        indicador_selecionado = st.selectbox("Escolha um indicador para visualizar:", indicador_opcoes)
-        df_ind = indicadores[indicadores['indicador'] == indicador_selecionado]
-        df_ind = df_ind[df_ind['fii_id'].isin(fiis_filtrados['id'])]  # aplica o filtro de segmento
-        df_ind["data_referencia"] = pd.to_datetime(df_ind["data_referencia"]).dt.date
-        df_ind = df_ind[df_ind["data_referencia"] == df_ind["data_referencia"].max()]  # último mês
+col1.metric("Vacância Média", f"{vac:.2f}%")
+col2.metric("Ocupacão Média", f"{ocu:.2f}%")
+col3.metric("Dividend Yield", f"{dy:.2f}%")
 
-        if not df_ind.empty:
-            fig_ind = px.bar(
-                df_ind,
-                x="valor",
-                y="ticker_fii",
-                orientation="h",
-                labels={"valor": indicador_selecionado, "ticker_fii": "FII"},
-                title=f"{indicador_selecionado} (última referência)",
-                text="valor"
-            )
-            fig_ind.update_layout(yaxis={'categoryorder':'total ascending'})
-            st.plotly_chart(fig_ind, use_container_width=True)
+# Gráfico de Vacância
+st.subheader("Vacância Percentual por FII")
+df_vac = indicadores_atuais[indicadores_atuais['indicador'] == "Vacância Percentual"]
+fig_vac = px.bar(
+    df_vac,
+    x="valor",
+    y="ticker_fii",
+    orientation="h",
+    text="valor",
+    title="Vacância por FII",
+    labels={"valor": "%", "ticker_fii": "FII"}
+)
+fig_vac.update_layout(yaxis={'categoryorder': 'total ascending'})
+st.plotly_chart(fig_vac, use_container_width=True)
 
-            st.dataframe(df_ind[["ticker_fii", "data_referencia", "valor"]], use_container_width=True)
-
-        else:
-            st.info("Nenhum dado disponível para o indicador selecionado com os filtros atuais.")
-    else:
-        st.warning("Nenhum indicador disponível.")
-
-elif pagina == "📋 Lista Completa":
-    st.subheader("Tabela Completa de FIIs")
-    st.dataframe(fiis_filtrados, use_container_width=True)
-
-elif pagina == "❓ Ajuda":
-    st.subheader("Ajuda")
-    st.markdown("""
-    Esta aplicação tem como objetivo apresentar indicadores financeiros relevantes de Fundos Imobiliários (FIIs) de forma acessível.
-    
-    **Menu:**
-    - *Análise Detalhada*: gráficos e visualizações com base nos indicadores.
-    - *Lista Completa*: exibe todos os FIIs coletados.
-    - *Ajuda*: esta seção.
-    
-    **Filtros:**
-    - Selecione os segmentos de FIIs desejados para atualizar os gráficos e a lista.
-    """)
+# Evolução temporal de indicador
+st.subheader("Evolução de Indicador")
+indicador_sel = st.selectbox("Escolha um indicador", indicadores['indicador'].unique())
+df_ind = indicadores[(indicadores['indicador'] == indicador_sel)]
+fig_ind = px.line(
+    df_ind,
+    x="data_referencia",
+    y="valor",
+    color="ticker_fii",
+    title=f"Evolução de {indicador_sel}"
+)
+st.plotly_chart(fig_ind, use_container_width=True)

@@ -69,6 +69,16 @@ def criar_banco():
         );
     """)
 
+    # Indicadores padrão
+    indicadores_padrao = [
+        ("Vacância Percentual", "Porcentagem de área vaga (%)"),
+        ("Vacância m²", "Área vaga em metros quadrados"),
+        ("Ocupação Percentual", "Porcentagem de área ocupada (%)"),
+        ("Ocupação m²", "Área ocupada em metros quadrados")]
+
+    for nome, descricao in indicadores_padrao:
+        cur.execute("INSERT OR IGNORE INTO indicadores (nome, descricao) VALUES (?, ?)", (nome, descricao))
+        
     # Indicadores por FII
     cur.execute("""
         CREATE TABLE IF NOT EXISTS fiis_indicadores (
