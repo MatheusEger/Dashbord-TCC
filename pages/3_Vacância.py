@@ -38,11 +38,23 @@ disponiveis = sorted(fiis['setor'].unique())
 segmento_filtro = st.multiselect("Filtrar por Segmento:", options=disponiveis, default=disponiveis)
 fiis_filtrados = fiis[fiis['setor'].isin(segmento_filtro)]
 
+def parse_data_ref(val):
+    try:
+        return pd.to_datetime(val, format="%Y-%m-%d")
+    except:
+        try:
+            return pd.to_datetime("01/" + val, format="%d/%m/%Y")
+        except:
+            return pd.NaT
+
 # Pivot + heatmap básico
 st.subheader("Heatmap de Indicadores (última referência)")
 st.markdown("Cores mais fortes indicam melhores desempenhos em cada indicador. Os valores numéricos também são exibidos com até duas casas decimais para facilitar a comparação.")
-df = indicadores[indicadores['fii_id'].isin(fiis_filtrados['id'])]
-df['data_referencia'] = pd.to_datetime(df['data_referencia']).dt.date
+# Filtra apenas Vacância e Ocupação Percentual
+df = indicadores[
+    (indicadores['fii_id'].isin(fiis_filtrados['id'])) &
+    (indicadores['indicador'].isin(['Vacância Percentual', 'Ocupação Percentual']))]
+df['data_referencia'] = df['data_referencia'].apply(parse_data_ref).dt.date
 df = df[df['data_referencia'] == df['data_referencia'].max()]
 df_pivot = df.pivot_table(index="ticker_fii", columns="indicador", values="valor", aggfunc="last")
 
