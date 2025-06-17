@@ -1,25 +1,45 @@
 import streamlit as st
 
-st.title("❓ Ajuda")
+st.set_page_config(page_title="Ajuda e Glossário", layout="wide")
+
+st.title("❓ Central de Ajuda e Glossário de Indicadores")
+
+st.markdown("---")
 
 st.markdown("""
-Esta aplicação tem como objetivo apresentar indicadores financeiros relevantes de Fundos Imobiliários (FIIs) de forma acessível.
+### ℹ️ O que é um Fundo Imobiliário (FII)?
+Um FII é um fundo que investe em empreendimentos imobiliários como shoppings, escritórios, galpões logísticos ou recebíveis imobiliários. Ao comprar cotas, o investidor passa a ter direito a uma fração dos rendimentos.
 
-**Menu de Páginas:**
-- **🔍 Análise Detalhada**: gráficos e visualizações com base nos indicadores.
-- **📋 Lista Completa**: exibe todos os FIIs coletados e permite filtragem por segmento.
-- **📈 Comparações**: traz heatmap e gráficos do tipo radar para comparação entre os fundos.
-- **❓ Ajuda**: explicações gerais.
+---
 
-**Filtros:**
-- Você pode selecionar os segmentos desejados para refinar os dados apresentados nas visualizações.
+### 🔠 O que é um Ticker?
+O ticker é o código de negociação do FII na bolsa, geralmente composto por 4 letras e o número '11'.  
+Exemplo: `XPML11`, `HGLG11`, `KNRI11`.
 
-**Indicadores (exemplos):**
-- *Dividend Yield (DY)*: Retorno mensal sobre o preço da cota.
-- *P/VP*: Preço sobre Valor Patrimonial.
-- *Vacância Física*: Porcentagem da área vaga.
-- *Cap Rate*: Rendimento dos imóveis comparado ao valor investido.
-- *Número de Cotistas*: Indica liquidez e interesse.
+---
 
-Essas métricas são essenciais para análise comparativa e avaliação de performance dos fundos.
+### 📊 Indicadores explicados
+
+#### 1. Dividend Yield (DY)
+- **Fórmula**: Último rendimento ÷ preço da cota
+- **Indica** quanto o investidor recebe mensalmente em relação ao preço pago pela cota.
+
+#### 2. P/VP (Preço sobre Valor Patrimonial)
+- **Fórmula**: Preço da cota ÷ Valor patrimonial por cota
+- Valores < 1 indicam que o FII está abaixo do valor patrimonial.
+
+#### 3. Número de Cotistas
+- Total de investidores com cotas do fundo.
+
+#### 4. Setor ou Segmento
+- Área de atuação do FII, como logística, recebíveis, shopping, etc.
+
+---
+
+### 🛠️ Como usar o Dashboard
+- Navegue pelo menu lateral e selecione “Análise Detalhada” para gráficos.
+- Use os filtros por segmento para refinar os dados.
+- A aba “Lista Completa” mostra todos os FIIs disponíveis com base nos dados coletados.
+
+---
 """)
