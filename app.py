@@ -37,7 +37,19 @@ setores_selecionados = st.sidebar.multiselect("Setores", setores, default=setore
 fiis_filtrados = fiis[fiis['setor'].isin(setores_selecionados)]
 
 indicadores = indicadores[indicadores['fii_id'].isin(fiis_filtrados['id'])]
-indicadores["data_referencia"] = pd.to_datetime(indicadores["data_referencia"], format="%m/%Y")
+
+def parse_data_ref(data_str):
+    try:
+        return pd.to_datetime(data_str, format="%m/%Y")
+    except:
+        try:
+            return pd.to_datetime(data_str, format="%Y-%m-%d")
+        except:
+            return pd.NaT
+
+indicadores["data_referencia"] = indicadores["data_referencia"].apply(parse_data_ref)
+indicadores = indicadores[indicadores["data_referencia"].notna()]
+
 data_max = indicadores["data_referencia"].max()
 indicadores_atuais = indicadores[indicadores["data_referencia"] == data_max]
 
