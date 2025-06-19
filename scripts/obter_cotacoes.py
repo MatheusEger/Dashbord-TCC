@@ -13,7 +13,7 @@ SENHA = os.getenv("PLEXA_SENHA")
 TOKEN = os.getenv("PLEXA_TOKEN")
 
 LOGIN_ENDPOINT = 'https://api.plexa.com.br/site/login'
-COTACAO_ENDPOINT = 'https://api.plexa.com.br/json/historico/{ticker}/30'
+COTACAO_ENDPOINT = 'https://api.plexa.com.br/json/historico/{ticker}/3600'
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = ROOT_DIR / "data" / "fiis.db"
@@ -77,22 +77,37 @@ def salvar_cotacoes_todos():
 
             dados = response.json().get("data", [])
             registros = []
+            now = datetime.now().isoformat()
+
             for item in dados:
                 try:
                     if not item["data"]:
                         continue
                     data = datetime.strptime(item["data"], "%d/%m/%Y").date().isoformat()
-                    fechamento = parse_float(item["fechamento"])
-                    registros.append((fii_id, data, fechamento))
+                    fechamento = item["fechamento"]
+                    abertura = item["abertura"]
+                    maxima = item["maxima"]
+                    minima = item["minima"]
+                    totNegocios = item["totNegocios"]
+                    qtdNegociada = item["qtdNegociada"]
+                    volume = item["volume"]
+                    registros.append((
+                        fii_id, data, fechamento, abertura, maxima, minima,
+                        totNegocios, qtdNegociada, volume, now
+                    ))
                 except Exception as e:
                     print(f"Erro ao processar cotação de {ticker}: {e}")
 
             cur.executemany("""
-                INSERT INTO cotacoes (fii_id, data, preco_fechamento)
-                VALUES (?, ?, ?)
+                INSERT INTO cotacoes (
+                    fii_id, data, preco_fechamento, abertura, maxima, minima,
+                    totNegocios, qtdNegociada, volume, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, registros)
+
             total_inseridos += len(registros)
             time.sleep(1)
+
         except Exception as e:
             print(f"Erro ao processar {ticker}: {e}")
 

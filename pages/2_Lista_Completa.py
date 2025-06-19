@@ -10,7 +10,7 @@ def carregar_dados():
     DB_PATH = Path(__file__).parents[1] / "data" / "fiis.db"
     conn = sqlite3.connect(DB_PATH)
     fiis = pd.read_sql("""
-        SELECT f.id, f.ticker, f.nome, s.nome as setor, f.created_at
+        SELECT f.ticker, f.nome, s.nome as setor
         FROM fiis f
         JOIN setor s ON f.setor_id = s.id
     """, conn)

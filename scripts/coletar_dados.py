@@ -51,7 +51,7 @@ def autenticar():
         return None
 
 def obter_dados(token):
-    print(f"Obtendo dados com token: {token[:10]}...")
+    print("Obtendo dados com token da Plexa")
     headers = {
         'Authorization': f'Bearer {token}',
         'Content-Type': 'application/json'
@@ -193,3 +193,5 @@ def salvar_cotacoes_e_indicadores(dados):
     conn.commit()
     conn.close()
     print("Cotações e indicadores salvos com sucesso.")
+
+    

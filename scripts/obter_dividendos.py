@@ -41,7 +41,7 @@ def autenticar():
     else:
         print("Erro ao autenticar:", response.text)
 
-def obter_dividendos(ticker, meses=6):
+def obter_dividendos(ticker, meses=3600):
     url = f"https://api.plexa.com.br/json/dividendo/{ticker}/{meses}"
     headers = {
         "User-Agent": "Mozilla/5.0",
@@ -68,8 +68,15 @@ def salvar_dividendos():
     cur.execute("SELECT id, ticker FROM fiis")
     fiis = cur.fetchall()
 
-    indicador_id_dividendo = 11
-    hoje = datetime.now().isoformat()
+    # Buscar ou criar o indicador "Dividendos"
+    cur.execute("SELECT id FROM indicadores WHERE nome = 'Dividendos'")
+    row = cur.fetchone()
+    if row:
+        indicador_id_dividendo = row[0]
+    else:
+        cur.execute("INSERT INTO indicadores (nome, descricao) VALUES (?, ?)", ('Dividendos', 'Rendimentos distribuídos mensalmente'))
+        indicador_id_dividendo = cur.lastrowid
+
     inseridos = 0
 
     for fii_id, ticker in fiis:
@@ -78,22 +85,21 @@ def salvar_dividendos():
             dividendos = obter_dividendos(ticker)
             for item in dividendos:
                 valor = item.get("valor")
-                mes_ref = item.get("mesReferencia")
-                data_referencia = f"01/{mes_ref}" if mes_ref else None
+                data_com = item.get("dataCom")
 
-                if valor and data_referencia:
+                if valor and data_com:
                     try:
-                        valor_float = float(valor.replace(',', '.'))
+                        data_referencia = datetime.strptime(data_com, "%d/%m/%Y").date().isoformat()
                         cur.execute("""
                             INSERT INTO fiis_indicadores (
                                 fii_id, indicador_id, data_referencia, valor
                             ) VALUES (?, ?, ?, ?)
-                        """, (fii_id, indicador_id_dividendo, data_referencia, valor_float))
+                        """, (fii_id, indicador_id_dividendo, data_referencia, valor))
                         inseridos += 1
-                    except ValueError:
-                        print(f"Valor inválido para {ticker} em {data_referencia}: {valor}")
+                    except Exception as e:
+                        print(f"Erro ao inserir dado de {ticker} ({data_com}): {e}")
                 else:
-                    print(f"Dados ausentes para {ticker}: {item}")
+                    print(f"Dados ausentes ou inválidos para {ticker}: {item}")
             time.sleep(1)
 
         except Exception as e:

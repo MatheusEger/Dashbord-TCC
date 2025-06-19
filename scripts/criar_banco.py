@@ -48,16 +48,20 @@ def criar_banco():
 
     # Cotações históricas
     cur.execute("""
-        CREATE TABLE IF NOT EXISTS cotacoes (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            fii_id INTEGER,
-            data DATE,
-            preco_fechamento FLOAT,
-            volume FLOAT,
-            rendimento FLOAT,
-            created_at TIMESTAMP,
-            FOREIGN KEY (fii_id) REFERENCES fiis(id)
-        );
+    CREATE TABLE IF NOT EXISTS cotacoes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        fii_id INTEGER,
+        data DATE,
+        preco_fechamento FLOAT,
+        abertura FLOAT,
+        maxima FLOAT,
+        minima FLOAT,
+        totNegocios FLOAT,
+        qtdNegociada FLOAT,
+        volume FLOAT,
+        created_at TIMESTAMP,
+        FOREIGN KEY (fii_id) REFERENCES fiis(id)
+    );
     """)
 
     # Indicadores
