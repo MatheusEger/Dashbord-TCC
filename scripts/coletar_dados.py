@@ -87,12 +87,14 @@ def salvar_dados_no_banco(dados):
         setor_bruto = fundo.get('segmento', 'Outros')
         setor_nome = normalizar_texto(setor_bruto)
         data_atual = datetime.now().isoformat()
+        gestao = fundo.get("gestao", "").strip()
+        admin = fundo.get("admin", "").strip()
 
         if not ticker:
             print(f"Pulando FII sem ticker: {fundo}")
             continue
 
-        print(f"Processando FII: {ticker} - {nome} - Setor: {setor_nome}")
+        print(f"Processando FII: {ticker} - {nome} - Setor: {setor_nome} - Gestão: {gestao} - Admin: {admin}")
 
         # Insere setor, se novo
         cur.execute("INSERT OR IGNORE INTO setor (nome) VALUES (?)", (setor_nome,))
@@ -105,9 +107,9 @@ def salvar_dados_no_banco(dados):
 
         # Insere FII
         cur.execute("""
-            INSERT OR IGNORE INTO fiis (ticker, nome, setor_id, created_at)
-            VALUES (?, ?, ?, ?)
-        """, (ticker, nome, setor_id, data_atual))
+        INSERT OR IGNORE INTO fiis (ticker, nome, gestao, admin, setor_id, created_at)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """, (ticker, nome, gestao, admin, setor_id, data_atual))
         if cur.rowcount:
             count_fiis += 1
             print(f"Novo FII adicionado: {ticker}")
