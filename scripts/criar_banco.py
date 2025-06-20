@@ -80,7 +80,7 @@ def criar_banco():
         ('Dividendos', 'Rendimentos distribuídos mensalmente'),
         ("Quantidade de Cotas", "Número de cotas emitidas"),
         ("Patrimônio Líquido", "Valor total do patrimônio do fundo"),
-        ("Quantidade de Cotistas", "Número de cotistas cadastrados")
+        ("Quantidade de Cotistas", "Número de cotistas cadastrados"),
         ("Vacância Percentual", "Porcentagem de área vaga (%)"),
         ("Vacância m²", "Área vaga em metros quadrados"),
         ("Ocupação Percentual", "Porcentagem de área ocupada (%)"),

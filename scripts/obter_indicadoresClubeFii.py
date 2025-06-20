@@ -35,7 +35,7 @@ for ticker in tickers:
 
         soup = BeautifulSoup(driver.page_source, "html.parser")
 
-        # === P/VP e DY Último/12M ===
+        # P/VP e DY Último/12M 
         pvp = dy_ultimo = dy_12m = None
         tabela = soup.find("table", {"id": "primaryTable"})
         if tabela:
@@ -53,7 +53,7 @@ for ticker in tickers:
                             dy_ultimo = partes[0].replace(",", ".")
                             dy_12m = partes[1].replace(",", ".")
 
-        # === DYs acumulados ===
+        # DYs acumulados
         dy_1m = dy_3m = dy_6m = dy_12m_acum = None
         div_yield_section = soup.find("li", onclick=re.compile("abre_secao_proventos"))
         if div_yield_section:
@@ -72,7 +72,6 @@ for ticker in tickers:
                     elif "12 meses" in nome:
                         dy_12m_acum = valor
 
-        # === Conecta banco ===
         conn = sqlite3.connect(DB_PATH)
         cur = conn.cursor()
         cur.execute("SELECT id FROM fiis WHERE ticker = ?", (ticker,))
@@ -103,13 +102,12 @@ for ticker in tickers:
                 if valor:
                     try:
                         valor_float = float(str(valor).replace(".", "").replace(",", "."))
-                        valor_formatado = formatar_valor(valor_float)
-                        print(f"{ticker} - {nome}: {valor_formatado}")
+                        print(f"{ticker} - {nome}: {valor_float:.2f}")
                         cur.execute("SELECT 1 FROM fiis_indicadores WHERE fii_id = ? AND indicador_id = ? AND data_referencia = ?",
                                     (fii_id, indicadores[nome], data_ref))
                         if not cur.fetchone():
                             cur.execute("INSERT INTO fiis_indicadores (fii_id, indicador_id, data_referencia, valor) VALUES (?, ?, ?, ?)",
-                                        (fii_id, indicadores[nome], data_ref, valor_formatado))
+                                        (fii_id, indicadores[nome], data_ref, valor_float))
                     except Exception as e:
                         print(f"{ticker} - {nome}: Erro ao formatar valor ({valor})")
                 else:
@@ -121,7 +119,7 @@ for ticker in tickers:
         inserir("Dividend Yield 6M", dy_6m)
         inserir("Dividend Yield 12M", dy_12m_acum)
 
-        # === Vacância e Ocupação ===
+        # Vacância e Ocupação
         def limpar_area(texto):
             match = re.search(r'([\d\.]+,\d{2})\s*m²', texto)
             return match.group(1) if match else None

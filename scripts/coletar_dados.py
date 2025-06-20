@@ -14,11 +14,9 @@ EMAIL = os.getenv("PLEXA_EMAIL")
 SENHA = os.getenv("PLEXA_SENHA")
 TOKEN = os.getenv("PLEXA_TOKEN")
 
-# === ENDPOINTS ===
 LOGIN_ENDPOINT = 'https://api.plexa.com.br/site/login'
 ENDPOINT = 'https://api.plexa.com.br/json/fundo'
 
-# === CAMINHO ABSOLUTO DO BANCO ===
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = ROOT_DIR / "data" / "fiis.db"
 ENV_PATH = ROOT_DIR / ".env"

@@ -3,7 +3,6 @@ import sqlite3
 from pathlib import Path
 from datetime import datetime
 
-# Caminho para o arquivo JSON salvo da API
 JSON_PATH = Path(__file__).resolve().parent.parent / "database" / "dados_fundos.json"
 DB_PATH = Path(__file__).resolve().parent.parent / "data" / "fiis.db"
 
@@ -13,8 +12,9 @@ INDICADORES_RELEVANTES = [
     ("Quantidade de Cotistas", "Número de cotistas cadastrados")
 ]
 
-def limpar_float(texto):
-    return float(texto.replace(".", "").replace(",", "."))
+def formatar_valor_brasileiro(valor):
+    """Formata float/int para string no padrão brasileiro com separadores"""
+    return f"{valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
 def calcular_indicadores():
     if not JSON_PATH.exists():
@@ -27,7 +27,6 @@ def calcular_indicadores():
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
 
-    # Cadastrar indicadores se não existirem
     for nome, desc in INDICADORES_RELEVANTES:
         cur.execute("INSERT OR IGNORE INTO indicadores (nome, descricao) VALUES (?, ?)", (nome, desc))
 
@@ -41,7 +40,6 @@ def calcular_indicadores():
         if not ticker:
             continue
 
-        # Obter ID do FII pelo ticker
         cur.execute("SELECT id FROM fiis WHERE ticker = ?", (ticker,))
         row = cur.fetchone()
         if not row:
@@ -54,6 +52,7 @@ def calcular_indicadores():
             data_cotas = fundo.get("ultimoPlDataRef", "")
             if qtd_cotas and data_cotas:
                 qtd_cotas = float(qtd_cotas)
+                # valor_formatado removido (não necessário para banco)
                 data_ref = datetime.strptime("01/" + data_cotas, "%d/%m/%Y").date().isoformat()
                 cur.execute("""
                     INSERT INTO fiis_indicadores (fii_id, indicador_id, data_referencia, valor)
@@ -78,6 +77,7 @@ def calcular_indicadores():
             data_cotistas = fundo.get("UltimaQtdCotistasData", "")
             if cotistas and data_cotistas:
                 cotistas = int(cotistas)
+                # valor_formatado removido (não necessário para banco)
                 data_ref = datetime.strptime("01/" + data_cotistas, "%d/%m/%Y").date().isoformat()
                 cur.execute("""
                     INSERT INTO fiis_indicadores (fii_id, indicador_id, data_referencia, valor)
@@ -90,8 +90,7 @@ def calcular_indicadores():
 
     conn.commit()
     conn.close()
-    print(f"Indicadores calculados e inseridos: {inseridos}")
-
+    print(f"Indicadores formatados e inseridos: {inseridos}")
 
 if __name__ == '__main__':
     calcular_indicadores()

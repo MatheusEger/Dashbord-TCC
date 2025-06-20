@@ -6,7 +6,6 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
-# === CONFIGURAÇÕES ===
 load_dotenv()
 EMAIL = os.getenv("PLEXA_EMAIL")
 SENHA = os.getenv("PLEXA_SENHA")
@@ -84,13 +83,13 @@ def salvar_cotacoes_todos():
                     if not item["data"]:
                         continue
                     data = datetime.strptime(item["data"], "%d/%m/%Y").date().isoformat()
-                    fechamento = item["fechamento"]
-                    abertura = item["abertura"]
-                    maxima = item["maxima"]
-                    minima = item["minima"]
-                    totNegocios = item["totNegocios"]
-                    qtdNegociada = item["qtdNegociada"]
-                    volume = item["volume"]
+                    fechamento = parse_float(item["fechamento"])
+                    abertura = parse_float(item["abertura"])
+                    maxima = parse_float(item["maxima"])
+                    minima = parse_float(item["minima"])
+                    totNegocios = parse_float(item["totNegocios"])
+                    qtdNegociada = parse_float(item["qtdNegociada"])
+                    volume = parse_float(item["volume"])
                     registros.append((
                         fii_id, data, fechamento, abertura, maxima, minima,
                         totNegocios, qtdNegociada, volume, now
