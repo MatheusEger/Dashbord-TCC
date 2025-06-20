@@ -10,7 +10,7 @@ cur = conn.cursor()
 
 
 # Excluir dados das tabelas
-cur.execute("DELETE FROM fiis_indicadores WHERE indicador_id IN (1, 2, 3, 4, 12, 13, 14, 15, 16)")
+cur.execute("DELETE FROM fiis_indicadores WHERE indicador_id IN (5, 6 , 7, 8, 9, 10, 11, 12, 13)")
 """
 indicadores_padrao = [
     ("Vacância Percentual", "Porcentagem de área vaga (%)"),
@@ -26,4 +26,4 @@ cur.executemany("INSERT OR IGNORE INTO indicadores (nome, descricao) VALUES (?, 
 conn.commit()
 conn.close()
 
-print("Indicadores 1, 2, 3 e 4 e seus dados relacionados foram removidos com sucesso.")
+print("Indicadores 5, 6 , 7, 8, 9, 10, 11, 12, 13 e seus dados relacionados foram removidos com sucesso.")

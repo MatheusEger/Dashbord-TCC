@@ -3,8 +3,9 @@ import pandas as pd
 import sqlite3
 import plotly.express as px
 from pathlib import Path
+from datetime import datetime, timedelta
 
-st.set_page_config(page_title="Análise por Fundo")
+st.set_page_config(page_title="Análise por Fundo", layout="wide")
 
 # Ocultar barra lateral para controle completo do layout
 st.markdown("""
@@ -16,10 +17,20 @@ st.markdown("""
         border-radius: 12px;
         background-color: #f9f9f9;
     }
+
     .right-col {
-        padding: 1rem;
+        padding: 1rem 1.5rem;
         border-radius: 12px;
-        background-color: #f4f4f4;
+        background-color: #f0f2f6; /* tom neutro */
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        color: #222;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .right-col b {
+        color: #6c63ff;
+        font-weight: 600;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -54,9 +65,8 @@ setor_nome = setores[setores["id"] == fii_info["setor_id"]]["nome"].values[0]
 cotacao_fii = cotacoes[(cotacoes["fii_id"] == fii_id)]
 if not cotacao_fii.empty:
     valor_raw = cotacao_fii.sort_values("data", ascending=False).head(1)["preco_fechamento"].values[0]
-    cotacao_atual = float(str(valor_raw).replace(".", "").replace(",", "."))
 else:
-    cotacao_atual = 0.0  # ou use "-" se preferir exibir como string
+    valor_raw = 0.0  # ou use "-" se preferir exibir como string
 
 # Últimos indicadores
 dados_fii = indicadores[indicadores["ticker_fii"] == ticker_selecionado]
@@ -75,35 +85,51 @@ col_esq, col_dir = st.columns([2, 1])
 
 with col_esq:
     st.markdown("### Indicadores Principais")
-    col1, col2, col3, col4, col5 = st.columns(5)
-    col1.metric("💰 Preço Atual", f"R$ {cotacao_atual:.2f}" if cotacao_atual else "-")
+    col1, col2 = st.columns(2, gap="large")
+    col1.metric("💰 Preço Atual", f"R$ {valor_raw:.2f}" if valor_raw else "-")
     col2.metric("P/VP", obter_ultimo_valor("P/VP"))
-    col3.metric("DY Último", f"{obter_ultimo_valor('Dividend Yield Último')}%")
-    col4.metric("DY 3M", f"{obter_ultimo_valor('Dividend Yield 3M')}%")
-    col5.metric("DY 12M", f"{obter_ultimo_valor('Dividend Yield 12M')}%")
 
 with col_dir:
     st.markdown("### 📄 Informações do Fundo")
-    st.markdown(f"<div class='right-col'>"
-                f"<b>Setor:</b> {setor_nome}<br>"
-                f"<b>Último Dividendo:</b> R$ {obter_ultimo_valor('Dividendos')}<br>"
-                f"<b>Patrimônio Líquido:</b> R$ {obter_ultimo_valor('Patrimônio Líquido')}</div>",
-                unsafe_allow_html=True)
+    st.markdown(f"""
+    <div class='right-col'>
+        <b>Setor:</b> {setor_nome}<br>
+        <b>Último Dividendo:</b> R$ {obter_ultimo_valor('Dividendos')}<br>
+        <b>Patrimônio Líquido:</b> R$ {obter_ultimo_valor('Patrimônio Líquido')}
+    </div>
+    """, unsafe_allow_html=True)
+
 
 # Gráficos
 st.markdown("### 📊 Indicadores Visuais")
 
+periodo = st.selectbox("Período:", ["1 Semana", "1 Mês", "6 Meses", "YTD", "1 Ano", "5 Anos", "Máx"])
+
+hoje = datetime.now()
+datas = {
+    "1 Semana": hoje - timedelta(weeks=1),
+    "1 Mês": hoje - timedelta(days=30),
+    "6 Meses": hoje - timedelta(days=182),
+    "YTD": datetime(hoje.year, 1, 1),
+    "1 Ano": hoje - timedelta(days=365),
+    "5 Anos": hoje - timedelta(days=5*365),
+    "Máx": datetime(1900, 1, 1)
+}
+data_inicio = datas[periodo]
+
+
 # Gráfico de barras: DY Último, 3M e 12M
 dy_data = {
-    "Indicador": ["DY Último", "DY 3M", "DY 12M"],
+    "Indicador": ["DY Último", "DY 3M", "DY 6M", "DY 12M"],
     "Valor (%)": [
         float(obter_ultimo_valor("Dividend Yield Último") or 0),
         float(obter_ultimo_valor("Dividend Yield 3M") or 0),
+        float(obter_ultimo_valor("Dividend Yield 6M") or 0),
         float(obter_ultimo_valor("Dividend Yield 12M") or 0)
     ]
 }
 dy_df = pd.DataFrame(dy_data)
-fig_dy = px.bar(dy_df, x="Indicador", y="Valor (%)", text="Valor (%)", title="Dividend Yield (Último, 3M, 12M)")
+fig_dy = px.bar(dy_df, x="Indicador", y="Valor (%)", text="Valor (%)", title="Dividend Yield (Último, 3M, 6M, 12M)")
 st.plotly_chart(fig_dy, use_container_width=True)
 
 # Gráfico Vacância
@@ -123,3 +149,4 @@ if not cotacao_fii.empty:
     cotacao_fii["data"] = pd.to_datetime(cotacao_fii["data"])
     fig_cot = px.line(cotacao_fii, x="data", y="preco_fechamento", title="Evolução da Cotação")
     st.plotly_chart(fig_cot, use_container_width=True)
+    

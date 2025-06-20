@@ -12,7 +12,7 @@ import plotly.express as px
 # Página inicial do dashboard
 st.markdown("""
 <style>
-        [data-testid="stSidebar"] {
+    [data-testid="stSidebar"] {
         display: none;
     }
     [data-testid="collapsedControl"] {
@@ -50,14 +50,14 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("📊 Bem-vindo ao Dashboard de FIIs")
+st.title("📊 Bem-vindo(a) ao Dashboard de FIIs", layout="nome")
 
 st.markdown("""
 <div class="menu-container">
     <a href="/Analise_por_Fundo" class="menu-button">Análise por Fundo</a>
-    <a href="?page=2 Ranking dos FIIs" class="menu-button">Ranking dos FIIs</a>
-    <a href="?page=3 Comparador" class="menu-button">Comparador</a>
-    <a href="?page=4 Ajuda" class="menu-button">Ajuda</a>
+    <a href="/Ranking dos FIIs" class="menu-button">Ranking dos FIIs</a>
+    <a href="/Comparador" class="menu-button">Comparador</a>
+    <a href="/Ajuda" class="menu-button">Ajuda</a>
 </div>
 
 <div class="descricao">
