@@ -13,8 +13,9 @@ def carregar_dados():
 
     # Junta informações de fundo + setor
     fiis = pd.read_sql("""
-        SELECT f.id, f.ticker, f.nome, s.nome AS setor,
-            f.qtde_ativos          
+       SELECT f.id, f.ticker, f.nome, s.nome AS setor, f.qtde_ativos
+        FROM fiis f
+J       OIN setor s ON f.setor_id = s.id      
     """, conn)
     
 

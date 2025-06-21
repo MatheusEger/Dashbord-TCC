@@ -50,7 +50,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("📊 Bem-vindo(a) ao Dashboard de FIIs", layout="nome")
+st.title("📊 Bem-vindo(a) ao Dashboard de FIIs")
 
 st.markdown("""
 <div class="menu-container">
