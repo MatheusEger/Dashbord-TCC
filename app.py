@@ -1,10 +1,8 @@
 import streamlit as st
-from streamlit_extras.stylable_container import stylable_container
 
 st.set_page_config(page_title="Dashboard de FIIs", layout="centered")
 
 # Estilo customizado
-
 st.markdown("""
 <style>
     .block-container {
@@ -31,11 +29,10 @@ st.markdown("""
 st.title("📊 Bem-vindo(a) ao Dashboard de FIIs")
 
 # Navegação com botões internos estilizados
-with stylable_container("menu-container", css_styles=""):
-    st.page_link("pages/1_Analise_por_Fundo.py", label="Análise por Fundo")
-    st.page_link("pages/2_Comparador.py", label="Ranking dos FIIs")
-    st.page_link("pages/3_Ranking_dos_FIIs.py", label="Comparador")
-    st.page_link("pages/4_Ajuda.py", label="Ajuda")
+st.page_link("pages/1_Analise_por_Fundo.py", label="Análise por Fundo")
+st.page_link("pages/2_Comparador.py", label="Ranking dos FIIs")
+st.page_link("pages/3_Ranking_dos_FIIs.py", label="Comparador")
+st.page_link("pages/4_Ajuda.py", label="Ajuda")
 
 # Descrição inferior
 st.markdown("""
