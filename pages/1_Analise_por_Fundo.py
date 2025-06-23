@@ -7,7 +7,6 @@ from datetime import datetime, timedelta
 
 st.set_page_config(page_title="Análise por Fundo", layout="wide")
 
-# Ocultar barra lateral para controle completo do layout
 st.markdown("""
 <style>
     .metric-block {
@@ -35,11 +34,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Banco de dados
 DB_PATH = Path(__file__).resolve().parent.parent / "data" / "fiis.db"
 conn = sqlite3.connect(DB_PATH)
 
-# Carregando dados
 fiis = pd.read_sql("SELECT * FROM fiis;", conn)
 cotacoes = pd.read_sql("SELECT * FROM cotacoes;", conn)
 indicadores = pd.read_sql("""
@@ -66,7 +63,7 @@ cotacao_fii = cotacoes[(cotacoes["fii_id"] == fii_id)]
 if not cotacao_fii.empty:
     valor_raw = cotacao_fii.sort_values("data", ascending=False).head(1)["preco_fechamento"].values[0]
 else:
-    valor_raw = 0.0  # ou use "-" se preferir exibir como string
+    valor_raw = 0.0 
 
 # Últimos indicadores
 dados_fii = indicadores[indicadores["ticker_fii"] == ticker_selecionado]
@@ -78,7 +75,6 @@ def obter_ultimo_valor(nome_indicador):
         return dados.sort_values("data_referencia", ascending=False).iloc[0]["valor"]
     return "-"
 
-# Layout principal
 st.title("Análise por Fundo")
 
 col_esq, col_dir = st.columns([2, 1])
@@ -116,7 +112,6 @@ datas = {
     "Máx": datetime(1900, 1, 1)
 }
 data_inicio = datas[periodo]
-
 
 # Gráfico de barras: DY Último, 3M e 12M
 dy_data = {

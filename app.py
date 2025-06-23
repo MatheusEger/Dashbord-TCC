@@ -55,7 +55,7 @@ st.title("📊 Bem-vindo(a) ao Dashboard de FIIs")
 st.markdown("""
 <div class="menu-container">
     <a href="/Analise_por_Fundo" class="menu-button">Análise por Fundo</a>
-    <a href="/Ranking dos FIIs" class="menu-button">Ranking dos FIIs</a>
+    <a href="/Ranking_dos_FIIs" class="menu-button">Ranking dos FIIs</a>
     <a href="/Comparador" class="menu-button">Comparador</a>
     <a href="/Ajuda" class="menu-button">Ajuda</a>
 </div>

@@ -4,21 +4,15 @@ import sqlite3
 from pathlib import Path
 import plotly.graph_objects as go
 
-st.title("📈 Analise da Vacância")
-st.markdown("""
-Compare diferentes fundos e visualize o desempenho de forma gráfica para facilitar sua decisão de investimento, especialmente se você está começando agora.
-Use o heatmap para ver rapidamente onde cada fundo se destaca e o gráfico radar para entender o perfil de um fundo específico.
+st.set_page_config(layout="wide")
+st.title("🏅 Ranking: Top 10 FIIs por Indicador")
 
-✅ **Por que "Ocupação em 100%" e "Vacância Física próxima de 0%" são importantes?**
-Esses indicadores refletem o uso efetivo dos imóveis do fundo. Alta ocupação e baixa vacância significam que os imóveis estão sendo alugados e gerando renda, o que aumenta a estabilidade e previsibilidade dos rendimentos.
-""")
-
-# Conexão com banco
+@st.cache_data
 def carregar_dados():
     DB_PATH = Path(__file__).parents[1] / "data" / "fiis.db"
     conn = sqlite3.connect(DB_PATH)
     fiis = pd.read_sql("""
-        SELECT f.id, f.ticker, f.nome, s.nome as setor, f.created_at
+        SELECT f.id, f.ticker, f.nome, s.nome as setor
         FROM fiis f
         JOIN setor s ON f.setor_id = s.id
     """, conn)
@@ -26,70 +20,108 @@ def carregar_dados():
         SELECT fi.fii_id, f.ticker AS ticker_fii, i.nome AS indicador, fi.valor, fi.data_referencia
         FROM fiis_indicadores fi
         JOIN indicadores i ON i.id = fi.indicador_id
-        JOIN fiis f ON f.id = fi.fii_id 
+        JOIN fiis f ON f.id = fi.fii_id
+        WHERE fi.valor IS NOT NULL
     """, conn)
     conn.close()
     return fiis, indicadores
 
 fiis, indicadores = carregar_dados()
 
-# Filtro por segmento
-disponiveis = sorted(fiis['setor'].unique())
-segmento_filtro = st.multiselect("Filtrar por Segmento:", options=disponiveis, default=disponiveis)
-fiis_filtrados = fiis[fiis['setor'].isin(segmento_filtro)]
+st.sidebar.subheader("🔍 Filtro")
+setores = sorted(fiis['setor'].unique())
+filtro_setor = st.sidebar.multiselect("Setores:", setores, default=setores)
+fiis_filtrados = fiis[fiis['setor'].isin(filtro_setor)]
+ids_filtrados = fiis_filtrados['id'].tolist()
 
-def parse_data_ref(val):
-    try:
-        return pd.to_datetime(val, format="%Y-%m-%d")
-    except:
-        try:
-            return pd.to_datetime("01/" + val, format="%d/%m/%Y")
-        except:
-            return pd.NaT
+df_validos = indicadores[indicadores['fii_id'].isin(ids_filtrados)]
 
-# Pivot + heatmap básico
-st.subheader("Heatmap de Indicadores (última referência)")
-st.markdown("Cores mais fortes indicam melhores desempenhos em cada indicador. Os valores numéricos também são exibidos com até duas casas decimais para facilitar a comparação.")
-# Filtra apenas Vacância e Ocupação Percentual
-df = indicadores[
-    (indicadores['fii_id'].isin(fiis_filtrados['id'])) &
-    (indicadores['indicador'].isin(['Vacância Percentual', 'Ocupação Percentual']))]
-df['data_referencia'] = df['data_referencia'].apply(parse_data_ref).dt.date
-df = df[df['data_referencia'] == df['data_referencia'].max()]
-df_pivot = df.pivot_table(index="ticker_fii", columns="indicador", values="valor", aggfunc="last")
+# Remover indicadores de vacância/ocupação
+indicadores_ocultar = [
+    "Vacância Percentual", "Vacância m²", "Ocupação Percentual", "Ocupação m²"
+]
+df_validos = df_validos[~df_validos['indicador'].isin(indicadores_ocultar)]
 
-styled_heatmap = df_pivot.style.format("{:.2f}").background_gradient(cmap="Blues")
-st.dataframe(styled_heatmap, use_container_width=True)
+# Mesclar indicadores de Dividend Yield
+df_validos['indicador'] = df_validos['indicador'].replace({
+    "Dividend Yield 1M": "Dividend Yield",
+    "Dividend Yield 3M": "Dividend Yield",
+    "Dividend Yield 6M": "Dividend Yield",
+    "Dividend Yield 12M": "Dividend Yield"
+})
 
-# Radar chart
-st.subheader("Radar por FII")
-st.markdown("Veja o perfil completo de um fundo selecionado. Ideal para entender seus pontos fortes e fracos.")
+# Lista de indicadores disponíveis
+indicadores_disponiveis = sorted(df_validos['indicador'].unique())
 
-# Exibe apenas FIIs que possuem pelo menos 4 indicadores diferentes
-df_radar_opcoes = df_pivot.dropna(thresh=4)
+col1, col2 = st.columns(2)
+metade = len(indicadores_disponiveis) // 2
+col1_inds = indicadores_disponiveis[:metade]
+col2_inds = indicadores_disponiveis[metade:]
 
-if not df_radar_opcoes.empty:
-    fii_escolhido = st.selectbox("Escolha um FII:", df_radar_opcoes.index.tolist())
-    df_radar = df_radar_opcoes.loc[[fii_escolhido]]
-
-    fig_radar = go.Figure()
-    fig_radar.add_trace(go.Scatterpolar(
-        r=df_radar.values[0],
-        theta=df_radar.columns,
-        fill='toself',
-        name=fii_escolhido
-    ))
-    fig_radar.update_layout(
-        polar=dict(radialaxis=dict(visible=True)),
-        showlegend=False,
-        title=f"Perfil de Indicadores - {fii_escolhido}"
+def plot_top10(indicador_nome, col):
+    top10 = (
+        df_validos[df_validos['indicador'] == indicador_nome]
+        .sort_values('valor', ascending=False)
+        .head(10)
     )
-    st.plotly_chart(fig_radar, use_container_width=True)
-    st.markdown("""
-    🔍 **Como interpretar:**
-    - Pontas maiores indicam bons resultados naquele indicador.
-    - Fundos com formas equilibradas tendem a ser mais consistentes.
-    - Use esta visualização para comparar com outros fundos e identificar oportunidades.
-    """)
-else:
-    st.warning("Nenhum FII disponível com indicadores suficientes para exibir o radar.")
+    fig = go.Figure(go.Bar(
+        x=top10['valor'],
+        y=top10['ticker_fii'],
+        orientation='h',
+        marker_color='royalblue'
+    ))
+    fig.update_layout(title=indicador_nome, xaxis_title="Valor", yaxis_title="FII", height=400)
+    col.plotly_chart(fig, use_container_width=True)
+
+with col1:
+    for indicador in col1_inds:
+        plot_top10(indicador, col1)
+
+with col2:
+    for indicador in col2_inds:
+        plot_top10(indicador, col2)
+
+# Gráfico agrupado: Ocupação vs Vacância
+st.subheader("📊 Comparativo de Ocupação e Vacância Percentual")
+st.markdown("Quanto **mais próxima de 100% a ocupação** e **mais próxima de 0% a vacância**, melhor é o desempenho do fundo.")
+
+# Filtra apenas fundos com os dois indicadores
+df_comparativo = indicadores[
+    (indicadores['fii_id'].isin(ids_filtrados)) &
+    (indicadores['indicador'].isin(['Vacância Percentual', 'Ocupação Percentual']))
+]
+
+# Converte a data
+df_comparativo['data_referencia'] = pd.to_datetime(df_comparativo['data_referencia'], errors='coerce')
+ultima_data = df_comparativo['data_referencia'].max()
+df_comparativo = df_comparativo[df_comparativo['data_referencia'] == ultima_data]
+
+# Pivot para ficar um FII por linha com os dois valores
+df_pivot = df_comparativo.pivot_table(index="ticker_fii", columns="indicador", values="valor", aggfunc="last")
+df_pivot = df_pivot.dropna().sort_values("Vacância Percentual", ascending=True).head(20)  # Top 20 com menor vacância
+
+fig = go.Figure()
+
+fig.add_trace(go.Bar(
+    x=df_pivot.index,
+    y=df_pivot["Ocupação Percentual"],
+    name="Ocupação (%)",
+    marker_color='seagreen'
+))
+
+fig.add_trace(go.Bar(
+    x=df_pivot.index,
+    y=df_pivot["Vacância Percentual"],
+    name="Vacância (%)",
+    marker_color='indianred'
+))
+
+fig.update_layout(
+    barmode='group',
+    xaxis_title="FII",
+    yaxis_title="Percentual",
+    title="Top 20 FIIs com Melhor Ocupação e Menor Vacância",
+    height=600
+)
+
+st.plotly_chart(fig, use_container_width=True)

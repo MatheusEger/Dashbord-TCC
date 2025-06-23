@@ -6,23 +6,22 @@ from pathlib import Path
 st.set_page_config(layout="wide")
 st.title("📊 Comparador de Fundos Imobiliários")
 
-# Função para carregar dados do banco
+st.markdown("### 📌 Comparação")
+
 def carregar_dados():
     DB_PATH = Path(__file__).parents[1] / "data" / "fiis.db"
     conn = sqlite3.connect(DB_PATH)
 
-    # Junta informações de fundo + setor
     fiis = pd.read_sql("""
-       SELECT f.id, f.ticker, f.nome, s.nome AS setor, f.qtde_ativos
+        SELECT f.id, f.ticker, f.nome, s.nome AS setor
         FROM fiis f
-J       OIN setor s ON f.setor_id = s.id      
+        JOIN setor s ON f.setor_id = s.id
     """, conn)
-    
 
-    # Indicadores
     indicadores = pd.read_sql("""
-        SELECT i.fii_id, i.indicador, i.valor
-        FROM fiis_indicadores i
+        SELECT fi.fii_id, i.nome AS indicador, fi.valor
+        FROM fiis_indicadores fi
+        JOIN indicadores i ON fi.indicador_id = i.id
     """, conn)
 
     conn.close()
@@ -31,7 +30,6 @@ J       OIN setor s ON f.setor_id = s.id
 fiis, indicadores = carregar_dados()
 fiis = fiis.sort_values("ticker")
 
-# Interface lado a lado
 col1, col2 = st.columns(2)
 
 with col1:
@@ -48,26 +46,24 @@ with col2:
 
 # Função para exibir bloco de informações do fundo
 def exibir_info(col, dados, indicadores_df):
-    st.markdown(f"### {dados['ticker']} - {dados['nome']}")
-    st.markdown(f"**Setor:** {dados['setor']}")
-    st.markdown(f"**Patrimônio Líquido:** R$ {dados['patrimonio_liquido']:,.2f}")
-    st.markdown(f"**Quantidade de Cotas:** {dados['qtd_cotas']}")
-    st.markdown(f"**Qtd de Ativos:** {dados['qtde_ativos']}")
-
     def buscar_indicador(nome):
         linha = indicadores_df[indicadores_df['indicador'] == nome]
         if not linha.empty:
             return f"{float(linha['valor'].values[0]):,.2f}"
         return "N/A"
 
+    st.markdown(f"### {dados['ticker']} - {dados['nome']}")
+    st.markdown(f"**Setor:** {dados['setor']}")
+    st.markdown(f"**Patrimônio Líquido:** R$ {buscar_indicador('Patrimônio Líquido')}")
+    st.markdown(f"**Quantidade de Cotas:** {buscar_indicador('Quantidade de Cotas')}")
+    st.markdown(f"**Qtd de Ativos:** {buscar_indicador('Qtd de Ativos')}")
+
     st.markdown("---")
     st.markdown(f"**P/VP:** {buscar_indicador('P/VP')}")
     st.markdown(f"**Dividend Yield 12M:** {buscar_indicador('Dividend Yield 12M')}%")
     st.markdown(f"**Último Dividendo:** R$ {buscar_indicador('Último Dividendo')}")
     st.markdown(f"**Rentabilidade Acumulada:** {buscar_indicador('Rentabilidade Acumulada')}%")
-
-# Exibir lado a lado
-st.markdown("### 📌 Comparação")
+    
 col1, col2 = st.columns(2)
 
 with col1:

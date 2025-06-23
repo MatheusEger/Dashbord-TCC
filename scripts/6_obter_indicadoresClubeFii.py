@@ -35,7 +35,6 @@ cursor = conn.cursor()
 cursor.execute("SELECT ticker FROM fiis;")
 tickers = [row[0] for row in cursor.fetchall()]
 
-# ✅ [Opcional] Rodar somente tickers com erro salvos em 'fundos_com_erro.txt'
 tickers_para_rodar = None
 try:
     with open("fundos_com_erro.txt", "r", encoding="utf-8") as f:
