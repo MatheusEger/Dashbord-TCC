@@ -1,46 +1,24 @@
 import streamlit as st
-import pandas as pd
-import plotly.express as px
+from streamlit_extras.stylable_container import stylable_container
 
-#    [data-testid="stSidebar"] {
-#        display: none;
-#    }
-#    [data-testid="collapsedControl"] {
-#        display: none;
-#    }
+st.set_page_config(page_title="Dashboard de FIIs", layout="centered")
 
-# Página inicial do dashboard
+# Estilo customizado
+
 st.markdown("""
 <style>
-    [data-testid="stSidebar"] {
-        display: none;
+    .block-container {
+        padding-top: 2rem;
     }
-    [data-testid="collapsedControl"] {
-        display: none;
-    }      
+
     .menu-container {
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
         gap: 2rem;
         margin-top: 3rem;
-        flex-wrap: wrap;
     }
-    .menu-button {
-        background-color: #0E1117;
-        border: 2px solid #6c63ff;
-        border-radius: 15px;
-        color: white;
-        padding: 1.5rem 2rem;
-        font-size: 1.2rem;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        min-width: 200px;
-    }
-    .menu-button:hover {
-        background-color: #6c63ff;
-        color: black;
-    }
+
     .descricao {
         margin-top: 4rem;
         text-align: center;
@@ -52,14 +30,15 @@ st.markdown("""
 
 st.title("📊 Bem-vindo(a) ao Dashboard de FIIs")
 
-st.markdown("""
-<div class="menu-container">
-    <a href="/Analise_por_Fundo" class="menu-button">Análise por Fundo</a>
-    <a href="/Ranking_dos_FIIs" class="menu-button">Ranking dos FIIs</a>
-    <a href="/Comparador" class="menu-button">Comparador</a>
-    <a href="/Ajuda" class="menu-button">Ajuda</a>
-</div>
+# Navegação com botões internos estilizados
+with stylable_container("menu-container", css_styles=""):
+    st.page_link("pages/1_Analise_por_Fundo.py", label="Análise por Fundo")
+    st.page_link("pages/2_Comparador.py", label="Ranking dos FIIs")
+    st.page_link("pages/3_Ranking_dos_FIIs.py", label="Comparador")
+    st.page_link("pages/4_Ajuda.py", label="Ajuda")
 
+# Descrição inferior
+st.markdown("""
 <div class="descricao">
     <p>
         Este dashboard foi desenvolvido para facilitar a análise de Fundos Imobiliários (FIIs), com foco em <strong>investidores iniciantes</strong>.

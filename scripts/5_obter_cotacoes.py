@@ -14,7 +14,7 @@ SENHA = os.getenv("PLEXA_SENHA")
 TOKEN = os.getenv("PLEXA_TOKEN")
 
 LOGIN_ENDPOINT = 'https://api.plexa.com.br/site/login'
-COTACAO_ENDPOINT = 'https://api.plexa.com.br/json/historico/{ticker}/3600'
+COTACAO_ENDPOINT = 'https://api.plexa.com.br/json/historico/{ticker}/12'
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = ROOT_DIR / "data" / "fiis.db"
@@ -85,6 +85,12 @@ def salvar_cotacoes_todos():
                     if not item["data"]:
                         continue
                     data = datetime.strptime(item["data"], "%d/%m/%Y").date().isoformat()
+
+                    # Verifica se já existe no banco para este FII e esta data
+                    cur.execute("SELECT 1 FROM cotacoes WHERE fii_id = ? AND data = ?", (fii_id, data))
+                    if cur.fetchone():
+                        continue  
+
                     fechamento = parse_float(item["fechamento"])
                     abertura = parse_float(item["abertura"])
                     maxima = parse_float(item["maxima"])
