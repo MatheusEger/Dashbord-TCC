@@ -83,7 +83,7 @@ with col_esq:
     st.markdown("### Indicadores Principais")
     col1, col2 = st.columns(2, gap="large")
     col1.metric("💰 Preço Atual", f"R$ {valor_raw:.2f}" if valor_raw else "-")
-    col2.metric("P/VP", obter_ultimo_valor("P/VP"))
+    col2.metric("P/VP", obter_ultimo_valor("P/VP"), "-2%")
 
 with col_dir:
     st.markdown("### 📄 Informações do Fundo")
