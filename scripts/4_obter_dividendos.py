@@ -1,11 +1,12 @@
-import requests
-import sqlite3
 import os
 import time
+import requests
+import sqlite3
 from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 
+# Carrega variáveis de ambiente
 load_dotenv()
 EMAIL = os.getenv("PLEXA_EMAIL")
 SENHA = os.getenv("PLEXA_SENHA")
@@ -14,136 +15,140 @@ TOKEN = os.getenv("PLEXA_TOKEN")
 LOGIN_ENDPOINT = 'https://api.plexa.com.br/site/login'
 DIVIDENDO_ENDPOINT = 'https://api.plexa.com.br/json/dividendo/{ticker}/{meses}'
 
+# Caminho do banco de dados
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = ROOT_DIR / "data" / "fiis.db"
 ENV_PATH = ROOT_DIR / ".env"
 
+# Conecta DB e ativa WAL
+def abrir_conexao_db():
+    conn = sqlite3.connect(DB_PATH)
+    conn.execute("PRAGMA journal_mode=WAL;")
+    return conn
+
+# Autentica na Plexa
 def autenticar():
     global TOKEN
-    print(f"Tentando autenticar com email: {EMAIL}")
-    response = requests.post(LOGIN_ENDPOINT, json={
-        'usuEmail': EMAIL,
-        'usuSenha': SENHA,
-    }, headers={'Content-Type': 'application/json'})
-
-    if response.status_code == 200 and 'accessToken' in response.json():
-        TOKEN = response.json()['accessToken']
-        with open(ENV_PATH, 'r') as file:
-            linhas = file.readlines()
-        with open(ENV_PATH, 'w') as file:
-            for linha in linhas:
-                if linha.startswith("PLEXA_TOKEN="):
-                    file.write(f"PLEXA_TOKEN={TOKEN}\n")
-                else:
-                    file.write(linha)
-        print("Autenticação bem sucedida!")
-    else:
-        print("Erro ao autenticar:", response.text)
-
-
-def obter_dividendos(ticker, meses=3600):
-    """Busca dados de dividendos para um ticker"""
-    url = DIVIDENDO_ENDPOINT.format(ticker=ticker, meses=meses)
-    headers = {
-        "User-Agent": "Mozilla/5.0",
-        "Authorization": f"Bearer {TOKEN}"
-    }
-    resp = requests.get(url, headers=headers, timeout=15)
+    resp = requests.post(
+        LOGIN_ENDPOINT,
+        json={"usuEmail": EMAIL, "usuSenha": SENHA},
+        headers={"Content-Type": "application/json"},
+        timeout=15
+    )
     resp.raise_for_status()
     data = resp.json()
-    return data.get('data', []) if data.get('ok') else []
+    if 'accessToken' in data:
+        TOKEN = data['accessToken']
+        linhas = ENV_PATH.read_text(encoding='utf-8').splitlines()
+        with open(ENV_PATH, 'w', encoding='utf-8') as f:
+            for l in linhas:
+                if l.startswith('PLEXA_TOKEN='):
+                    f.write(f"PLEXA_TOKEN={TOKEN}\n")
+                else:
+                    f.write(l + "\n")
+        print("✔ Token atualizado.")
+    else:
+        raise RuntimeError(f"Falha na autenticação: {data}")
 
+# Obtém dividendos da API
+def obter_dividendos(ticker, meses=3600):
+    url = DIVIDENDO_ENDPOINT.format(ticker=ticker, meses=meses)
+    try:
+        resp = requests.get(
+            url,
+            headers={"Authorization": f"Bearer {TOKEN}"},
+            timeout=15
+        )
+        resp.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 404:
+            print(f"[{ticker}] nada encontrado (404)")
+            return []
+        else:
+            raise
+    payload = resp.json()
+    return payload.get('data', []) if payload.get('ok') else []
 
-def salvar_dividendos(pausa=float(os.getenv('PAUSA_API', 1))):
-    """Salva dividendos no banco, evitando duplicações, usando dataPagamento como referência"""
-    # Conecta ao banco
-    conn = sqlite3.connect(DB_PATH)
+# Salva dataCom + valor, sem duplicar, usando SELECT antes de INSERT
+def salvar_dividendos(pausa=1):
+    print(f"🚀 Iniciando importação de dividendos em {DB_PATH}")
+    conn = abrir_conexao_db()
     cur = conn.cursor()
-
-    # Verifica tabela fiis_indicadores
-    cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='fiis_indicadores';")
-    if not cur.fetchone():
-        raise Exception(f"Tabela 'fiis_indicadores' não encontrada em {DB_PATH}.")
 
     # Carrega FIIs
     cur.execute("SELECT id, ticker FROM fiis")
     fiis = cur.fetchall()
-    print(f"Total de FIIs para processar: {len(fiis)}")
+    print(f"Total FIIs: {len(fiis)}")
 
-    # Obtém/insere indicador 'Dividendos'
-    cur.execute("SELECT id FROM indicadores WHERE nome = ?", ('Dividendos',))
+    # Busca indicador 'Dividendos'
+    cur.execute("SELECT id FROM indicadores WHERE LOWER(nome)='dividendos'")
     row = cur.fetchone()
     if row:
-        indicador_id = row[0]
+        ind_id = row[0]
     else:
-        cur.execute("INSERT INTO indicadores(nome, descricao) VALUES(?, ?)" ,
-                    ('Dividendos', 'Rendimentos distribuídos mensalmente'))
-        indicador_id = cur.lastrowid
-        print(f"Indicador 'Dividendos' criado com id {indicador_id}")
+        cur.execute(
+            "INSERT INTO indicadores(nome,descricao) VALUES(?,?)", 
+            ("Dividendos","Rendimentos distribuídos mensalmente")
+        )
+        ind_id = cur.lastrowid
+        print(f"✔ Indicador 'Dividendos' criado: id={ind_id}")
+    print(f"🔍 Usando indicador_id = {ind_id}")
 
-    total_api = 0
-    inserted = 0
+    count_api = 0
+    count_inserted = 0
 
     for fii_id, ticker in fiis:
-        print(f"[{ticker}] iniciando coleta...")
-        try:
-            entries = obter_dividendos(ticker)
-        except Exception as e:
-            print(f"[{ticker}] erro na API: {e}")
-            continue
+        print(f"\n🔎 Processando {ticker}…")
+        entries = obter_dividendos(ticker)
+        print(f"   → {len(entries)} registros na API para {ticker}")
 
-        print(f"[{ticker}] registros na API: {len(entries)}")
         for item in entries:
-            total_api += 1
-            valor = item.get('valor')
-            data_pag = item.get('dataPagamento')
-            # Verifica dataPagamento válida
-            if not data_pag or data_pag.strip() == '':
-                print(f"[{ticker}] pulando sem dataPagamento: {item}")
+            data_com = item.get('dataCom', '').strip()
+            valor_str = item.get('valor', '').strip()
+            if not data_com or not valor_str:
                 continue
+            count_api += 1
 
-            # Parse da data de pagamento
+            # Parse dataCom
             try:
-                dt = datetime.strptime(data_pag, '%d/%m/%Y')
-            except ValueError:
-                try:
-                    dt = datetime.fromisoformat(data_pag)
-                except Exception:
-                    print(f"[{ticker}] formato de dataPagamento inválido: {data_pag}")
-                    continue
-            data_ref = dt.date().isoformat()
-
-            # Converte valor, mesmo que zero
-            try:
-                val = float(str(valor).replace('.', '').replace(',', '.'))
+                dt = datetime.strptime(data_com, '%d/%m/%Y')
+                date_ref = dt.date().isoformat()
             except Exception:
-                print(f"[{ticker}] valor inválido: {valor}")
+                print(f"   ⚠ dataCom inválida para {ticker}: {data_com}")
                 continue
 
-            # Verifica duplicação
+            # Parse valor
+            try:
+                valor = float(valor_str.replace('.', '').replace(',', '.'))
+            except Exception:
+                print(f"   ⚠ valor inválido para {ticker}: {valor_str}")
+                continue
+
+            # Verifica duplicação via SELECT
             cur.execute(
-                "SELECT 1 FROM fiis_indicadores WHERE fii_id = ? AND indicador_id = ? AND data_referencia = ?",
-                (fii_id, indicador_id, data_ref)
+                "SELECT 1 FROM fiis_indicadores WHERE fii_id=? AND indicador_id=? AND data_referencia=?",
+                (fii_id, ind_id, date_ref)
             )
             if cur.fetchone():
+                # já existe
                 continue
 
-            # Insere dividendos com dataPagamento
+            # Insere novo registro
             cur.execute(
-                "INSERT INTO fiis_indicadores(fii_id, indicador_id, data_referencia, valor) VALUES(?, ?, ?, ?)",
-                (fii_id, indicador_id, data_ref, val)
+                "INSERT INTO fiis_indicadores (fii_id, indicador_id, data_referencia, valor) VALUES (?, ?, ?, ?)",
+                (fii_id, ind_id, date_ref, valor)
             )
-            inserted += 1
+            print(f"   + Inseriu: {ticker} | {date_ref} | R$ {valor}")
+            count_inserted += 1
 
-        # Pausa entre tickers
         if pausa > 0:
             time.sleep(pausa)
 
     conn.commit()
     conn.close()
 
-    print(f"Total de registros API processados: {total_api}")
-    print(f"Total inseridos no banco: {inserted}")
+    print(f"\n✅ Total API registros: {count_api}")
+    print(f"✅ Total novos inseridos: {count_inserted}")
 
 if __name__ == '__main__':
     if not TOKEN:

@@ -1,4 +1,5 @@
 import streamlit as st
+from datetime import datetime
 
 st.set_page_config(page_title="Dashboard de FIIs", layout="centered")
 
@@ -46,3 +47,17 @@ st.markdown("""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
+import sqlite3
+import pandas as pd
+
+conn = sqlite3.connect("data/fiis.db")
+cur = conn.cursor()
+
+# Consulta o id do indicador
+cur.execute("SELECT id, nome FROM indicadores WHERE nome = ?", ("Dividendos",))
+row = cur.fetchone()
+
+# Cria DataFrame
+df_indicador = pd.DataFrame([row], columns=["id", "nome"])
+conn.close()
