@@ -91,10 +91,10 @@ def salvar_dividendos():
                         data_referencia = datetime.strptime(data_com, "%d/%m/%Y").date().isoformat()
                         valor_parse = float(str(valor).replace('.', '').replace(',', '.'))
                         cur.execute("""
-                            INSERT INTO fiis_indicadores (
+                            INSERT OR IGNORE INTO fiis_indicadores (
                                 fii_id, indicador_id, data_referencia, valor
                             ) VALUES (?, ?, ?, ?)
-                        """, (fii_id, indicador_id_dividendo, data_referencia, valor_parse))
+                            """, (fii_id, indicador_id_dividendo, data_referencia, valor_parse))
                         inseridos += 1
                     except Exception as e:
                         print(f"Erro ao inserir dado de {ticker} ({data_com}): {e}")

@@ -80,16 +80,7 @@ def criar_banco():
         ('Dividendos', 'Rendimentos distribuídos mensalmente'),
         ("Quantidade de Cotas", "Número de cotas emitidas"),
         ("Patrimônio Líquido", "Valor total do patrimônio do fundo"),
-        ("Quantidade de Cotistas", "Número de cotistas cadastrados"),
-        ("Vacância Percentual", "Porcentagem de área vaga (%)"),
-        ("Vacância m²", "Área vaga em metros quadrados"),
-        ("Ocupação Percentual", "Porcentagem de área ocupada (%)"),
-        ("Ocupação m²", "Área ocupada em metros quadrados"),
-        ("P/VP", "Preço sobre Valor Patrimonial"),
-        ("Dividend Yield Último", "Yield do último mês divulgado (%)"),
-        ("Dividend Yield 3M", "Dividend Yield acumulado em 3 meses (%)"),
-        ("Dividend Yield 6M", "Dividend Yield acumulado em 6 meses (%)"),
-        ("Dividend Yield 12M", "Dividend Yield acumulado em 12 meses (%)")]
+        ("Quantidade de Cotistas", "Número de cotistas cadastrados")]
 
     for nome, descricao in indicadores_padrao:
         cur.execute("INSERT OR IGNORE INTO indicadores (nome, descricao) VALUES (?, ?)", (nome, descricao))
