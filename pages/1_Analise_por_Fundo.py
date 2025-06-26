@@ -26,6 +26,7 @@ conn.close()
 
 # Sidebar: configurações e dados do fundo
 ticker = st.sidebar.selectbox("FII", sorted(fiis["ticker"]), key="ticker")
+
 # Adicione isto para o filtro de distribuições, padrão 1 ano:
 dist_years = st.sidebar.slider("Distribuição de dividendos (Anos)", 1, 10, 1)
 years = st.sidebar.slider("Histórico de cotações (Anos)", 1, 10, 5)
@@ -222,7 +223,7 @@ if not hd.empty:
     # 7) Desenha usando container width
     st.plotly_chart(fig_div, use_container_width=True)
 else:
-    st.write("Não há dividendos no período selecionado.")
+    st.badge("Não há dividendos no período selecionado.", color="orange")
 
 if not df_cot.empty:
     hc=df_cot[df_cot['data']>=now-timedelta(days=365*years)];
