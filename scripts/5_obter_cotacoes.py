@@ -1,134 +1,159 @@
+import os
+import time
 import requests
 import sqlite3
-import time
 from datetime import datetime
-import os
-from dotenv import load_dotenv
 from pathlib import Path
+from dotenv import load_dotenv
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
-inicio = time.time()
-
+# Carrega variáveis de ambiente
 load_dotenv()
 EMAIL = os.getenv("PLEXA_EMAIL")
 SENHA = os.getenv("PLEXA_SENHA")
 TOKEN = os.getenv("PLEXA_TOKEN")
 
+# Endpoints
 LOGIN_ENDPOINT = 'https://api.plexa.com.br/site/login'
-COTACAO_ENDPOINT = 'https://api.plexa.com.br/json/historico/{ticker}/12'
+COTACAO_ENDPOINT = 'https://api.plexa.com.br/json/historico/{ticker}/{dias}'
 
+# Configurações
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = ROOT_DIR / "data" / "fiis.db"
-ENV_PATH = ROOT_DIR / ".env"
+PAUSA = 1           # segundos entre chamadas
+DIAS_BUSCA = 3650     # últimos dias
+TIMEOUT = 15        # segundos para requisição
+MAX_RETRIES = 3     # tentativas de retry
+BACKOFF_FACTOR = 0.3
 
-def salvar_token_no_env(token):
-    with open(ENV_PATH, 'r') as file:
-        linhas = file.readlines()
-    with open(ENV_PATH, 'w') as file:
-        for linha in linhas:
-            if linha.startswith("PLEXA_TOKEN="):
-                file.write(f"PLEXA_TOKEN={token}\n")
-            else:
-                file.write(linha)
+# Cria sessão com retries
+def create_session():
+    session = requests.Session()
+    retry = Retry(
+        total=MAX_RETRIES,
+        backoff_factor=BACKOFF_FACTOR,
+        status_forcelist=[429, 500, 502, 503, 504],
+        allowed_methods=["GET", "POST"]
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("https://", adapter)
+    session.mount("http://", adapter)
+    return session
 
-def autenticar():
+# Autentica e atualiza token no .env
+def autenticar(session):
     global TOKEN
-    print(f"Tentando autenticar com email: {EMAIL}")
-    response = requests.post(LOGIN_ENDPOINT, json={
-        'usuEmail': EMAIL,
-        'usuSenha': SENHA,
-    }, headers={'Content-Type': 'application/json'})
-
-    if response.status_code == 200 and 'accessToken' in response.json():
-        TOKEN = response.json()['accessToken']
-        salvar_token_no_env(TOKEN)
-        print("Autenticação bem sucedida!")
-        return TOKEN
+    resp = session.post(
+        LOGIN_ENDPOINT,
+        json={"usuEmail": EMAIL, "usuSenha": SENHA},
+        headers={"Content-Type": "application/json"},
+        timeout=TIMEOUT
+    )
+    resp.raise_for_status()
+    data = resp.json()
+    if 'accessToken' in data:
+        TOKEN = data['accessToken']
+        env_path = ROOT_DIR / ".env"
+        lines = env_path.read_text(encoding='utf-8').splitlines()
+        with open(env_path, 'w', encoding='utf-8') as f:
+            for line in lines:
+                if line.startswith('PLEXA_TOKEN='):
+                    f.write(f"PLEXA_TOKEN={TOKEN}\n")
+                else:
+                    f.write(line + "\n")
+        print("✔ Token atualizado no .env")
     else:
-        print("Erro ao autenticar:", response.text)
-        return None
+        raise RuntimeError(f"Falha na autenticação: {data}")
 
-def parse_float(valor):
-    return float(valor.replace(".", "").replace(",", "."))
-
-def salvar_cotacoes_todos():
+# Abre conexão SQLite com WAL
+def abrir_conexao_db():
     conn = sqlite3.connect(DB_PATH)
+    conn.execute("PRAGMA journal_mode=WAL;")
+    return conn
+
+# Obtém cotações com retries e tratamento de erros
+def obter_cotacoes(session, ticker, dias=DIAS_BUSCA):
+    url = COTACAO_ENDPOINT.format(ticker=ticker, dias=dias)
+    headers = {"Authorization": f"Bearer {TOKEN}"}
+    resp = session.get(url, headers=headers, timeout=TIMEOUT)
+    if resp.status_code == 401:
+        autenticar(session)
+        headers["Authorization"] = f"Bearer {TOKEN}"
+        resp = session.get(url, headers=headers, timeout=TIMEOUT)
+    resp.raise_for_status()
+    payload = resp.json()
+    return payload.get('data', []) if payload.get('ok') else []
+
+# Salva cotações incrementalmente
+def salvar_cotacoes():
+    print(f"🚀 Iniciando importação de cotações em {DB_PATH}")
+    conn = abrir_conexao_db()
     cur = conn.cursor()
+    session = create_session()
+
     cur.execute("SELECT id, ticker FROM fiis")
     fiis = cur.fetchall()
+    print(f"Total FIIs: {len(fiis)}")
 
-    total_inseridos = 0
-
+    total_inserted = 0
     for fii_id, ticker in fiis:
-        print(f"Buscando cotações de {ticker}...")
+        print(f"\n🔎 Processando {ticker}...")
         try:
-            url = COTACAO_ENDPOINT.format(ticker=ticker)
-            headers = {
-                "Authorization": f"Bearer {TOKEN}",
-                "User-Agent": "Mozilla/5.0"
-            }
-            response = requests.get(url, headers=headers, timeout=10)
-            if response.status_code == 401:
-                print(f"Token expirado. Reautenticando...")
-                autenticar()
-                headers["Authorization"] = f"Bearer {TOKEN}"
-                response = requests.get(url, headers=headers, timeout=10)
-            if response.status_code != 200:
-                print(f"Erro {response.status_code} ao obter dados de {ticker}")
+            dados = obter_cotacoes(session, ticker)
+        except Exception as e:
+            print(f"   ⚠ Erro ao obter {ticker}: {e}")
+            time.sleep(PAUSA)
+            continue
+
+        print(f"   → {len(dados)} itens brutos para {ticker}")
+        cur.execute("SELECT MAX(data) FROM cotacoes WHERE fii_id = ?", (fii_id,))
+        ultima = cur.fetchone()[0]
+
+        registros = []
+        for item in dados:
+            try:
+                dt = datetime.strptime(item['data'], "%d/%m/%Y").date().isoformat()
+            except ValueError:
+                continue
+            if ultima and dt <= ultima:
                 continue
 
-            dados = response.json().get("data", [])
-            registros = []
-            now = datetime.now().isoformat()
+            fechamento = float(item['fechamento'].replace('.', '').replace(',', '.'))
+            abertura   = float(item['abertura'].replace('.', '').replace(',', '.'))
+            maxima     = float(item['maxima'].replace('.', '').replace(',', '.'))
+            minima     = float(item['minima'].replace('.', '').replace(',', '.'))
+            totNeg     = int(item['totNegocios'].replace('.', ''))
+            qtdNeg     = int(item['qtdNegociada'].replace('.', ''))
+            volume     = float(item['volume'].replace('.', '').replace(',', '.'))
 
-            for item in dados:
-                try:
-                    if not item["data"]:
-                        continue
-                    data = datetime.strptime(item["data"], "%d/%m/%Y").date().isoformat()
+            registros.append((
+                fii_id, dt, fechamento,
+                abertura, maxima, minima,
+                totNeg, qtdNeg, volume
+            ))
 
-                    # Verifica se já existe no banco para este FII e esta data
-                    cur.execute("SELECT 1 FROM cotacoes WHERE fii_id = ? AND data = ?", (fii_id, data))
-                    if cur.fetchone():
-                        continue  
+        print(f"   → {len(registros)} registros novos para inserir")
+        if registros:
+            try:
+                cur.executemany(
+                    "INSERT INTO cotacoes (fii_id, data, preco_fechamento, abertura, maxima, minima, totNegocios, qtdNegociada, volume) "
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    registros
+                )
+                conn.commit()
+                total_inserted += len(registros)
+                print(f"   + {len(registros)} inseridos e commit realizado")
+            except Exception as e:
+                print(f"   ⚠ Erro ao inserir no banco: {e}")
 
-                    fechamento = parse_float(item["fechamento"])
-                    abertura = parse_float(item["abertura"])
-                    maxima = parse_float(item["maxima"])
-                    minima = parse_float(item["minima"])
-                    totNegocios = parse_float(item["totNegocios"])
-                    qtdNegociada = parse_float(item["qtdNegociada"])
-                    volume = parse_float(item["volume"])
-                    registros.append((
-                        fii_id, data, fechamento, abertura, maxima, minima,
-                        totNegocios, qtdNegociada, volume, now
-                    ))
-                except Exception as e:
-                    print(f"Erro ao processar cotação de {ticker}: {e}")
+        time.sleep(PAUSA)
 
-            cur.executemany("""
-                INSERT INTO cotacoes (
-                    fii_id, data, preco_fechamento, abertura, maxima, minima,
-                    totNegocios, qtdNegociada, volume, created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, registros)
-
-            total_inseridos += len(registros)
-            time.sleep(1)
-
-        except Exception as e:
-            print(f"Erro ao processar {ticker}: {e}")
-
-    conn.commit()
     conn.close()
-    fim = time.time()
-    print("\n✅ Execução finalizada.")
-    print(f"⏱️ Tempo total: {fim - inicio:.2f} segundos")
-    print(f"Total de cotações inseridas: {total_inseridos}")
+    print(f"\n✅ Total inseridos: {total_inserted}")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     if not TOKEN:
-        TOKEN = autenticar()
-    if TOKEN:
-        salvar_cotacoes_todos()
-    else:
-        print("Token inválido.")
+        session = create_session()
+        autenticar(session)
+    salvar_cotacoes()

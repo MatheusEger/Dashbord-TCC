@@ -50,7 +50,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,27"
+      "ultimoFechamento": "7,34"
     },
     {
       "ticker": "ABCP11",
@@ -76,7 +76,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "86,01"
+      "ultimoFechamento": "85,89"
     },
     {
       "ticker": "AFHI11",
@@ -102,7 +102,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "91,90"
+      "ultimoFechamento": "92,13"
     },
     {
       "ticker": "AGRX11",
@@ -128,7 +128,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,00"
+      "ultimoFechamento": "8,02"
     },
     {
       "ticker": "AIEC11",
@@ -154,7 +154,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "45,35"
+      "ultimoFechamento": "45,48"
     },
     {
       "ticker": "AJFI11",
@@ -180,7 +180,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,23"
+      "ultimoFechamento": "7,27"
     },
     {
       "ticker": "ALMI11",
@@ -206,7 +206,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "540,00"
+      "ultimoFechamento": "568,99"
     },
     {
       "ticker": "ALZC11",
@@ -232,7 +232,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,34"
+      "ultimoFechamento": "8,39"
     },
     {
       "ticker": "ALZM11",
@@ -284,7 +284,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "10,05"
+      "ultimoFechamento": "10,00"
     },
     {
       "ticker": "ALZT11",
@@ -440,7 +440,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "94,00"
+      "ultimoFechamento": "95,10"
     },
     {
       "ticker": "APXR11",
@@ -466,7 +466,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "98,90"
+      "ultimoFechamento": "98,00"
     },
     {
       "ticker": "APXU11",
@@ -544,7 +544,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,17"
+      "ultimoFechamento": "7,20"
     },
     {
       "ticker": "ARTE11",
@@ -596,33 +596,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,89"
-    },
-    {
-      "ticker": "ASMT11",
-      "nome": "ASA METROPOLIS",
-      "segmento": "LAJES COMERCIAIS",
-      "cnpj": "38.293.921/0001-62",
-      "gestao": "ASA ASSET",
-      "admin": "BTG PACTUAL SERVIÇOS FINANCEIROS S/A DTVM",
-      "adminCnpj": "59.281.253/0001-23",
-      "cotaPatr": "98,40",
-      "ultimoPatrLiquido": "106.393.633,31",
-      "ultimaCotasQtd": "1.081.257",
-      "ultimoPlDataRef": "05/2025",
-      "UltimaQtdCotistas": "412",
-      "UltimaQtdCotistasData": "05/2025",
-      "ultimoRendValor": "0,000",
-      "ultimoRendDataCom": "",
-      "ultimoRendDataPag": "",
-      "ultimoRendYield": "0,000",
-      "ultimoRendYieldCotaBase": "0,000",
-      "ultimaAmortValor": "0,000",
-      "ultimaAmortDataCom": "",
-      "ultimaAmortDataPag": "",
-      "ultimaAmortYield": "0,000",
-      "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "4,10"
+      "ultimoFechamento": "7,77"
     },
     {
       "ticker": "ASRF11",
@@ -752,7 +726,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "67,00"
+      "ultimoFechamento": "72,80"
     },
     {
       "ticker": "AZPE11",
@@ -804,7 +778,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,39"
+      "ultimoFechamento": "7,44"
     },
     {
       "ticker": "BARI11",
@@ -830,7 +804,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "77,61"
+      "ultimoFechamento": "77,73"
     },
     {
       "ticker": "BBFI11",
@@ -856,7 +830,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "381,02"
+      "ultimoFechamento": "377,00"
     },
     {
       "ticker": "BBFO11",
@@ -882,7 +856,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "62,15"
+      "ultimoFechamento": "62,64"
     },
     {
       "ticker": "BBGO11",
@@ -908,7 +882,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "66,65"
+      "ultimoFechamento": "67,38"
     },
     {
       "ticker": "BBIG11",
@@ -934,7 +908,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,23"
+      "ultimoFechamento": "7,33"
     },
     {
       "ticker": "BBIM11",
@@ -986,7 +960,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "99,79"
+      "ultimoFechamento": "99,50"
     },
     {
       "ticker": "BCFF11",
@@ -1038,7 +1012,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "85,70"
+      "ultimoFechamento": "85,50"
     },
     {
       "ticker": "BCRI11",
@@ -1064,7 +1038,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "64,99"
+      "ultimoFechamento": "65,10"
     },
     {
       "ticker": "BDIF11",
@@ -1090,7 +1064,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "75,71"
+      "ultimoFechamento": "75,10"
     },
     {
       "ticker": "BETW11",
@@ -1168,7 +1142,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "899,99"
+      "ultimoFechamento": "900,00"
     },
     {
       "ticker": "BIDB11",
@@ -1194,7 +1168,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "78,51"
+      "ultimoFechamento": "78,70"
     },
     {
       "ticker": "BIME11",
@@ -1220,7 +1194,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,00"
+      "ultimoFechamento": "6,98"
     },
     {
       "ticker": "BINC11",
@@ -1246,7 +1220,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "91,38"
+      "ultimoFechamento": "91,59"
     },
     {
       "ticker": "BINR11",
@@ -1376,7 +1350,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "38,00"
+      "ultimoFechamento": "37,07"
     },
     {
       "ticker": "BLMO11",
@@ -1402,7 +1376,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "80,00"
+      "ultimoFechamento": "83,82"
     },
     {
       "ticker": "BLOG11",
@@ -1428,7 +1402,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "11,09"
+      "ultimoFechamento": "10,99"
     },
     {
       "ticker": "BLUE11",
@@ -1454,7 +1428,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "231,00"
+      "ultimoFechamento": "234,00"
     },
     {
       "ticker": "BLUR11",
@@ -1558,7 +1532,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "71,10"
+      "ultimoFechamento": "71,12"
     },
     {
       "ticker": "BODB11",
@@ -1584,7 +1558,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,12"
+      "ultimoFechamento": "7,20"
     },
     {
       "ticker": "BPFF11",
@@ -1610,7 +1584,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "58,48"
+      "ultimoFechamento": "58,02"
     },
     {
       "ticker": "BPLC11",
@@ -1662,7 +1636,33 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "79,89"
+      "ultimoFechamento": "80,00"
+    },
+    {
+      "ticker": "BPMW11",
+      "nome": "BASÍLICA PARTNERS MEDWELL FII",
+      "segmento": "OUTROS",
+      "cnpj": "39.591.218/0001-01",
+      "gestao": "N/D",
+      "admin": "BANCO DAYCOVAL S.A.",
+      "adminCnpj": "62.232.889/0001-90",
+      "cotaPatr": "992,82",
+      "ultimoPatrLiquido": "17.111.437,17",
+      "ultimaCotasQtd": "17.235",
+      "ultimoPlDataRef": "05/2025",
+      "UltimaQtdCotistas": "8",
+      "UltimaQtdCotistasData": "05/2025",
+      "ultimoRendValor": "0,000",
+      "ultimoRendDataCom": "",
+      "ultimoRendDataPag": "",
+      "ultimoRendYield": "0,000",
+      "ultimoRendYieldCotaBase": "0,000",
+      "ultimaAmortValor": "0,000",
+      "ultimaAmortDataCom": "",
+      "ultimaAmortDataPag": "",
+      "ultimaAmortYield": "0,000",
+      "ultimaAmortYieldCotaBase": "0,000",
+      "ultimoFechamento": "0,000"
     },
     {
       "ticker": "BPRP11",
@@ -1714,7 +1714,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "108,25"
+      "ultimoFechamento": "108,74"
     },
     {
       "ticker": "BRCR11",
@@ -1740,7 +1740,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "42,13"
+      "ultimoFechamento": "41,77"
     },
     {
       "ticker": "BRHT11B",
@@ -1792,7 +1792,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "510,40"
+      "ultimoFechamento": "530,00"
     },
     {
       "ticker": "BRIP11",
@@ -1818,7 +1818,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "860,00"
+      "ultimoFechamento": "814,06"
     },
     {
       "ticker": "BROF11",
@@ -1844,7 +1844,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "51,97"
+      "ultimoFechamento": "52,07"
     },
     {
       "ticker": "BRSE11",
@@ -1899,6 +1899,32 @@
       "ultimoFechamento": "0,000"
     },
     {
+      "ticker": "BSLT11",
+      "nome": "FII DE PERMUTA FINANCEIRA LOTE5 SENIOR RESP LIMITADA",
+      "segmento": "HÍBRIDO",
+      "cnpj": "60.373.688/0001-87",
+      "gestao": "N/D",
+      "admin": "ID CORRETORA DE TÍTULOS E VALORES MOBILIÁRIOS S.A.",
+      "adminCnpj": "16.695.922/0001-09",
+      "cotaPatr": "100,45",
+      "ultimoPatrLiquido": "106.479.883,19",
+      "ultimaCotasQtd": "1.059.990",
+      "ultimoPlDataRef": "05/2025",
+      "UltimaQtdCotistas": "1",
+      "UltimaQtdCotistasData": "05/2025",
+      "ultimoRendValor": "0,000",
+      "ultimoRendDataCom": "",
+      "ultimoRendDataPag": "",
+      "ultimoRendYield": "0,000",
+      "ultimoRendYieldCotaBase": "0,000",
+      "ultimaAmortValor": "0,000",
+      "ultimaAmortDataCom": "",
+      "ultimaAmortDataPag": "",
+      "ultimaAmortYield": "0,000",
+      "ultimaAmortYieldCotaBase": "0,000",
+      "ultimoFechamento": "100,40"
+    },
+    {
       "ticker": "BTAG11",
       "nome": "BTG Pactual Crédito Agrícola Fiagro – Direitos Creditórios",
       "segmento": "AGRONEGÓCIO",
@@ -1922,7 +1948,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "96,11"
+      "ultimoFechamento": "96,29"
     },
     {
       "ticker": "BTAL11",
@@ -1948,7 +1974,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "78,65"
+      "ultimoFechamento": "80,26"
     },
     {
       "ticker": "BTCI11",
@@ -1974,7 +2000,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,96"
+      "ultimoFechamento": "9,00"
     },
     {
       "ticker": "BTHF11",
@@ -2000,7 +2026,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,50"
+      "ultimoFechamento": "8,49"
     },
     {
       "ticker": "BTHI11",
@@ -2026,7 +2052,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "41,00"
+      "ultimoFechamento": "41,11"
     },
     {
       "ticker": "BTLG11",
@@ -2052,7 +2078,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "99,65"
+      "ultimoFechamento": "99,70"
     },
     {
       "ticker": "BTML11",
@@ -2104,7 +2130,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "55,00"
+      "ultimoFechamento": "54,05"
     },
     {
       "ticker": "BTSG11",
@@ -2286,7 +2312,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "99,99"
+      "ultimoFechamento": "99,32"
     },
     {
       "ticker": "CARE11",
@@ -2312,7 +2338,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "1,18"
+      "ultimoFechamento": "1,19"
     },
     {
       "ticker": "CBOP11",
@@ -2338,7 +2364,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "25,54"
+      "ultimoFechamento": "24,42"
     },
     {
       "ticker": "CCME11",
@@ -2364,7 +2390,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,65"
+      "ultimoFechamento": "8,68"
     },
     {
       "ticker": "CCVA11",
@@ -2416,7 +2442,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "103,86"
+      "ultimoFechamento": "104,11"
     },
     {
       "ticker": "CENU11",
@@ -2468,7 +2494,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "42,08"
+      "ultimoFechamento": "40,98"
     },
     {
       "ticker": "CFHI11",
@@ -2521,6 +2547,32 @@
       "ultimaAmortYield": "16,0000",
       "ultimaAmortYieldCotaBase": "1.000,000",
       "ultimoFechamento": "863,66"
+    },
+    {
+      "ticker": "CIXF11",
+      "nome": "CIX RETROFIT FUNDO DE INVESTIMENTO IMOBILIÁRIO RESP LIMITADA",
+      "segmento": "TÍTULOS E VAL. MOB.",
+      "cnpj": "59.255.025/0001-89",
+      "gestao": "N/D",
+      "admin": "ID CORRETORA DE TÍTULOS E VALORES MOBILIÁRIOS S.A.",
+      "adminCnpj": "16.695.922/0001-09",
+      "cotaPatr": "4,97",
+      "ultimoPatrLiquido": "6.209.737,45",
+      "ultimaCotasQtd": "1.250.000",
+      "ultimoPlDataRef": "05/2025",
+      "UltimaQtdCotistas": "1",
+      "UltimaQtdCotistasData": "05/2025",
+      "ultimoRendValor": "0,000",
+      "ultimoRendDataCom": "",
+      "ultimoRendDataPag": "",
+      "ultimoRendYield": "0,000",
+      "ultimoRendYieldCotaBase": "0,000",
+      "ultimaAmortValor": "0,000",
+      "ultimaAmortDataCom": "",
+      "ultimaAmortDataPag": "",
+      "ultimaAmortYield": "0,000",
+      "ultimaAmortYieldCotaBase": "0,000",
+      "ultimoFechamento": "0,000"
     },
     {
       "ticker": "CIXM11",
@@ -2598,7 +2650,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "58,80"
+      "ultimoFechamento": "59,17"
     },
     {
       "ticker": "CJFI11",
@@ -2650,7 +2702,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "90,01"
+      "ultimoFechamento": "89,91"
     },
     {
       "ticker": "CNES11",
@@ -2666,17 +2718,17 @@
       "ultimoPlDataRef": "05/2025",
       "UltimaQtdCotistas": "93.825",
       "UltimaQtdCotistasData": "05/2025",
-      "ultimoRendValor": "0,006",
-      "ultimoRendDataCom": "22/05/2025",
-      "ultimoRendDataPag": "29/05/2025",
-      "ultimoRendYield": "0,5940",
-      "ultimoRendYieldCotaBase": "1,010",
+      "ultimoRendValor": "0,004",
+      "ultimoRendDataCom": "24/06/2025",
+      "ultimoRendDataPag": "01/07/2025",
+      "ultimoRendYield": "0,3850",
+      "ultimoRendYieldCotaBase": "1,040",
       "ultimaAmortValor": "0,000",
       "ultimaAmortDataCom": "",
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "1,08"
+      "ultimoFechamento": "1,07"
     },
     {
       "ticker": "CPFF11",
@@ -2703,6 +2755,32 @@
       "ultimaAmortYield": "8,0050",
       "ultimaAmortYieldCotaBase": "62,310",
       "ultimoFechamento": "69,90"
+    },
+    {
+      "ticker": "CPHH11",
+      "nome": "CAPIT REIT III FII",
+      "segmento": "OUTROS",
+      "cnpj": "60.105.999/0001-65",
+      "gestao": "N/D",
+      "admin": "BTG PACTUAL SERVIÇOS FINANCEIROS S/A DTVM",
+      "adminCnpj": "59.281.253/0001-23",
+      "cotaPatr": "73,46",
+      "ultimoPatrLiquido": "108.236.367,68",
+      "ultimaCotasQtd": "1.473.378",
+      "ultimoPlDataRef": "04/2025",
+      "UltimaQtdCotistas": "420",
+      "UltimaQtdCotistasData": "04/2025",
+      "ultimoRendValor": "0,000",
+      "ultimoRendDataCom": "",
+      "ultimoRendDataPag": "",
+      "ultimoRendYield": "0,000",
+      "ultimoRendYieldCotaBase": "0,000",
+      "ultimaAmortValor": "73,365",
+      "ultimaAmortDataCom": "19/05/2025",
+      "ultimaAmortDataPag": "26/05/2025",
+      "ultimaAmortYield": "0,0000",
+      "ultimaAmortYieldCotaBase": "0,000",
+      "ultimoFechamento": "0,000"
     },
     {
       "ticker": "CPLG11",
@@ -2780,7 +2858,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "9,68"
+      "ultimoFechamento": "9,61"
     },
     {
       "ticker": "CPTI11",
@@ -2806,7 +2884,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "83,13"
+      "ultimoFechamento": "82,98"
     },
     {
       "ticker": "CPTR11",
@@ -2832,7 +2910,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,25"
+      "ultimoFechamento": "7,21"
     },
     {
       "ticker": "CPTS11",
@@ -2858,7 +2936,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,37"
+      "ultimoFechamento": "7,34"
     },
     {
       "ticker": "CPUR11",
@@ -2884,7 +2962,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "10,60"
+      "ultimoFechamento": "10,70"
     },
     {
       "ticker": "CRAA11",
@@ -2910,7 +2988,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "94,00"
+      "ultimoFechamento": "94,10"
     },
     {
       "ticker": "CRFF11",
@@ -2936,7 +3014,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "73,00"
+      "ultimoFechamento": "73,05"
     },
     {
       "ticker": "CSMC11",
@@ -2988,7 +3066,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "5,68"
+      "ultimoFechamento": "5,64"
     },
     {
       "ticker": "CVBI11",
@@ -3014,7 +3092,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "82,31"
+      "ultimoFechamento": "83,20"
     },
     {
       "ticker": "CVPR11",
@@ -3066,7 +3144,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "72,23"
+      "ultimoFechamento": "72,99"
     },
     {
       "ticker": "CXCE11",
@@ -3092,7 +3170,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "38,75"
+      "ultimoFechamento": "38,99"
     },
     {
       "ticker": "CXCI11",
@@ -3118,7 +3196,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "67,29"
+      "ultimoFechamento": "67,54"
     },
     {
       "ticker": "CXCO11",
@@ -3144,7 +3222,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "57,80"
+      "ultimoFechamento": "58,00"
     },
     {
       "ticker": "CXRI11",
@@ -3170,7 +3248,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "64,51"
+      "ultimoFechamento": "63,51"
     },
     {
       "ticker": "CXTL11",
@@ -3196,7 +3274,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "211,00"
+      "ultimoFechamento": "213,30"
     },
     {
       "ticker": "CYCR11",
@@ -3222,7 +3300,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,92"
+      "ultimoFechamento": "8,87"
     },
     {
       "ticker": "CYLD11",
@@ -3274,7 +3352,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "6,98"
+      "ultimoFechamento": "7,00"
     },
     {
       "ticker": "DAMT11B",
@@ -3301,6 +3379,32 @@
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
       "ultimoFechamento": "8,63"
+    },
+    {
+      "ticker": "DAYM11",
+      "nome": "DAYCOVAL REAL ESTATE MULTIESTRATÉGIA FUNDO DE INVESTIMENTO IMOBILIÁRIO DE RESPONSABILIDADE LIMITADA",
+      "segmento": "LAJES COMERCIAIS",
+      "cnpj": "38.293.921/0001-62",
+      "gestao": "ASA ASSET",
+      "admin": "BTG PACTUAL SERVIÇOS FINANCEIROS S/A DTVM",
+      "adminCnpj": "59.281.253/0001-23",
+      "cotaPatr": "0,000",
+      "ultimoPatrLiquido": "0,00",
+      "ultimaCotasQtd": "0",
+      "ultimoPlDataRef": "",
+      "UltimaQtdCotistas": "0",
+      "UltimaQtdCotistasData": "",
+      "ultimoRendValor": "0,000",
+      "ultimoRendDataCom": "",
+      "ultimoRendDataPag": "",
+      "ultimoRendYield": "0,000",
+      "ultimoRendYieldCotaBase": "0,000",
+      "ultimaAmortValor": "0,000",
+      "ultimaAmortDataCom": "",
+      "ultimaAmortDataPag": "",
+      "ultimaAmortYield": "0,000",
+      "ultimaAmortYieldCotaBase": "0,000",
+      "ultimoFechamento": "4,19"
     },
     {
       "ticker": "DBIN11",
@@ -3352,7 +3456,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,44"
+      "ultimoFechamento": "7,42"
     },
     {
       "ticker": "DEVA11",
@@ -3378,7 +3482,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "32,99"
+      "ultimoFechamento": "33,23"
     },
     {
       "ticker": "DIVS11",
@@ -3404,7 +3508,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "101,35"
+      "ultimoFechamento": "103,60"
     },
     {
       "ticker": "DLMT11",
@@ -3482,7 +3586,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "6,34"
+      "ultimoFechamento": "6,11"
     },
     {
       "ticker": "DRIT11B",
@@ -3534,7 +3638,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "6,41"
+      "ultimoFechamento": "6,35"
     },
     {
       "ticker": "DVLP11",
@@ -3638,7 +3742,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "115,00"
+      "ultimoFechamento": "116,00"
     },
     {
       "ticker": "EDGA11",
@@ -3664,7 +3768,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "16,40"
+      "ultimoFechamento": "16,60"
     },
     {
       "ticker": "EDGE11",
@@ -3716,7 +3820,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "93,46"
+      "ultimoFechamento": "93,90"
     },
     {
       "ticker": "EGDB11",
@@ -3742,7 +3846,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "1.128,96"
+      "ultimoFechamento": "1.130,88"
     },
     {
       "ticker": "EGYR11",
@@ -3768,7 +3872,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "2,96"
+      "ultimoFechamento": "3,04"
     },
     {
       "ticker": "EIRA11",
@@ -3810,10 +3914,10 @@
       "ultimoPlDataRef": "05/2025",
       "UltimaQtdCotistas": "113",
       "UltimaQtdCotistasData": "05/2025",
-      "ultimoRendValor": "8,100",
-      "ultimoRendDataCom": "11/06/2025",
-      "ultimoRendDataPag": "20/06/2025",
-      "ultimoRendYield": "1,1850",
+      "ultimoRendValor": "1,000",
+      "ultimoRendDataCom": "26/06/2025",
+      "ultimoRendDataPag": "07/07/2025",
+      "ultimoRendYield": "0,1460",
       "ultimoRendYieldCotaBase": "683,360",
       "ultimaAmortValor": "0,000",
       "ultimaAmortDataCom": "",
@@ -3846,7 +3950,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "10,00"
+      "ultimoFechamento": "8,86"
     },
     {
       "ticker": "EQIR11",
@@ -3976,7 +4080,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "226,04"
+      "ultimoFechamento": "226,05"
     },
     {
       "ticker": "EXES11",
@@ -4002,7 +4106,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "9,42"
+      "ultimoFechamento": "9,34"
     },
     {
       "ticker": "EXIF11",
@@ -4080,7 +4184,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "140,50"
+      "ultimoFechamento": "142,20"
     },
     {
       "ticker": "FAGL11",
@@ -4132,7 +4236,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "779,30"
+      "ultimoFechamento": "755,27"
     },
     {
       "ticker": "FAOE11",
@@ -4210,7 +4314,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "75,95"
+      "ultimoFechamento": "75,80"
     },
     {
       "ticker": "FAVM11",
@@ -4288,7 +4392,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "128,10"
+      "ultimoFechamento": "127,30"
     },
     {
       "ticker": "FGAA11",
@@ -4314,7 +4418,7 @@
       "ultimaAmortDataPag": "14/07/2025",
       "ultimaAmortYield": "0,6740",
       "ultimaAmortYieldCotaBase": "8,900",
-      "ultimoFechamento": "8,56"
+      "ultimoFechamento": "8,58"
     },
     {
       "ticker": "FGPM11",
@@ -4366,7 +4470,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "45,03"
+      "ultimoFechamento": "45,36"
     },
     {
       "ticker": "FIGV11",
@@ -4418,7 +4522,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "503,31"
+      "ultimoFechamento": "506,40"
     },
     {
       "ticker": "FIIC11",
@@ -4470,7 +4574,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "160,50"
+      "ultimoFechamento": "158,60"
     },
     {
       "ticker": "FINF11",
@@ -4522,7 +4626,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "67,00"
+      "ultimoFechamento": "66,50"
     },
     {
       "ticker": "FISD11",
@@ -4574,7 +4678,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "5,50"
+      "ultimoFechamento": "4,01"
     },
     {
       "ticker": "FLCR11",
@@ -4600,7 +4704,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "96,70"
+      "ultimoFechamento": "96,51"
     },
     {
       "ticker": "FLEM11",
@@ -4678,7 +4782,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "130,12"
+      "ultimoFechamento": "130,85"
     },
     {
       "ticker": "FLNR11",
@@ -4730,7 +4834,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "20,22"
+      "ultimoFechamento": "20,55"
     },
     {
       "ticker": "FMOB11",
@@ -4751,9 +4855,9 @@
       "ultimoRendDataPag": "",
       "ultimoRendYield": "0,000",
       "ultimoRendYieldCotaBase": "0,000",
-      "ultimaAmortValor": "3,596",
-      "ultimaAmortDataCom": "09/05/2025",
-      "ultimaAmortDataPag": "16/05/2025",
+      "ultimaAmortValor": "3,872",
+      "ultimaAmortDataCom": "25/06/2025",
+      "ultimaAmortDataPag": "02/07/2025",
       "ultimaAmortYield": "0,0000",
       "ultimaAmortYieldCotaBase": "0,000",
       "ultimoFechamento": "0,000"
@@ -4782,7 +4886,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "75,79"
+      "ultimoFechamento": "72,91"
     },
     {
       "ticker": "FPAB11",
@@ -4808,7 +4912,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "179,00"
+      "ultimoFechamento": "210,00"
     },
     {
       "ticker": "FPNG11",
@@ -4886,7 +4990,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,01"
+      "ultimoFechamento": "8,11"
     },
     {
       "ticker": "FTCE11",
@@ -4964,7 +5068,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "69,05"
+      "ultimoFechamento": "68,50"
     },
     {
       "ticker": "FYTO11",
@@ -4990,7 +5094,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,33"
+      "ultimoFechamento": "8,30"
     },
     {
       "ticker": "FZDA11",
@@ -5016,7 +5120,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "118,33"
+      "ultimoFechamento": "118,31"
     },
     {
       "ticker": "FZDB11",
@@ -5068,7 +5172,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,54"
+      "ultimoFechamento": "8,50"
     },
     {
       "ticker": "GARE11",
@@ -5094,7 +5198,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,77"
+      "ultimoFechamento": "8,79"
     },
     {
       "ticker": "GCDL11",
@@ -5172,7 +5276,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "50,30"
+      "ultimoFechamento": "50,74"
     },
     {
       "ticker": "GCRI11",
@@ -5198,7 +5302,33 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "64,47"
+      "ultimoFechamento": "63,98"
+    },
+    {
+      "ticker": "GFDL11",
+      "nome": "FII GALAPAGOS F DESENV LOGIST RESP LTDA",
+      "segmento": "LOGÍSTICA",
+      "cnpj": "58.523.711/0001-20",
+      "gestao": "N/D",
+      "admin": "VORTX DISTRIBUIDORA DE TITULOS E VALORES MOBILIARIOS LTDA.",
+      "adminCnpj": "22.610.500/0001-88",
+      "cotaPatr": "84,25",
+      "ultimoPatrLiquido": "4.298.882,19",
+      "ultimaCotasQtd": "51.025",
+      "ultimoPlDataRef": "05/2025",
+      "UltimaQtdCotistas": "2.427",
+      "UltimaQtdCotistasData": "05/2025",
+      "ultimoRendValor": "0,000",
+      "ultimoRendDataCom": "",
+      "ultimoRendDataPag": "",
+      "ultimoRendYield": "0,000",
+      "ultimoRendYieldCotaBase": "0,000",
+      "ultimaAmortValor": "0,000",
+      "ultimaAmortDataCom": "",
+      "ultimaAmortDataPag": "",
+      "ultimaAmortYield": "0,000",
+      "ultimaAmortYieldCotaBase": "0,000",
+      "ultimoFechamento": "0,000"
     },
     {
       "ticker": "GGRC11",
@@ -5224,7 +5354,33 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "10,03"
+      "ultimoFechamento": "10,05"
+    },
+    {
+      "ticker": "GLCR11",
+      "nome": "FII GALAP CRED ESTRUTURADO",
+      "segmento": "HÍBRIDO",
+      "cnpj": "59.669.570/0001-11",
+      "gestao": "N/D",
+      "admin": "VORTX DISTRIBUIDORA DE TITULOS E VALORES MOBILIARIOS LTDA.",
+      "adminCnpj": "22.610.500/0001-88",
+      "cotaPatr": "101,47",
+      "ultimoPatrLiquido": "36.541.967,91",
+      "ultimaCotasQtd": "360.110",
+      "ultimoPlDataRef": "05/2025",
+      "UltimaQtdCotistas": "749",
+      "UltimaQtdCotistasData": "05/2025",
+      "ultimoRendValor": "1,000",
+      "ultimoRendDataCom": "13/06/2025",
+      "ultimoRendDataPag": "23/06/2025",
+      "ultimoRendYield": "0,0000",
+      "ultimoRendYieldCotaBase": "0,000",
+      "ultimaAmortValor": "0,000",
+      "ultimaAmortDataCom": "",
+      "ultimaAmortDataPag": "",
+      "ultimaAmortYield": "0,000",
+      "ultimaAmortYieldCotaBase": "0,000",
+      "ultimoFechamento": "0,000"
     },
     {
       "ticker": "GLOG11",
@@ -5250,7 +5406,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "60,43"
+      "ultimoFechamento": "61,00"
     },
     {
       "ticker": "GLPF11",
@@ -5276,7 +5432,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "104,61"
+      "ultimoFechamento": "104,83"
     },
     {
       "ticker": "GRRO11",
@@ -5328,7 +5484,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,06"
+      "ultimoFechamento": "8,05"
     },
     {
       "ticker": "GRWA11",
@@ -5354,7 +5510,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,19"
+      "ultimoFechamento": "8,09"
     },
     {
       "ticker": "GSFI11",
@@ -5380,7 +5536,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,20"
+      "ultimoFechamento": "8,23"
     },
     {
       "ticker": "GTWR11",
@@ -5406,7 +5562,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "76,60"
+      "ultimoFechamento": "76,85"
     },
     {
       "ticker": "GZIT11",
@@ -5432,7 +5588,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "47,14"
+      "ultimoFechamento": "46,38"
     },
     {
       "ticker": "HAAA11",
@@ -5458,7 +5614,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "49,89"
+      "ultimoFechamento": "49,85"
     },
     {
       "ticker": "HABT11",
@@ -5484,7 +5640,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "81,59"
+      "ultimoFechamento": "81,62"
     },
     {
       "ticker": "HBCR11",
@@ -5536,7 +5692,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "78,01"
+      "ultimoFechamento": "78,62"
     },
     {
       "ticker": "HCRI11",
@@ -5562,7 +5718,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "260,03"
+      "ultimoFechamento": "263,99"
     },
     {
       "ticker": "HCST11",
@@ -5614,7 +5770,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "23,19"
+      "ultimoFechamento": "23,33"
     },
     {
       "ticker": "HDEL11",
@@ -5744,7 +5900,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "13,30"
+      "ultimoFechamento": "13,26"
     },
     {
       "ticker": "HGBL11",
@@ -5770,7 +5926,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,50"
+      "ultimoFechamento": "8,45"
     },
     {
       "ticker": "HGBS11",
@@ -5796,7 +5952,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "19,45"
+      "ultimoFechamento": "19,71"
     },
     {
       "ticker": "HGCR11",
@@ -5822,7 +5978,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "93,24"
+      "ultimoFechamento": "93,45"
     },
     {
       "ticker": "HGFF11",
@@ -5848,7 +6004,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "66,93"
+      "ultimoFechamento": "67,40"
     },
     {
       "ticker": "HGIC11",
@@ -5874,7 +6030,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "66,18"
+      "ultimoFechamento": "71,98"
     },
     {
       "ticker": "HGLG11",
@@ -5900,7 +6056,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "157,20"
+      "ultimoFechamento": "157,60"
     },
     {
       "ticker": "HGPO11",
@@ -5926,7 +6082,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "133,36"
+      "ultimoFechamento": "133,99"
     },
     {
       "ticker": "HGRE11",
@@ -5952,7 +6108,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "116,09"
+      "ultimoFechamento": "116,06"
     },
     {
       "ticker": "HGRU11",
@@ -5978,7 +6134,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "124,49"
+      "ultimoFechamento": "124,76"
     },
     {
       "ticker": "HILG11",
@@ -6056,7 +6212,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,19"
+      "ultimoFechamento": "8,11"
     },
     {
       "ticker": "HOFC11",
@@ -6082,7 +6238,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "28,09"
+      "ultimoFechamento": "27,99"
     },
     {
       "ticker": "HOMS11",
@@ -6134,7 +6290,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "88,83"
+      "ultimoFechamento": "83,72"
     },
     {
       "ticker": "HPDP11",
@@ -6160,7 +6316,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "89,57"
+      "ultimoFechamento": "87,00"
     },
     {
       "ticker": "HRDF11",
@@ -6212,7 +6368,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,37"
+      "ultimoFechamento": "8,40"
     },
     {
       "ticker": "HRES11",
@@ -6264,7 +6420,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "79,01"
+      "ultimoFechamento": "78,80"
     },
     {
       "ticker": "HSLG11",
@@ -6290,7 +6446,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "81,63"
+      "ultimoFechamento": "81,52"
     },
     {
       "ticker": "HSML11",
@@ -6316,7 +6472,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "83,15"
+      "ultimoFechamento": "84,11"
     },
     {
       "ticker": "HSRE11",
@@ -6342,7 +6498,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "102,00"
+      "ultimoFechamento": "99,50"
     },
     {
       "ticker": "HTMX11",
@@ -6368,7 +6524,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "142,11"
+      "ultimoFechamento": "142,38"
     },
     {
       "ticker": "HUCG11",
@@ -6394,7 +6550,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "110,58"
+      "ultimoFechamento": "102,01"
     },
     {
       "ticker": "HUSC11",
@@ -6420,7 +6576,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "96,02"
+      "ultimoFechamento": "94,13"
     },
     {
       "ticker": "HUSI11",
@@ -6498,7 +6654,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,27"
+      "ultimoFechamento": "7,26"
     },
     {
       "ticker": "IAGR11",
@@ -6524,7 +6680,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "4,06"
+      "ultimoFechamento": "4,03"
     },
     {
       "ticker": "IBBP11",
@@ -6576,7 +6732,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "58,00"
+      "ultimoFechamento": "58,14"
     },
     {
       "ticker": "ICNE11",
@@ -6628,7 +6784,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "95,97"
+      "ultimoFechamento": "96,29"
     },
     {
       "ticker": "IDFI11",
@@ -6758,7 +6914,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "96,40"
+      "ultimoFechamento": "95,05"
     },
     {
       "ticker": "IFRI11",
@@ -6784,7 +6940,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "94,50"
+      "ultimoFechamento": "94,82"
     },
     {
       "ticker": "IMMV11",
@@ -6914,7 +7070,7 @@
       "ultimaAmortDataPag": "13/06/2025",
       "ultimaAmortYield": "1,0260",
       "ultimaAmortYieldCotaBase": "97,490",
-      "ultimoFechamento": "97,46"
+      "ultimoFechamento": "99,50"
     },
     {
       "ticker": "INLG11",
@@ -6940,7 +7096,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "73,04"
+      "ultimoFechamento": "74,00"
     },
     {
       "ticker": "INRD11",
@@ -6966,7 +7122,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "73,29"
+      "ultimoFechamento": "72,97"
     },
     {
       "ticker": "IRBL11",
@@ -7018,7 +7174,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "67,00"
+      "ultimoFechamento": "66,80"
     },
     {
       "ticker": "IRIF11",
@@ -7044,7 +7200,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,82"
+      "ultimoFechamento": "8,81"
     },
     {
       "ticker": "IRIM11",
@@ -7070,7 +7226,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "68,34"
+      "ultimoFechamento": "68,27"
     },
     {
       "ticker": "ISCJ11",
@@ -7096,7 +7252,7 @@
       "ultimaAmortDataPag": "30/06/2025",
       "ultimaAmortYield": "0,7350",
       "ultimaAmortYieldCotaBase": "86,990",
-      "ultimoFechamento": "86,99"
+      "ultimoFechamento": "100,00"
     },
     {
       "ticker": "ISEN11",
@@ -7122,7 +7278,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "101,30"
+      "ultimoFechamento": "101,55"
     },
     {
       "ticker": "ISET11",
@@ -7200,7 +7356,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "65,80"
+      "ultimoFechamento": "65,51"
     },
     {
       "ticker": "ITIT11",
@@ -7226,7 +7382,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "68,69"
+      "ultimoFechamento": "69,20"
     },
     {
       "ticker": "ITRI11",
@@ -7252,7 +7408,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "80,68"
+      "ultimoFechamento": "80,79"
     },
     {
       "ticker": "IVCI11",
@@ -7460,7 +7616,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "69,40"
+      "ultimoFechamento": "69,99"
     },
     {
       "ticker": "JGPX11",
@@ -7486,7 +7642,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "65,37"
+      "ultimoFechamento": "66,90"
     },
     {
       "ticker": "JKDF11",
@@ -7564,7 +7720,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "85,30"
+      "ultimoFechamento": "84,13"
     },
     {
       "ticker": "JPPA11",
@@ -7590,7 +7746,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "79,52"
+      "ultimoFechamento": "79,45"
     },
     {
       "ticker": "JPPC11",
@@ -7616,7 +7772,7 @@
       "ultimaAmortDataPag": "27/06/2025",
       "ultimaAmortYield": "27,5900",
       "ultimaAmortYieldCotaBase": "144,980",
-      "ultimoFechamento": "123,70"
+      "ultimoFechamento": "123,00"
     },
     {
       "ticker": "JSAF11",
@@ -7642,7 +7798,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,67"
+      "ultimoFechamento": "7,75"
     },
     {
       "ticker": "JSCR11",
@@ -7668,7 +7824,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,28"
+      "ultimoFechamento": "8,30"
     },
     {
       "ticker": "JSRE11",
@@ -7694,7 +7850,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "62,70"
+      "ultimoFechamento": "63,20"
     },
     {
       "ticker": "JTPR11",
@@ -7746,7 +7902,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "99,47"
+      "ultimoFechamento": "98,27"
     },
     {
       "ticker": "KCRE11",
@@ -7772,7 +7928,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,87"
+      "ultimoFechamento": "8,96"
     },
     {
       "ticker": "KDIF11",
@@ -7798,7 +7954,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "127,06"
+      "ultimoFechamento": "126,11"
     },
     {
       "ticker": "KDOL11",
@@ -7824,7 +7980,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "96,00"
+      "ultimoFechamento": "94,50"
     },
     {
       "ticker": "KEVE11",
@@ -7902,7 +8058,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "80,23"
+      "ultimoFechamento": "80,03"
     },
     {
       "ticker": "KISU11",
@@ -7928,7 +8084,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "6,86"
+      "ultimoFechamento": "6,85"
     },
     {
       "ticker": "KIVO11",
@@ -7954,7 +8110,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "69,18"
+      "ultimoFechamento": "68,12"
     },
     {
       "ticker": "KLOG11",
@@ -8006,7 +8162,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "95,30"
+      "ultimoFechamento": "95,32"
     },
     {
       "ticker": "KNCR11",
@@ -8032,7 +8188,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "104,25"
+      "ultimoFechamento": "104,50"
     },
     {
       "ticker": "KNHF11",
@@ -8058,7 +8214,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "91,26"
+      "ultimoFechamento": "91,11"
     },
     {
       "ticker": "KNHY11",
@@ -8084,7 +8240,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "101,20"
+      "ultimoFechamento": "102,10"
     },
     {
       "ticker": "KNIP11",
@@ -8110,7 +8266,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "90,19"
+      "ultimoFechamento": "90,64"
     },
     {
       "ticker": "KNPR11",
@@ -8162,7 +8318,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "0,26"
+      "ultimoFechamento": "0,27"
     },
     {
       "ticker": "KNRI11",
@@ -8188,7 +8344,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "142,05"
+      "ultimoFechamento": "143,34"
     },
     {
       "ticker": "KNSC11",
@@ -8214,7 +8370,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,90"
+      "ultimoFechamento": "8,85"
     },
     {
       "ticker": "KNUQ11",
@@ -8240,7 +8396,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "104,38"
+      "ultimoFechamento": "104,50"
     },
     {
       "ticker": "KOPA11",
@@ -8266,7 +8422,7 @@
       "ultimaAmortDataPag": "24/06/2025",
       "ultimaAmortYield": "2,0900",
       "ultimaAmortYieldCotaBase": "944,110",
-      "ultimoFechamento": "928,01"
+      "ultimoFechamento": "915,35"
     },
     {
       "ticker": "KOPI11",
@@ -8318,7 +8474,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "82,47"
+      "ultimoFechamento": "81,40"
     },
     {
       "ticker": "KPMR11",
@@ -8333,6 +8489,32 @@
       "ultimaCotasQtd": "8.742",
       "ultimoPlDataRef": "05/2025",
       "UltimaQtdCotistas": "844",
+      "UltimaQtdCotistasData": "05/2025",
+      "ultimoRendValor": "0,000",
+      "ultimoRendDataCom": "",
+      "ultimoRendDataPag": "",
+      "ultimoRendYield": "0,000",
+      "ultimoRendYieldCotaBase": "0,000",
+      "ultimaAmortValor": "0,000",
+      "ultimaAmortDataCom": "",
+      "ultimaAmortDataPag": "",
+      "ultimaAmortYield": "0,000",
+      "ultimaAmortYieldCotaBase": "0,000",
+      "ultimoFechamento": "0,000"
+    },
+    {
+      "ticker": "KPRP11",
+      "nome": "KINEA PRIME RESIDENCIAL I PVT FII RESP. LTDA",
+      "segmento": "RESIDENCIAL",
+      "cnpj": "58.099.321/0001-75",
+      "gestao": "N/D",
+      "admin": "INTRAG DTVM LTDA.",
+      "adminCnpj": "62.418.140/0001-31",
+      "cotaPatr": "1,00",
+      "ultimoPatrLiquido": "29.775.257,33",
+      "ultimaCotasQtd": "29.767.439",
+      "ultimoPlDataRef": "05/2025",
+      "UltimaQtdCotistas": "138",
       "UltimaQtdCotistasData": "05/2025",
       "ultimoRendValor": "0,000",
       "ultimoRendDataCom": "",
@@ -8422,7 +8604,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "99,98"
+      "ultimoFechamento": "100,00"
     },
     {
       "ticker": "LFTT11",
@@ -8448,7 +8630,7 @@
       "ultimaAmortDataPag": "27/06/2025",
       "ultimaAmortYield": "8,9060",
       "ultimaAmortYieldCotaBase": "7,770",
-      "ultimoFechamento": "5,03"
+      "ultimoFechamento": "5,30"
     },
     {
       "ticker": "LIFE11",
@@ -8474,7 +8656,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,88"
+      "ultimoFechamento": "8,93"
     },
     {
       "ticker": "LKDV11",
@@ -8578,7 +8760,7 @@
       "ultimaAmortDataPag": "16/06/2025",
       "ultimaAmortYield": "7,5220",
       "ultimaAmortYieldCotaBase": "500,000",
-      "ultimoFechamento": "474,00"
+      "ultimoFechamento": "480,00"
     },
     {
       "ticker": "LRDI11",
@@ -8656,7 +8838,7 @@
       "ultimaAmortDataPag": "13/06/2025",
       "ultimaAmortYield": "1,3840",
       "ultimaAmortYieldCotaBase": "79,500",
-      "ultimoFechamento": "76,80"
+      "ultimoFechamento": "75,77"
     },
     {
       "ticker": "LSOI11",
@@ -8760,7 +8942,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "100,10"
+      "ultimoFechamento": "101,05"
     },
     {
       "ticker": "MALL11",
@@ -8786,7 +8968,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "99,68"
+      "ultimoFechamento": "100,28"
     },
     {
       "ticker": "MANA11",
@@ -8812,7 +8994,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,69"
+      "ultimoFechamento": "8,70"
     },
     {
       "ticker": "MAXR11",
@@ -8838,7 +9020,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "64,00"
+      "ultimoFechamento": "64,06"
     },
     {
       "ticker": "MBBI11",
@@ -8890,7 +9072,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "86,94"
+      "ultimoFechamento": "86,75"
     },
     {
       "ticker": "MCEM11",
@@ -8916,7 +9098,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "65,00"
+      "ultimoFechamento": "65,28"
     },
     {
       "ticker": "MCLO11",
@@ -8942,7 +9124,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "10,24"
+      "ultimoFechamento": "10,23"
     },
     {
       "ticker": "MCRE11",
@@ -8968,7 +9150,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,41"
+      "ultimoFechamento": "8,40"
     },
     {
       "ticker": "MFAI11",
@@ -9046,7 +9228,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "80,90"
+      "ultimoFechamento": "81,31"
     },
     {
       "ticker": "MGHT11",
@@ -9072,7 +9254,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "17,00"
+      "ultimoFechamento": "16,65"
     },
     {
       "ticker": "MGRI11",
@@ -9280,7 +9462,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "9,36"
+      "ultimoFechamento": "9,39"
     },
     {
       "ticker": "NAGR11",
@@ -9358,7 +9540,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "72,40"
+      "ultimoFechamento": "72,74"
     },
     {
       "ticker": "NCRI11",
@@ -9384,7 +9566,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,70"
+      "ultimoFechamento": "8,74"
     },
     {
       "ticker": "NELO11",
@@ -9436,7 +9618,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "103,89"
+      "ultimoFechamento": "104,99"
     },
     {
       "ticker": "NEWU11",
@@ -9462,7 +9644,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "79,89"
+      "ultimoFechamento": "80,00"
     },
     {
       "ticker": "NEXG11",
@@ -9488,7 +9670,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "128,50"
+      "ultimoFechamento": "129,10"
     },
     {
       "ticker": "NSLU11",
@@ -9514,7 +9696,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "159,80"
+      "ultimoFechamento": "161,95"
     },
     {
       "ticker": "NUIF11",
@@ -9540,7 +9722,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "92,50"
+      "ultimoFechamento": "92,65"
     },
     {
       "ticker": "NVHO11",
@@ -9566,7 +9748,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "12,85"
+      "ultimoFechamento": "13,00"
     },
     {
       "ticker": "NVIF11",
@@ -9644,7 +9826,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "73,01"
+      "ultimoFechamento": "73,00"
     },
     {
       "ticker": "OGIN11",
@@ -9670,7 +9852,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,16"
+      "ultimoFechamento": "8,12"
     },
     {
       "ticker": "OIAG11",
@@ -9696,7 +9878,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,55"
+      "ultimoFechamento": "7,57"
     },
     {
       "ticker": "ONDV11",
@@ -9800,7 +9982,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "80,86"
+      "ultimoFechamento": "80,66"
     },
     {
       "ticker": "OULG11",
@@ -9826,7 +10008,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "36,70"
+      "ultimoFechamento": "39,00"
     },
     {
       "ticker": "PABY11",
@@ -9878,7 +10060,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "10,50"
+      "ultimoFechamento": "10,49"
     },
     {
       "ticker": "PATB11",
@@ -9930,7 +10112,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "37,70"
+      "ultimoFechamento": "38,15"
     },
     {
       "ticker": "PATL11",
@@ -9956,7 +10138,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "52,85"
+      "ultimoFechamento": "52,86"
     },
     {
       "ticker": "PBLV11",
@@ -10060,7 +10242,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "48,30"
+      "ultimoFechamento": "48,54"
     },
     {
       "ticker": "PLCA11",
@@ -10086,7 +10268,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "71,89"
+      "ultimoFechamento": "71,73"
     },
     {
       "ticker": "PLCR11",
@@ -10112,7 +10294,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "78,50"
+      "ultimoFechamento": "77,79"
     },
     {
       "ticker": "PLRI11",
@@ -10138,7 +10320,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "12,85"
+      "ultimoFechamento": "12,51"
     },
     {
       "ticker": "PMFO11",
@@ -10190,7 +10372,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,12"
+      "ultimoFechamento": "8,04"
     },
     {
       "ticker": "PNCR11",
@@ -10346,7 +10528,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,45"
+      "ultimoFechamento": "8,48"
     },
     {
       "ticker": "PQAG11",
@@ -10372,7 +10554,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "56,94"
+      "ultimoFechamento": "56,10"
     },
     {
       "ticker": "PQDP11",
@@ -10398,7 +10580,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "2.414,07"
+      "ultimoFechamento": "2.425,00"
     },
     {
       "ticker": "PRIF11",
@@ -10424,7 +10606,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "103,00"
+      "ultimoFechamento": "101,00"
     },
     {
       "ticker": "PRSN11B",
@@ -10476,7 +10658,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "47,50"
+      "ultimoFechamento": "45,99"
     },
     {
       "ticker": "PRZS11",
@@ -10528,7 +10710,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,78"
+      "ultimoFechamento": "7,69"
     },
     {
       "ticker": "PVBI11",
@@ -10554,7 +10736,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "74,62"
+      "ultimoFechamento": "75,26"
     },
     {
       "ticker": "QNTS11",
@@ -10632,7 +10814,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "2,49"
+      "ultimoFechamento": "2,80"
     },
     {
       "ticker": "RBED11",
@@ -10684,7 +10866,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "52,60"
+      "ultimoFechamento": "51,12"
     },
     {
       "ticker": "RBHG11",
@@ -10710,7 +10892,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "65,30"
+      "ultimoFechamento": "66,42"
     },
     {
       "ticker": "RBHY11",
@@ -10736,7 +10918,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "80,44"
+      "ultimoFechamento": "80,93"
     },
     {
       "ticker": "RBIF11",
@@ -10762,7 +10944,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "73,97"
+      "ultimoFechamento": "73,04"
     },
     {
       "ticker": "RBIR11",
@@ -10788,7 +10970,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "88,45"
+      "ultimoFechamento": "88,11"
     },
     {
       "ticker": "RBLG11",
@@ -10840,7 +11022,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "204,92"
+      "ultimoFechamento": "210,00"
     },
     {
       "ticker": "RBRD11",
@@ -10866,7 +11048,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "41,75"
+      "ultimoFechamento": "41,35"
     },
     {
       "ticker": "RBRF11",
@@ -10892,7 +11074,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "6,96"
+      "ultimoFechamento": "6,95"
     },
     {
       "ticker": "RBRI11",
@@ -10921,6 +11103,32 @@
       "ultimoFechamento": "845,00"
     },
     {
+      "ticker": "RBRK11",
+      "nome": "RBR PRIME OFFICES FI",
+      "segmento": "HÍBRIDO",
+      "cnpj": "53.391.653/0001-05",
+      "gestao": "N/D",
+      "admin": "BTG PACTUAL SERVIÇOS FINANCEIROS S/A DTVM",
+      "adminCnpj": "59.281.253/0001-23",
+      "cotaPatr": "99,49",
+      "ultimoPatrLiquido": "158.103.458,71",
+      "ultimaCotasQtd": "1.589.089",
+      "ultimoPlDataRef": "05/2025",
+      "UltimaQtdCotistas": "19",
+      "UltimaQtdCotistasData": "05/2025",
+      "ultimoRendValor": "0,000",
+      "ultimoRendDataCom": "",
+      "ultimoRendDataPag": "",
+      "ultimoRendYield": "0,000",
+      "ultimoRendYieldCotaBase": "0,000",
+      "ultimaAmortValor": "0,000",
+      "ultimaAmortDataCom": "",
+      "ultimaAmortDataPag": "",
+      "ultimaAmortYield": "0,000",
+      "ultimaAmortYieldCotaBase": "0,000",
+      "ultimoFechamento": "0,000"
+    },
+    {
       "ticker": "RBRL11",
       "nome": "RBR LOG",
       "segmento": "LOGISTICOS",
@@ -10944,7 +11152,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "77,40"
+      "ultimoFechamento": "78,30"
     },
     {
       "ticker": "RBRM11",
@@ -10996,7 +11204,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "48,11"
+      "ultimoFechamento": "49,16"
     },
     {
       "ticker": "RBRR11",
@@ -11022,7 +11230,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "87,54"
+      "ultimoFechamento": "87,56"
     },
     {
       "ticker": "RBRS11",
@@ -11048,7 +11256,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "45,95"
+      "ultimoFechamento": "44,94"
     },
     {
       "ticker": "RBRX11",
@@ -11074,7 +11282,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,07"
+      "ultimoFechamento": "8,00"
     },
     {
       "ticker": "RBRY11",
@@ -11100,7 +11308,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "93,67"
+      "ultimoFechamento": "94,40"
     },
     {
       "ticker": "RBTS11",
@@ -11204,7 +11412,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "0,70"
+      "ultimoFechamento": "0,69"
     },
     {
       "ticker": "RCFF11",
@@ -11282,7 +11490,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "124,52"
+      "ultimoFechamento": "125,84"
     },
     {
       "ticker": "RDCI11",
@@ -11412,7 +11620,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "9,49"
+      "ultimoFechamento": "10,10"
     },
     {
       "ticker": "RECM11",
@@ -11438,7 +11646,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,41"
+      "ultimoFechamento": "8,22"
     },
     {
       "ticker": "RECR11",
@@ -11464,7 +11672,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "83,73"
+      "ultimoFechamento": "84,46"
     },
     {
       "ticker": "RECT11",
@@ -11490,7 +11698,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "30,74"
+      "ultimoFechamento": "31,29"
     },
     {
       "ticker": "RECX11",
@@ -11568,7 +11776,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "70,83"
+      "ultimoFechamento": "71,64"
     },
     {
       "ticker": "RENV11",
@@ -11594,7 +11802,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "6,34"
+      "ultimoFechamento": "6,35"
     },
     {
       "ticker": "RFOF11",
@@ -11620,7 +11828,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "59,79"
+      "ultimoFechamento": "60,03"
     },
     {
       "ticker": "RIFF11",
@@ -11646,7 +11854,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,77"
+      "ultimoFechamento": "7,65"
     },
     {
       "ticker": "RINV11",
@@ -11672,7 +11880,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "103,00"
+      "ultimoFechamento": "103,74"
     },
     {
       "ticker": "RMAI11",
@@ -11698,7 +11906,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "83,30"
+      "ultimoFechamento": "83,40"
     },
     {
       "ticker": "RNDP11",
@@ -11750,7 +11958,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "44,99"
+      "ultimoFechamento": "46,60"
     },
     {
       "ticker": "RNOV11",
@@ -11771,9 +11979,9 @@
       "ultimoRendDataPag": "",
       "ultimoRendYield": "0,000",
       "ultimoRendYieldCotaBase": "0,000",
-      "ultimaAmortValor": "3,809",
-      "ultimaAmortDataCom": "08/05/2025",
-      "ultimaAmortDataPag": "15/05/2025",
+      "ultimaAmortValor": "5,602",
+      "ultimaAmortDataCom": "25/06/2025",
+      "ultimaAmortDataPag": "02/07/2025",
       "ultimaAmortYield": "0,0000",
       "ultimaAmortYieldCotaBase": "0,000",
       "ultimoFechamento": "0,000"
@@ -11828,7 +12036,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "86,79"
+      "ultimoFechamento": "87,07"
     },
     {
       "ticker": "RRCI11",
@@ -11854,7 +12062,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "73,28"
+      "ultimoFechamento": "73,32"
     },
     {
       "ticker": "RSPD11",
@@ -11932,7 +12140,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,13"
+      "ultimoFechamento": "8,22"
     },
     {
       "ticker": "RVBI11",
@@ -11958,7 +12166,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "64,71"
+      "ultimoFechamento": "64,59"
     },
     {
       "ticker": "RZAG11",
@@ -11984,7 +12192,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,88"
+      "ultimoFechamento": "8,91"
     },
     {
       "ticker": "RZAK11",
@@ -12010,7 +12218,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "80,03"
+      "ultimoFechamento": "80,15"
     },
     {
       "ticker": "RZAT11",
@@ -12036,7 +12244,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "90,51"
+      "ultimoFechamento": "91,10"
     },
     {
       "ticker": "RZEO11",
@@ -12088,7 +12296,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "1.007,01"
+      "ultimoFechamento": "1.010,02"
     },
     {
       "ticker": "RZTR11",
@@ -12114,7 +12322,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "92,03"
+      "ultimoFechamento": "93,02"
     },
     {
       "ticker": "RZZI11",
@@ -12166,7 +12374,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "137,20"
+      "ultimoFechamento": "143,38"
     },
     {
       "ticker": "RZZV11",
@@ -12244,7 +12452,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,64"
+      "ultimoFechamento": "8,68"
     },
     {
       "ticker": "SAIC11B",
@@ -12322,7 +12530,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,57"
+      "ultimoFechamento": "8,68"
     },
     {
       "ticker": "SARE11",
@@ -12348,7 +12556,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "4,65"
+      "ultimoFechamento": "4,61"
     },
     {
       "ticker": "SBCL11",
@@ -12400,7 +12608,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "2,65"
+      "ultimoFechamento": "2,82"
     },
     {
       "ticker": "SEED11",
@@ -12452,7 +12660,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "48,60"
+      "ultimoFechamento": "48,88"
     },
     {
       "ticker": "SFFI11",
@@ -12556,7 +12764,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "39,99"
+      "ultimoFechamento": "41,99"
     },
     {
       "ticker": "SHPH11",
@@ -12582,7 +12790,33 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "960,00"
+      "ultimoFechamento": "950,00"
+    },
+    {
+      "ticker": "SHPP11",
+      "nome": "SHOP PT PAULISTA FII",
+      "segmento": "N/D",
+      "cnpj": "59.090.726/0001-05",
+      "gestao": "N/D",
+      "admin": "BTG PACTUAL SERVIÇOS FINANCEIROS S/A DTVM",
+      "adminCnpj": "59.281.253/0001-23",
+      "cotaPatr": "10,20",
+      "ultimoPatrLiquido": "426.987.293,22",
+      "ultimaCotasQtd": "41.878.290",
+      "ultimoPlDataRef": "05/2025",
+      "UltimaQtdCotistas": "16",
+      "UltimaQtdCotistasData": "05/2025",
+      "ultimoRendValor": "0,000",
+      "ultimoRendDataCom": "",
+      "ultimoRendDataPag": "",
+      "ultimoRendYield": "0,000",
+      "ultimoRendYieldCotaBase": "0,000",
+      "ultimaAmortValor": "0,000",
+      "ultimaAmortDataCom": "",
+      "ultimaAmortDataPag": "",
+      "ultimaAmortYield": "0,000",
+      "ultimaAmortYieldCotaBase": "0,000",
+      "ultimoFechamento": "10,00"
     },
     {
       "ticker": "SJAU11",
@@ -12603,12 +12837,12 @@
       "ultimoRendDataPag": "",
       "ultimoRendYield": "0,000",
       "ultimoRendYieldCotaBase": "0,000",
-      "ultimaAmortValor": "0,000",
-      "ultimaAmortDataCom": "",
-      "ultimaAmortDataPag": "",
-      "ultimaAmortYield": "0,000",
-      "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "27,99"
+      "ultimaAmortValor": "20,130",
+      "ultimaAmortDataCom": "25/06/2025",
+      "ultimaAmortDataPag": "11/07/2025",
+      "ultimaAmortYield": "69,8470",
+      "ultimaAmortYieldCotaBase": "28,820",
+      "ultimoFechamento": "28,82"
     },
     {
       "ticker": "SLDZ11",
@@ -12660,7 +12894,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "79,99"
+      "ultimoFechamento": "79,50"
     },
     {
       "ticker": "SNAG11",
@@ -12686,7 +12920,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "9,66"
+      "ultimoFechamento": "9,65"
     },
     {
       "ticker": "SNCI11",
@@ -12712,7 +12946,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "88,35"
+      "ultimoFechamento": "87,65"
     },
     {
       "ticker": "SNEL11",
@@ -12738,7 +12972,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,51"
+      "ultimoFechamento": "8,50"
     },
     {
       "ticker": "SNFF11",
@@ -12764,7 +12998,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "71,17"
+      "ultimoFechamento": "71,70"
     },
     {
       "ticker": "SNFZ11",
@@ -12790,7 +13024,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "9,65"
+      "ultimoFechamento": "9,64"
     },
     {
       "ticker": "SNID11",
@@ -12816,7 +13050,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "9,91"
+      "ultimoFechamento": "9,98"
     },
     {
       "ticker": "SNLG11",
@@ -12842,7 +13076,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "0,77"
+      "ultimoFechamento": "0,76"
     },
     {
       "ticker": "SNME11",
@@ -12868,7 +13102,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "9,48"
+      "ultimoFechamento": "9,65"
     },
     {
       "ticker": "SOFF11",
@@ -13076,7 +13310,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "36,49"
+      "ultimoFechamento": "35,60"
     },
     {
       "ticker": "SPVJ11",
@@ -13232,7 +13466,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,46"
+      "ultimoFechamento": "8,70"
     },
     {
       "ticker": "STMB11",
@@ -13466,7 +13700,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "83,45"
+      "ultimoFechamento": "83,50"
     },
     {
       "ticker": "TGAR11",
@@ -13492,7 +13726,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "90,70"
+      "ultimoFechamento": "91,34"
     },
     {
       "ticker": "TGRU11",
@@ -13596,7 +13830,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "81,69"
+      "ultimoFechamento": "82,05"
     },
     {
       "ticker": "TNXS11",
@@ -13648,7 +13882,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "70,59"
+      "ultimoFechamento": "71,39"
     },
     {
       "ticker": "TORD11",
@@ -13674,7 +13908,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "3,33"
+      "ultimoFechamento": "3,46"
     },
     {
       "ticker": "TRBL11",
@@ -13700,7 +13934,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "59,90"
+      "ultimoFechamento": "60,25"
     },
     {
       "ticker": "TRNT11",
@@ -13726,7 +13960,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "98,00"
+      "ultimoFechamento": "97,00"
     },
     {
       "ticker": "TRXB11",
@@ -13752,7 +13986,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "128,00"
+      "ultimoFechamento": "128,01"
     },
     {
       "ticker": "TRXF11",
@@ -13778,7 +14012,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "101,50"
+      "ultimoFechamento": "102,64"
     },
     {
       "ticker": "TRXY11",
@@ -13804,7 +14038,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "9,22"
+      "ultimoFechamento": "9,60"
     },
     {
       "ticker": "TSER11",
@@ -13882,7 +14116,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "93,97"
+      "ultimoFechamento": "94,00"
     },
     {
       "ticker": "URHF11",
@@ -13908,7 +14142,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "90,50"
+      "ultimoFechamento": "90,00"
     },
     {
       "ticker": "URPR11",
@@ -13934,7 +14168,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "40,07"
+      "ultimoFechamento": "40,50"
     },
     {
       "ticker": "VALO11",
@@ -14038,7 +14272,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "81,29"
+      "ultimoFechamento": "81,79"
     },
     {
       "ticker": "VCRA11",
@@ -14064,7 +14298,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "63,47"
+      "ultimoFechamento": "63,51"
     },
     {
       "ticker": "VCRI11",
@@ -14090,7 +14324,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,42"
+      "ultimoFechamento": "7,45"
     },
     {
       "ticker": "VCRR11",
@@ -14116,7 +14350,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "64,15"
+      "ultimoFechamento": "65,99"
     },
     {
       "ticker": "VCTH11",
@@ -14246,7 +14480,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "9,01"
+      "ultimoFechamento": "8,97"
     },
     {
       "ticker": "VGII11",
@@ -14298,7 +14532,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "81,30"
+      "ultimoFechamento": "80,83"
     },
     {
       "ticker": "VGIR11",
@@ -14324,7 +14558,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "9,49"
+      "ultimoFechamento": "9,55"
     },
     {
       "ticker": "VGRI11",
@@ -14350,7 +14584,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,55"
+      "ultimoFechamento": "8,60"
     },
     {
       "ticker": "VHFA11",
@@ -14454,7 +14688,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "83,39"
+      "ultimoFechamento": "83,30"
     },
     {
       "ticker": "VINO11",
@@ -14480,7 +14714,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "5,01"
+      "ultimoFechamento": "5,05"
     },
     {
       "ticker": "VISC11",
@@ -14506,7 +14740,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "102,99"
+      "ultimoFechamento": "102,73"
     },
     {
       "ticker": "VIUR11",
@@ -14532,7 +14766,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "5,66"
+      "ultimoFechamento": "5,70"
     },
     {
       "ticker": "VJFD11",
@@ -14587,6 +14821,32 @@
       "ultimoFechamento": "0,000"
     },
     {
+      "ticker": "VLQI11",
+      "nome": "VINCI INSTRUMENTOS FINANCEIROS 3 FII",
+      "segmento": "TÍTULOS E VAL. MOB.",
+      "cnpj": "58.698.057/0001-96",
+      "gestao": "N/D",
+      "admin": "BRL TRUST DISTRIBUIDORA DE TITULOS E VALORES MOBILIARIOS S.A.",
+      "adminCnpj": "13.486.793/0001-42",
+      "cotaPatr": "0,52",
+      "ultimoPatrLiquido": "2.436.361,24",
+      "ultimaCotasQtd": "4.667.798",
+      "ultimoPlDataRef": "05/2025",
+      "UltimaQtdCotistas": "275",
+      "UltimaQtdCotistasData": "05/2025",
+      "ultimoRendValor": "0,000",
+      "ultimoRendDataCom": "",
+      "ultimoRendDataPag": "",
+      "ultimoRendYield": "0,000",
+      "ultimoRendYieldCotaBase": "0,000",
+      "ultimaAmortValor": "0,150",
+      "ultimaAmortDataCom": "30/05/2025",
+      "ultimaAmortDataPag": "13/06/2025",
+      "ultimaAmortYield": "0,0000",
+      "ultimaAmortYieldCotaBase": "0,000",
+      "ultimoFechamento": "0,000"
+    },
+    {
       "ticker": "VOTS11",
       "nome": "SECURITIES MASTER",
       "segmento": "RECEBÍVEIS IMOBILIÁRIOS",
@@ -14636,7 +14896,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "12,65"
+      "ultimoFechamento": "12,75"
     },
     {
       "ticker": "VPSI11",
@@ -14688,7 +14948,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "80,88"
+      "ultimoFechamento": "81,20"
     },
     {
       "ticker": "VRTM11",
@@ -14714,7 +14974,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,10"
+      "ultimoFechamento": "7,08"
     },
     {
       "ticker": "VSHO11",
@@ -14740,7 +15000,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "71,00"
+      "ultimoFechamento": "70,03"
     },
     {
       "ticker": "VSLH11",
@@ -14792,7 +15052,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "89,41"
+      "ultimoFechamento": "89,81"
     },
     {
       "ticker": "VTPA11",
@@ -14922,7 +15182,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "14,41"
+      "ultimoFechamento": "14,44"
     },
     {
       "ticker": "VVCR11",
@@ -14948,7 +15208,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "10,07"
+      "ultimoFechamento": "10,09"
     },
     {
       "ticker": "VVMR11",
@@ -14974,7 +15234,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "83,69"
+      "ultimoFechamento": "81,88"
     },
     {
       "ticker": "VVRI11",
@@ -15000,7 +15260,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "80,00"
+      "ultimoFechamento": "79,00"
     },
     {
       "ticker": "VXXV11",
@@ -15052,7 +15312,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,86"
+      "ultimoFechamento": "8,80"
     },
     {
       "ticker": "WPLZ11",
@@ -15078,7 +15338,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "47,99"
+      "ultimoFechamento": "47,90"
     },
     {
       "ticker": "WSEC11",
@@ -15104,7 +15364,7 @@
       "ultimaAmortDataPag": "30/06/2025",
       "ultimaAmortYield": "6,0300",
       "ultimaAmortYieldCotaBase": "6,750",
-      "ultimoFechamento": "6,65"
+      "ultimoFechamento": "6,63"
     },
     {
       "ticker": "WTSP11",
@@ -15130,7 +15390,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "50,73"
+      "ultimoFechamento": "54,99"
     },
     {
       "ticker": "XPCA11",
@@ -15156,7 +15416,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "7,85"
+      "ultimoFechamento": "7,92"
     },
     {
       "ticker": "XPCE11",
@@ -15208,7 +15468,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "79,63"
+      "ultimoFechamento": "80,00"
     },
     {
       "ticker": "XPCM11",
@@ -15234,7 +15494,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "8,26"
+      "ultimoFechamento": "8,23"
     },
     {
       "ticker": "XPID11",
@@ -15260,7 +15520,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "58,76"
+      "ultimoFechamento": "55,02"
     },
     {
       "ticker": "XPIN11",
@@ -15286,7 +15546,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "69,32"
+      "ultimoFechamento": "69,69"
     },
     {
       "ticker": "XPLG11",
@@ -15312,7 +15572,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "97,79"
+      "ultimoFechamento": "98,43"
     },
     {
       "ticker": "XPML11",
@@ -15338,7 +15598,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "101,09"
+      "ultimoFechamento": "102,61"
     },
     {
       "ticker": "XPSF11",
@@ -15364,7 +15624,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "6,09"
+      "ultimoFechamento": "6,14"
     },
     {
       "ticker": "YCIN11",
@@ -15520,7 +15780,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "9,05"
+      "ultimoFechamento": "8,80"
     },
     {
       "ticker": "ZAVI11",
@@ -15546,7 +15806,7 @@
       "ultimaAmortDataPag": "",
       "ultimaAmortYield": "0,000",
       "ultimaAmortYieldCotaBase": "0,000",
-      "ultimoFechamento": "89,91"
+      "ultimoFechamento": "90,40"
     },
     {
       "ticker": "ZIFI11",
