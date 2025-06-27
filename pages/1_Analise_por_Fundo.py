@@ -5,231 +5,127 @@ import sqlite3
 import plotly.express as px
 from pathlib import Path
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
-st.set_page_config(page_title="Análise por Fundo", layout="wide")
+st.set_page_config(page_title="Análise de FII - Iniciante", layout="wide")
+st.markdown("<h1 style='text-align:left;'>📊Análise por fundo</h1>", unsafe_allow_html=True)
 
-# Conexão com o banco
 db_path = Path(__file__).resolve().parent.parent / "data" / "fiis.db"
 conn = sqlite3.connect(db_path)
 fiis = pd.read_sql("SELECT * FROM fiis;", conn)
 cotacoes = pd.read_sql("SELECT * FROM cotacoes;", conn)
-inds = pd.read_sql(
-    """
-    SELECT fi.fii_id, f.ticker AS ticker, i.nome AS indicador,
-           fi.valor, fi.data_referencia
-    FROM fiis_indicadores fi
-    JOIN indicadores i ON i.id = fi.indicador_id
-    JOIN fiis f ON f.id = fi.fii_id
-    """, conn)
-setores = pd.read_sql("SELECT * FROM setor;", conn)
+hf_query = """
+SELECT fi.fii_id, f.ticker, i.nome AS indicador, fi.valor, fi.data_referencia
+FROM fiis_indicadores fi
+JOIN indicadores i ON i.id = fi.indicador_id
+JOIN fiis f ON f.id = fi.fii_id
+"""
+inds = pd.read_sql(hf_query, conn)
+setores = pd.read_sql("SELECT id, nome FROM setor;", conn)
 conn.close()
 
-# Sidebar: configurações e dados do fundo
-ticker = st.sidebar.selectbox("FII", sorted(fiis["ticker"]), key="ticker")
+meses_pt = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
-# Adicione isto para o filtro de distribuições, padrão 1 ano:
-dist_years = st.sidebar.slider("Distribuição de dividendos (Anos)", 1, 10, 1)
-years = st.sidebar.slider("Histórico de cotações (Anos)", 1, 10, 5)
-st.sidebar.markdown("---")
+st.sidebar.title("Seleção de FII")
+ticker = st.sidebar.selectbox("FII", sorted(fiis["ticker"]))
+years_div = st.sidebar.slider("Dividendos (anos)", 1, 10, 1)
+years_cot = st.sidebar.slider("Cotação (anos)", 1, 10, 5)
 
-# Dados do fundo
 f = fiis[fiis["ticker"] == ticker].iloc[0]
-setor = setores.loc[setores["id"] == f["setor_id"], "nome"].iat[0]
+setor = setores.set_index('id').loc[f["setor_id"], 'nome']
+st.sidebar.markdown(f"**Ticker:** {ticker} **Setor:** {setor}")
+if f.get('gestao'): st.sidebar.markdown(f"**Gestora:** {f['gestao']}")
+if f.get('admin'): st.sidebar.markdown(f"**Administrador:** {f['admin']}")
 
-# Função para indicador histórico
-def get_hist(tick, name):
-    df = inds[(inds['ticker']==tick) & (inds['indicador'].str.lower()==name.lower())]
-    return df.sort_values('data_referencia')['valor'].iat[-1] if not df.empty else np.nan
-
-def set_ticker(new_ticker):
-    st.session_state['ticker'] = new_ticker    
-
-# Dados do fundo direto da tabela fiis
-f = fiis[fiis["ticker"] == ticker].iloc[0]
-nome_completo = f.get('nome', '')
-gestora = f.get('gestao', np.nan)
-administrador = f.get('admin', np.nan)
-setor = setores.loc[setores["id"] == f["setor_id"], "nome"].iat[0]
-
-st.sidebar.markdown("**Dados do Fundo**")
-st.sidebar.markdown(f"- **Nome:** {nome_completo}")
-if not pd.isna(gestora):         st.sidebar.markdown(f"- **Gestora:** {gestora}")
-if not pd.isna(administrador):    st.sidebar.markdown(f"- **Administrador:** {administrador}")
-st.sidebar.markdown(f"- **Setor:** {setor}")
-
-# Atalhos para fundos da mesma gestora
-if not pd.isna(gestora):
-    same = [t for t in sorted(fiis['ticker']) if t!=ticker and fiis.loc[fiis['ticker']==t, 'gestao'].iat[0]==gestora]
-    if same:
-        st.sidebar.markdown("---")
-        st.sidebar.markdown("**Fundos da mesma gestora**")
-        for t in same:
-            st.sidebar.button(t, key=f"btn_{t}", on_click=set_ticker, args=(t,))
-
-# Prepara dados principais
-df_cot = cotacoes[cotacoes['fii_id']==f['id']].copy()
+fiid = int(f["id"])
+df_cot = cotacoes[cotacoes['fii_id']==fiid].copy()
 df_cot['data'] = pd.to_datetime(df_cot['data'])
-df_cot.sort_values('data',ascending=False,inplace=True)
+df_cot.sort_values('data', ascending=False, inplace=True)
 price = df_cot.iloc[0]['preco_fechamento'] if not df_cot.empty else np.nan
-date = df_cot.iloc[0]['data'] if not df_cot.empty else pd.NaT
+latest_date = df_cot.iloc[0]['data'].strftime('%d/%m/%Y') if not df_cot.empty else '-'
 
-# Data segura para exibir
-date_str = date.strftime('%d/%m/%Y') if not pd.isna(date) else '-'
-
-# Histórico de indicadores
 hf = inds[inds['ticker']==ticker].copy()
 hf['data_referencia'] = pd.to_datetime(hf['data_referencia'])
 
-# Patrimônio Líquido e Quantidade de Cotas
-raw_pat = f.get('patrimonio_liquido', np.nan)
-raw_qt  = f.get('qtd_cotas', f.get('quantidade_cotas', np.nan))
-
-pl = get_hist(ticker,'Patrimônio Líquido')
-pl = raw_pat if np.isnan(pl) else pl
-qt = get_hist(ticker,'Quantidade de Cotas')
-qt = raw_qt if np.isnan(qt) else qt
-
-# Cálculos
-def safe_div(a,b): return (a/b) if b else np.nan
-VPA = safe_div(pl,qt)
-PVP = safe_div(price,VPA)
+pl = hf[hf['indicador'].str.lower()=='patrimônio líquido']['valor'].iloc[-1] if not hf.empty else np.nan
+qt = hf[hf['indicador'].str.lower()=='quantidade de cotas']['valor'].iloc[-1] if not hf.empty else np.nan
+VPA = pl/qt if qt else np.nan
+PVP = price/VPA if VPA else np.nan
 mkt = price*qt if price and qt else np.nan
+
 now = datetime.now()
+past30 = df_cot[df_cot['data'] <= now - timedelta(days=30)]
+delta30 = ((price - past30.iloc[0]['preco_fechamento'])/past30.iloc[0]['preco_fechamento']*100) if not past30.empty else np.nan
 
-# Delta 30d
-past30 = df_cot[df_cot['data']<= now-timedelta(days=30)]
-delta30 = (price/past30.iloc[0]['preco_fechamento']-1)*100 if not past30.empty else np.nan
+d52 = df_cot[df_cot['data'] >= now - timedelta(weeks=52)]
+high52 = d52['preco_fechamento'].max() if not d52.empty else np.nan
+low52 = d52['preco_fechamento'].min() if not d52.empty else np.nan
 
-# Máx/Min 3M
-d3m = df_cot[df_cot['data']>= now-timedelta(days=90)]
-high3 = d3m['preco_fechamento'].max() if not d3m.empty else np.nan
-low3  = d3m['preco_fechamento'].min() if not d3m.empty else np.nan
+divs = hf[hf['indicador'].str.lower()=='dividendos'].sort_values('data_referencia', ascending=False)
+price_val = price if price else 1
+def DY_last(n): return divs['valor'].head(n).sum()/price_val*100
+DYS = {'1M': DY_last(1), '3M': DY_last(3), '6M': DY_last(6), '12M': DY_last(12)}
 
-# Dividendos
-divs = hf[hf['indicador'].str.lower()=='dividendos'].sort_values('data_referencia')
-last = get_hist(ticker,'Dividendos')
+st.markdown(
+    """
+    <style>
+    .tooltip{position:relative;display:inline-block;cursor:help}
+    .tooltip .tooltiptext{visibility:hidden;width:200px;background:#333;color:#fff;text-align:center;border-radius:4px;padding:5px;position:absolute;z-index:1;bottom:100%;left:50%;transform:translateX(-50%);opacity:0;transition:opacity .3s}
+    .tooltip:hover .tooltiptext{visibility:visible;opacity:1}
+    .metric-label{font-size:1.1rem;font-weight:bold}
+    </style>
+    """, unsafe_allow_html=True
+)
 
-def DY(m):
-    cutoff = now - timedelta(days=30*m)
-    soma = divs[divs['data_referencia'] >= cutoff]['valor'].sum()
-    return (soma / price) * 100 if price and not divs.empty else np.nan
+st.subheader(f"{ticker} — Ultimo fechamento em {latest_date}")
+cols = st.columns(4)
+labels = ["Preço Atual", "Máx 52 Semanas", "Mín 52 Semanas", "Variação 30d"]
+values = [f"R$ {price:,.2f}", f"R$ {high52:,.2f}", f"R$ {low52:,.2f}", f"{delta30:.2f}%"]
+tips = ["Último fechamento", "Maior nas últimas 52 semanas", "Menor nas últimas 52 semanas", "Comparação: hoje vs 30 dias atrás"]
+for col, lab, val, tip in zip(cols, labels, values, tips):
+    col.markdown(f"<div class='metric-label tooltip'>{lab} ℹ️<span class='tooltiptext'>{tip}</span></div>", unsafe_allow_html=True)
+    col.metric(label="", value=val)
 
-DYS = {
-    'Atual': (last / price) * 100 if price else np.nan,
-    '3M': DY(3),
-    '6M': DY(6),
-    '12M': DY(12)
-}
+st.markdown("---")
 
-# Formatação
-def fmt(v,mode='moeda'):
-    if pd.isna(v): return '-'
-    if mode=='moeda': return f"R$ {v:,.2f}".replace(',','X').replace('.',',').replace('X','.')
-    return f"{v:.2f}%"
+st.subheader(f"Indicadores do fundo {ticker}")
+cols2 = st.columns(4)
+labels2 = ["VPA", "P/VP", "Patrimônio Líquido", "Valor de Mercado"]
+values2 = [f"R$ {VPA:,.2f}", f"{PVP:.2f}%", f"R$ {pl:,.2f}", f"R$ {mkt:,.2f}"]
+tips2 = ["Valor patrimonial por cota", "Preço ÷ valor patrimonial", "Ativos menos passivos", "Capitalização total"]
+for col, lab, val, tip in zip(cols2, labels2, values2, tips2):
+    col.markdown(f"<div class='metric-label tooltip'>{lab} ℹ️<span class='tooltiptext'>{tip}</span></div>", unsafe_allow_html=True)
+    col.metric(label="", value=val)
 
-def abr(v):
-    if pd.isna(v): return '-'
-    if abs(v)>=1e9: return f"R$ {v/1e9:.2f} Bi"
-    if abs(v)>=1e6: return f"R$ {v/1e6:.2f} Mi"
-    if abs(v)>=1e3: return f"R$ {v/1e3:.2f} mil"
-    return fmt(v)
+st.subheader("Dividend Yield")
+cols3 = st.columns(4)
+for col, period in zip(cols3, ['1M','3M','6M','12M']):
+    col.metric(label=f"{period}", value=f"{DYS[period]:.2f}%")
 
-# CSS tooltips
-st.markdown("""
-<style>.tooltip{position:relative;display:inline-block;cursor:help;} .tooltip .tooltiptext{visibility:hidden;width:140px;background:#333;color:#fff;text-align:center;border-radius:4px;padding:4px;position:absolute;z-index:1;bottom:125%;left:50%;margin-left:-70px;opacity:0;transition:opacity 0.2s;} .tooltip:hover .tooltiptext{visibility:visible;opacity:1;}</style>
-""",unsafe_allow_html=True)
+left, right = st.columns(2)
+left.markdown("**Distribuições Mensais**")
+df_div = divs.copy(); df_div['mes']=df_div['data_referencia'].dt.to_period('M').dt.to_timestamp()
+mensal=df_div.groupby('mes')['valor'].sum().reset_index().tail(years_div*12)
+fig_div=px.bar(mensal,x='mes',y='valor',labels={'mes':'Mês/Ano','valor':'Dividendos (R$)'},color_discrete_sequence=['green'])
+fig_div.update_xaxes(tickformat='%b/%Y',dtick='M1',tickangle=-45)
+left.plotly_chart(fig_div,use_container_width=True)
 
-# Dashboard
-title = st.title("Análise por Fundo")
-st.markdown(f"Fechamento: {date_str}")
-col1,col2,col3 = st.columns(3)
-col1.markdown("**Preço Atual** <span class='tooltip'>ℹ️<span class='tooltiptext'>Última cotação</span></span>",unsafe_allow_html=True)
-col1.metric("",fmt(price),delta=fmt(delta30,'percentual'))
-col1.caption("Variação dos últimos 30 dias")
-col2.markdown("**Máximo 3M** <span class='tooltip'>ℹ️<span class='tooltiptext'>Maior nos últimos 3 meses</span></span>",unsafe_allow_html=True)
-col2.metric("",fmt(high3))
-col3.markdown("**Mínimo 3M** <span class='tooltip'>ℹ️<span class='tooltiptext'>Menor nos últimos 3 meses</span></span>",unsafe_allow_html=True)
-col3.metric("",fmt(low3))
+right.markdown("**Evolução da Cotação**")
+hc=df_cot[df_cot['data']>=now-relativedelta(years=years_cot)]
+df_sem=hc.set_index('data').resample('W-FRI')['preco_fechamento'].last().reset_index()
+fig_price=px.line(df_sem,x='data',y='preco_fechamento',labels={'data':'Ano','preco_fechamento':'R$'},color_discrete_sequence=['blue'])
+fig_price.update_traces(hovertemplate='%{x|%d/%m/%Y}<br>R$ %{y:,.2f}<extra></extra>')
+min_date,max_date=df_sem['data'].min(),df_sem['data'].max()
+fig_price.update_xaxes(range=[min_date,max_date],tickformat='%Y',dtick='M12')
+right.plotly_chart(fig_price,use_container_width=True)
 
-# Segunda linha
-r1,r2,r3,r4=st.columns(4)
-r1.markdown("**VPA** <span class='tooltip'>ℹ️<span class='tooltiptext'>Patrimonial por cota</span></span>",unsafe_allow_html=True)
-r1.metric("",fmt(VPA))
-r2.markdown("**P/VP** <span class='tooltip'>ℹ️<span class='tooltiptext'>Preço sobre Valor Patrimonial</span></span>", unsafe_allow_html=True)
-pvp_text = fmt(PVP, 'percentual')
-# só mostra comentário se PVP for diferente de zero
-if PVP and PVP != 0:
-    pvp_comment = "Desconto" if PVP < 1 else "Prêmio"
-else:
-    pvp_comment = ""
-r2.metric("", pvp_text, pvp_comment)
-r2.caption("P/VP maior que 1 indica prêmio")
-r2.caption("P/VP menor que 1 indica desconto")
-r3.markdown("**Patrimônio Líquido** <span class='tooltip'>ℹ️<span class='tooltiptext'>Ativos menos passivos</span></span>",unsafe_allow_html=True)
-r3.metric("",abr(pl))
-r4.markdown("**Valor de Mercado** <span class='tooltip'>ℹ️<span class='tooltiptext'>Capitalização de mercado</span></span>",unsafe_allow_html=True)
-r4.metric("",abr(mkt))
+st.subheader("Vacância Física")
+# Vacância Física
+with sqlite3.connect(db_path) as conn_im:
+    has_table = pd.read_sql("SELECT count(*) as cnt FROM sqlite_master WHERE type='table' AND name='imoveis';", conn_im)['cnt'].iat[0] > 0
+if has_table:
+# Verifica se existe a tabela de imóveis
+    with sqlite3.connect(db_path) as conn_im:
+        tables = pd.read_sql("SELECT name FROM sqlite_master WHERE type='table' AND name='imoveis';", conn_im)
+        st.info("Nenhum dado de imóveis disponível para este fundo.")
 
-# Gráficos
-
-# Distribuições nos últimos X anos (sidebar)
-st.subheader(f"Distribuições nos últimos {dist_years} anos")
-
-# Destaque dos Dividend Yields
-c1, c2, c3, c4 = st.columns(4)
-c1.markdown("**YIELD 1 MÊS**");    c1.markdown(f"**{DYS['Atual']:.2f}%**")
-c2.markdown("**YIELD 3 MESES**");  c2.markdown(f"**{DYS['3M']:.2f}%**")
-c3.markdown("**YIELD 6 MESES**");  c3.markdown(f"**{DYS['6M']:.2f}%**")
-c4.markdown("**YIELD 12 MESES**"); c4.markdown(f"**{DYS['12M']:.2f}%**")
-
-
-# 1) Filtra só dividendos e converte para timestamp mensal
-df_div = hf[
-    (hf['indicador'].str.lower() == 'dividendos')
-].copy()
-df_div['mes'] = df_div['data_referencia'].dt.to_period('M').dt.to_timestamp()
-
-# 2) Agrega por mês
-mensal = df_div.groupby('mes', as_index=False)['valor'].sum()
-
-# 3) Restringe ao período desejado (ex.: últimos `years` anos)
-anos = years  # pode ser o mesmo `years` que você já usa no gráfico de cotação
-limite = now - timedelta(days=365 * anos)
-hd = mensal[mensal['mes'] >= limite]
-
-if not hd.empty:
-    # 4) Linha de dividendos
-    fig_div = px.line(
-        hd,
-        x='mes',
-        y='valor',
-        labels={'mes': 'Mês', 'valor': 'Dividendos (R$)'},
-        title='Evolução dos Dividendos'
-    )
-    # 5) Formata o eixo X igual ao outro gráfico
-    fig_div.update_xaxes(tickformat='%b\n%Y')
-    
-    # 6) Calcula e adiciona reta de tendência
-    x_ord = hd['mes'].map(datetime.toordinal)
-    trend = np.polyval(np.polyfit(x_ord, hd['valor'], 1), x_ord)
-    fig_div.add_scatter(
-        x=hd['mes'],
-        y=trend,
-        mode='lines',
-        line=dict(color='red', dash='dash'),
-        name='Tendência'
-    )
-    
-    # 7) Desenha usando container width
-    st.plotly_chart(fig_div, use_container_width=True)
-else:
-    st.badge("Não há dividendos no período selecionado.", color="orange")
-
-if not df_cot.empty:
-    hc=df_cot[df_cot['data']>=now-timedelta(days=365*years)];
-    fc=px.line(hc,x='data',y='preco_fechamento',labels={'data':'Ano','preco_fechamento':'Cotação (R$)'},title='Evolução da Cotação'); 
-    fc.update_xaxes(tickformat='%Y'); 
-    x1=hc['data'].map(datetime.toordinal); 
-    t1=np.polyval(np.polyfit(x1,hc['preco_fechamento'],1),x1); 
-    fc.add_scatter(x=hc['data'],y=t1,mode='lines',line=dict(color='red',dash='dash'),name='Tendência'); 
-    st.plotly_chart(fc,use_container_width=True)

@@ -11,7 +11,7 @@ cur = conn.cursor()
 
 
 # Excluir dados das tabelas
-cur.execute("DELETE FROM fiis_indicadores WHERE indicador_id IN (1)")
+cur.execute("DELETE FROM indicadores WHERE id IN (1)")
 # cur.execute("DELETE FROM indicadores WHERE id IN (5, 6 , 7, 8, 9, 10, 11, 12, 13)")
 
 """
