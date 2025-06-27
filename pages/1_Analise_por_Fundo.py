@@ -25,16 +25,28 @@ inds = pd.read_sql(
 setores = pd.read_sql("SELECT * FROM setor;", conn)
 conn.close()
 
+meses_pt = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+            'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+
 # Sidebar: configurações e dados do fundo
 ticker = st.sidebar.selectbox("FII", sorted(fiis["ticker"]), key="ticker")
 
-# Adicione isto para o filtro de distribuições, padrão 1 ano:
+# Sidebar: filtros
 years_div = st.sidebar.slider(
     "Distribuição de dividendos (Anos)",
     min_value=1,
-    max_value=10,    # ajuste conforme faz sentido para o seu histórico
-    value=1
-    )
+    max_value=10,    
+    value=1,
+    key="years_div"
+)
+
+years_cot = st.sidebar.slider(
+    "Histórico de cotação (Anos)",
+    min_value=1,
+    max_value=10,
+    value=5,
+    key="years_cot"
+)
 
 st.sidebar.markdown("---")
 
@@ -124,11 +136,23 @@ def DY(meses):
     soma = divs.loc[divs['data_referencia'] >= cutoff, 'valor'].sum()
     return soma / price * 100 if price else np.nan
 
+divs_sorted = divs.sort_values('data_referencia', ascending=False)
+
+def DY_last(n):
+    """
+    Soma os n últimos pagamentos de 'valor' e divide pelo preço atual.
+    Mesmo se o mês corrente ainda não tiver pagamento, 
+    a função pega o próximo lançamento anterior.
+    """
+    vals = divs_sorted['valor'].head(n)
+    return (vals.sum() / price * 100) if price else np.nan
+
+# Substitua seu DYS por:
 DYS = {
-    'Atual': (last / price) * 100 if price else np.nan,
-    '3M': DY(3),
-    '6M': DY(6),
-    '12M': DY(12)
+    'Atual': DY_last(1),   # último pagamento / preço
+    '3M':    DY_last(3),   # soma 3 últimos pagamentos
+    '6M':    DY_last(6),
+    '12M':   DY_last(12),
 }
 
 # Formatação
@@ -152,6 +176,51 @@ st.markdown("""
 # Dashboard
 title = st.title("Análise por Fundo")
 st.markdown(f"Fechamento: {date_str}")
+
+# Bloco de imóveis
+fii_id = int(f["id"])
+conn2 = sqlite3.connect(db_path)
+imoveis = pd.read_sql("SELECT * FROM fiis_imoveis WHERE fii_id = :fii_id", conn2, params={"fii_id": fii_id})
+conn2.close()
+
+if imoveis.empty:
+    st.info("Nenhum imóvel cadastrado para este fundo.")
+else:
+    # Área e vacância
+    total_area = imoveis["area_m2"].sum()
+    occupied_area = (imoveis["area_m2"] * imoveis["tx_ocupacao"] / 100).sum()
+    vacancia_fisica = (1 - occupied_area/total_area)*100 if total_area else np.nan
+
+    # Exibição
+    st.markdown(f"**Número de Imóveis:** {len(imoveis)}")
+    st.markdown(f"**Vacância Física:** {vacancia_fisica:.2f}%")
+    # total de unidades
+    total_unidades = imoveis["num_unidades"].sum()
+    st.markdown(f"**Total de Unidades:** {total_unidades}")
+
+    # Tabela de imóveis
+    st.subheader("Imóveis do Fundo")
+    df_imov = (
+        imoveis.rename(columns={
+            "nome_imovel":"Imóvel","endereco":"Endereço","area_m2":"Área (m²)",
+            "num_unidades":"Unidades","tx_ocupacao":"Tx. Ocupação (%)",
+            "tx_inadimplencia":"Tx. Inadimplência (%)","pct_receitas":"% Receitas"
+        })[["Imóvel","Endereço","Área (m²)","Unidades","Tx. Ocupação (%)","Tx. Inadimplência (%)","% Receitas"]]
+    )
+    st.dataframe(df_imov)
+
+    # Imóveis que somam 50% das receitas
+    sel, cum = [], 0.0
+    for _, row in imoveis.sort_values("pct_receitas", ascending=False).iterrows():
+        sel.append(row)
+        cum += row["pct_receitas"]
+        if cum >= 50:
+            break
+    df50 = pd.DataFrame(sel).rename(columns={"nome_imovel":"Imóvel","pct_receitas":"% Receitas"})[["Imóvel","% Receitas"]]
+    if len(df50) > 2:
+        st.subheader("Imóveis que representam 50% das Receitas")
+        st.dataframe(df50)
+
 col1,col2,col3 = st.columns(3)
 col1.markdown("**Preço Atual** <span class='tooltip'>ℹ️<span class='tooltiptext'>Última cotação</span></span>",unsafe_allow_html=True)
 col1.metric("",fmt(price), delta=fmt(delta30, 'percentual'))
@@ -192,6 +261,12 @@ c2.markdown("**YIELD 3 MESES**");  c2.markdown(f"**{DYS['3M']:.2f}%**")
 c3.markdown("**YIELD 6 MESES**");  c3.markdown(f"**{DYS['6M']:.2f}%**")
 c4.markdown("**YIELD 12 MESES**"); c4.markdown(f"**{DYS['12M']:.2f}%**")
 
+for label, n in [('1M',1),('3M',3),('6M',6),('12M',12)]:
+    subset = divs_sorted.head(n)
+    st.write(f"**Últimos {n} pagamentos ({label}):**")
+    st.dataframe(subset[['data_referencia','valor']].rename(
+        columns={'data_referencia':'Data','valor':'Valor (R$)'}
+    ))
 
 # 1) Filtra só dividendos e converte para timestamp mensal
 # Filtra só “Dividendos” e prepara as colunas
@@ -209,34 +284,73 @@ mensal = (
 )
 
 # Filtra pelos últimos `years_div` anos
-limite = now - timedelta(days=365 * years_div)
-hd = mensal[mensal['mes'] >= limite]
+n_meses = years_div * 12
+mensal = mensal.sort_values('mes')
+hd = mensal.tail(n_meses)
 
 st.subheader(f"Distribuições nos últimos {years_div} anos")
 if not hd.empty:
-    # Gráfico de barras
+    # gera listagens de tickvals e ticktext
+    tickvals = hd['mes']
+    ticktext = [f"{meses_pt[d.month-1]}\n{d.year}" for d in hd['mes']]
+    # e um customdata para o hover
+    hover_labels = [f"{meses_pt[d.month-1]}/{d.year}" for d in hd['mes']]
+
     fig_div = px.bar(
         hd,
         x='mes',
         y='valor',
-        labels={'mes': 'Mês', 'valor': 'Dividendos (R$)'},
-        title='Distribuições Mensais'
+        labels={'valor': 'Dividendos (R$)'},
+        title=f'Distribuições nos últimos {years_div} anos'
     )
-    fig_div.update_xaxes(tickformat='%b\n%Y')
+    # substitui o eixo x
+    fig_div.update_layout(
+        xaxis=dict(
+            tickmode='array',
+            tickvals=tickvals,
+            ticktext=ticktext
+        )
+    )
+    # customiza o hover para usar o nosso rótulo em PT
+    fig_div.update_traces(
+        customdata=hover_labels,
+        hovertemplate='<b>%{customdata}</b><br>R$ %{y:,.2f}<extra></extra>'
+    )
     st.plotly_chart(fig_div, use_container_width=True)
 
-    # Tabela para conferência
-    st.dataframe(
-        hd.rename(columns={'mes': 'Mês', 'valor': 'Total Dividendos'})
-    )
-else:
-    st.warning("Não há dividendos no período selecionado.")
-
 if not df_cot.empty:
-    hc=df_cot[df_cot['data']>=now-timedelta(days=365*years_div)];
-    fc=px.line(hc,x='data',y='preco_fechamento',labels={'data':'Ano','preco_fechamento':'Cotação (R$)'},title='Evolução da Cotação'); 
-    fc.update_xaxes(tickformat='%Y'); 
-    x1=hc['data'].map(datetime.toordinal); 
-    t1=np.polyval(np.polyfit(x1,hc['preco_fechamento'],1),x1); 
-    fc.add_scatter(x=hc['data'],y=t1,mode='lines',line=dict(color='red',dash='dash'),name='Tendência'); 
-    st.plotly_chart(fc,use_container_width=True)
+    # 1) filtra pelas datas
+    hc = df_cot[
+        df_cot['data'] >= now - relativedelta(years=years_cot)
+    ].copy()
+
+    # 2) monta o gráfico com marcadores
+    fig_price = px.line(
+        hc,
+        x='data',
+        y='preco_fechamento',
+        labels={'data': 'Data', 'preco_fechamento': 'Cotação (R$)'},
+        title=f'Evolução da Cotação ({years_cot} anos)',
+        markers=True  # desenha um ponto em cada cotação
+    )
+
+    # 3) ajusta o hover para usar dia/mês/ano e valor formatado
+    hover_labels = hc['data'].dt.strftime('%d/%m/%Y')
+    fig_price.update_traces(
+        name='Cotação',    # rótulo na legenda
+        customdata=hover_labels,
+        hovertemplate='<b>%{customdata}</b><br>R$ %{y:,.2f}<extra></extra>'
+    )
+
+    # 4) formata o eixo X para mostrar mês/ano em cada tick
+    fig_price.update_xaxes(
+        tickformat='%b/%Y',  # ex: Jan/2025
+        dtick='M1',          # um tick a cada 1 mês
+        tickangle=-45        # inclina o texto pra caber melhor
+    )
+
+    # 5) garante que a legenda apareça
+    fig_price.update_layout(showlegend=True)
+
+    st.plotly_chart(fig_price, use_container_width=True)
+    

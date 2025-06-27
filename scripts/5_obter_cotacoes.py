@@ -13,12 +13,19 @@ EMAIL = os.getenv("PLEXA_EMAIL")
 SENHA = os.getenv("PLEXA_SENHA")
 TOKEN = os.getenv("PLEXA_TOKEN")
 
-LOGIN_ENDPOINT = 'https://api.plexa.com.br/site/login'
-COTACAO_ENDPOINT = 'https://api.plexa.com.br/json/historico/{ticker}/12'
-
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = ROOT_DIR / "data" / "fiis.db"
 ENV_PATH = ROOT_DIR / ".env"
+
+LOGIN_ENDPOINT = 'https://api.plexa.com.br/site/login'
+
+
+HISTORICO_DIAS = 9999
+COTACAO_ENDPOINT = (
+    'https://api.plexa.com.br/json/historico/'
+    '{ticker}/{days}'
+)
+
 
 def salvar_token_no_env(token):
     with open(ENV_PATH, 'r') as file:
@@ -55,75 +62,70 @@ def salvar_cotacoes_todos():
     cur = conn.cursor()
     cur.execute("SELECT id, ticker FROM fiis")
     fiis = cur.fetchall()
-
     total_inseridos = 0
 
     for fii_id, ticker in fiis:
-        print(f"Buscando cotações de {ticker}...")
-        try:
-            url = COTACAO_ENDPOINT.format(ticker=ticker)
-            headers = {
-                "Authorization": f"Bearer {TOKEN}",
-                "User-Agent": "Mozilla/5.0"
-            }
+        print(f"Buscando cotações de {ticker}…")
+        # 2) Monte a URL incluindo days:
+        url = COTACAO_ENDPOINT.format(ticker=ticker, days=HISTORICO_DIAS)
+        print(f"  → URL usada: {url}")
+        headers = {
+            "Authorization": f"Bearer {TOKEN}",
+            "User-Agent": "Mozilla/5.0"
+        }
+        response = requests.get(url, headers=headers, timeout=10)
+        if response.status_code == 401:
+            print("  → Token expirado. Reautenticando…")
+            autenticar()
+            headers["Authorization"] = f"Bearer {TOKEN}"
             response = requests.get(url, headers=headers, timeout=10)
-            if response.status_code == 401:
-                print(f"Token expirado. Reautenticando...")
-                autenticar()
-                headers["Authorization"] = f"Bearer {TOKEN}"
-                response = requests.get(url, headers=headers, timeout=10)
-            if response.status_code != 200:
-                print(f"Erro {response.status_code} ao obter dados de {ticker}")
+        if response.status_code != 200:
+            print(f"  → Erro {response.status_code} ao obter dados de {ticker}")
+            continue
+
+        dados = response.json().get("data", [])
+        print(f"  → API retornou {len(dados)} registros")
+
+        registros = []
+        agora = datetime.now().isoformat()
+        for item in dados:
+            data = datetime.strptime(item["data"], "%d/%m/%Y").date().isoformat()
+            # evita duplicados
+            cur.execute(
+                "SELECT 1 FROM cotacoes WHERE fii_id=? AND data=?",
+                (fii_id, data)
+            )
+            if cur.fetchone():
                 continue
 
-            dados = response.json().get("data", [])
-            registros = []
-            now = datetime.now().isoformat()
+            fechamento    = parse_float(item["fechamento"])
+            abertura      = parse_float(item["abertura"])
+            maxima        = parse_float(item["maxima"])
+            minima        = parse_float(item["minima"])
+            totNegocios   = parse_float(item["totNegocios"])
+            qtdNegociada  = parse_float(item["qtdNegociada"])
+            volume        = parse_float(item["volume"])
+            registros.append((
+                fii_id, data, fechamento, abertura,
+                maxima, minima, totNegocios,
+                qtdNegociada, volume, agora
+            ))
 
-            for item in dados:
-                try:
-                    if not item["data"]:
-                        continue
-                    data = datetime.strptime(item["data"], "%d/%m/%Y").date().isoformat()
-
-                    # Verifica se já existe no banco para este FII e esta data
-                    cur.execute("SELECT 1 FROM cotacoes WHERE fii_id = ? AND data = ?", (fii_id, data))
-                    if cur.fetchone():
-                        continue  
-
-                    fechamento = parse_float(item["fechamento"])
-                    abertura = parse_float(item["abertura"])
-                    maxima = parse_float(item["maxima"])
-                    minima = parse_float(item["minima"])
-                    totNegocios = parse_float(item["totNegocios"])
-                    qtdNegociada = parse_float(item["qtdNegociada"])
-                    volume = parse_float(item["volume"])
-                    registros.append((
-                        fii_id, data, fechamento, abertura, maxima, minima,
-                        totNegocios, qtdNegociada, volume, now
-                    ))
-                except Exception as e:
-                    print(f"Erro ao processar cotação de {ticker}: {e}")
-
+        if registros:
             cur.executemany("""
                 INSERT INTO cotacoes (
-                    fii_id, data, preco_fechamento, abertura, maxima, minima,
-                    totNegocios, qtdNegociada, volume, created_at
+                    fii_id, data, preco_fechamento, abertura,
+                    maxima, minima, totNegocios,
+                    qtdNegociada, volume, created_at
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, registros)
-
             total_inseridos += len(registros)
-            time.sleep(1)
 
-        except Exception as e:
-            print(f"Erro ao processar {ticker}: {e}")
+        time.sleep(1)
 
     conn.commit()
     conn.close()
-    fim = time.time()
-    print("\n✅ Execução finalizada.")
-    print(f"⏱️ Tempo total: {fim - inicio:.2f} segundos")
-    print(f"Total de cotações inseridas: {total_inseridos}")
+    print(f"\nTotal de cotações inseridas: {total_inseridos}")
 
 if __name__ == "__main__":
     if not TOKEN:
@@ -132,3 +134,4 @@ if __name__ == "__main__":
         salvar_cotacoes_todos()
     else:
         print("Token inválido.")
+        
