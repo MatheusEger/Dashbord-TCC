@@ -20,13 +20,13 @@ st.markdown(
 st.sidebar.header("ℹ️ O que são esses Indicadores?")
 st.sidebar.markdown(
     """
-    **Preço Atual**: último preço de fechamento.\n  
-    **PL (Patrimônio Líquido)**: valor dos ativos do fundo menos seus passivos.\n
-    **Quantidade Cotas**: total de cotas emitidas pelo fundo.\n
-    **VPA**: valor patrimonial por cota = PL ÷ quantidade de cotas.\n  
-    **P/VP**: relação preço de mercado ÷ VPA.\n  
-    **DY 12M**: soma de dividendos pagos nos últimos 12 meses ÷ preço atual.\n  
-    **Cotação Semanal**: evolução do preço, última cotação de cada semana.\n  
+    **Preço Atual**: último preço de fechamento.  
+    **PL (Patrimônio Líquido)**: valor dos ativos do fundo menos seus passivos.  
+    **Quantidade Cotas**: total de cotas emitidas pelo fundo.  
+    **VPA**: valor patrimonial por cota = PL ÷ quantidade de cotas.  
+    **P/VP**: relação preço de mercado ÷ VPA.  
+    **DY 12M**: soma de dividendos pagos nos últimos 12 meses ÷ preço atual.  
+    **Cotação Semanal**: evolução do preço, última cotação de cada semana.  
     **Dividendos 12 Meses**: soma de dividendos mensais nos últimos 12 meses.  
     """, unsafe_allow_html=True)
 
@@ -44,6 +44,8 @@ with sqlite3.connect(DB_PATH) as conn:
         JOIN indicadores i ON fi.indicador_id = i.id
         """, conn, parse_dates=['data_referencia']
     )
+# Slider de período para cotação na sidebar
+years_cot = st.sidebar.slider("Período da Cotação (anos)", 1, 10, 5)
 
 def prepare(ticker):
     row = fiis[fiis['ticker']==ticker].iloc[0]
@@ -110,8 +112,22 @@ for c, data in zip([col1, col2], [data1, data2]):
     # Gráficos empilhados verticalmente
     # Cotação Semanal
     if not df_price.empty:
-        df_week = df_price.set_index('data').resample('W-FRI')['preco_fechamento'].last().reset_index()
-        fig1 = px.line(df_week, x='data', y='preco_fechamento', title='Cotação Semanal', labels={'data':'Data','preco_fechamento':'R$'})
+        cutoff = datetime.now() - relativedelta(years=years_cot)
+        df_week = df_price[df_price['data']>=cutoff] \
+            .set_index('data') \
+            .resample('W-FRI')['preco_fechamento'] \
+            .last() \
+            .reset_index()
+        fig1 = px.line(
+            df_week,
+            x='data',
+            y='preco_fechamento',
+            title='Cotação Semanal',
+            labels={'data':'Ano','preco_fechamento':'R$'}
+        )
+        fig1.update_xaxes(tickformat='%Y', dtick='M12')
+                # aumenta espessura da linha para maior nitidez
+        fig1.update_traces(line=dict(width=3), selector=dict(type='scatter'))
         c.plotly_chart(fig1, use_container_width=True)
     # Dividendos 12 Meses
     if not df_ind[df_ind['indicador']=='Dividendos'].empty:
