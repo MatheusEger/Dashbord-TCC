@@ -98,6 +98,27 @@ def criar_banco():
         );
     """)
 
+    # Imoveis
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS fiis_imoveis (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        fii_id INTEGER NOT NULL,
+        nome_imovel TEXT    NOT NULL,
+        endereco    TEXT    NOT NULL,
+        area_m2     REAL,
+        num_unidades INTEGER,
+        tx_ocupacao    REAL,    -- ex: 94.05 (para 94,05%)
+        tx_inadimplencia REAL,  -- ex:  0.00 (para  0,00%)
+        pct_receitas   REAL,    -- ex:  9.57 (para  9,57%)
+        FOREIGN KEY (fii_id) REFERENCES fiis(id)
+        );
+    """)
+
+    # E criamos também o índice para tornar JOINs/filtros por fii_id mais rápidos:
+    cur.execute("""
+    CREATE INDEX IF NOT EXISTS idx_fiis_imoveis_fii_id
+    ON fiis_imoveis(fii_id);
+    """)
     conn.commit()
     conn.close()
     print(f"Banco de dados criado com sucesso em: {DB_PATH}")

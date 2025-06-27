@@ -1,33 +1,52 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+import requests
 from bs4 import BeautifulSoup
-import time
+import pandas as pd
 
-# Configurações do Selenium (modo headless)
-options = Options()
-options.add_argument('--headless')
-options.add_argument('--disable-gpu')
-options.add_argument("user-agent=Mozilla/5.0")
+# URL-base com placeholder para o ticker
+URL_TEMPLATE = (
+    "https://fundamentus.com.br/"
+    "fii_imoveis_detalhes.php?papel={ticker}"
+    "&interface=mobile&interface=classic"
+)
 
-driver = webdriver.Chrome(options=options)
+def fetch_imoveis_table(ticker: str) -> pd.DataFrame | None:
+    """Busca a página de imóveis do FII e retorna um DataFrame com a tabela."""
+    url = URL_TEMPLATE.format(ticker=ticker.upper())
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+    }
+    resp = requests.get(url, headers=headers)
+    # O Fundamentus costuma usar ISO-8859-1
+    resp.encoding = resp.apparent_encoding or "latin1"
+    soup = BeautifulSoup(resp.text, "html.parser")
+    
+    # Encontra a primeira tabela na página
+    table = soup.find("table")
+    if table is None:
+        print(f"[{ticker}] Nenhuma tabela encontrada em {url}")
+        return None
 
-# Acessa o site
-url = "https://fundamentus.com.br/fii_resultado.php"
-driver.get(url)
-time.sleep(3)
+    # Extrai cabeçalhos
+    headers = [th.get_text(strip=True) for th in table.find_all("th")]
 
-# Pega o HTML
-soup = BeautifulSoup(driver.page_source, 'html.parser')
+    # Extrai linhas
+    rows = []
+    for tr in table.find_all("tr")[1:]:
+        cols = [td.get_text(strip=True) for td in tr.find_all("td")]
+        if cols:
+            rows.append(cols)
 
-# Encontra todas as tabelas com a classe w728 (usada pelo Fundamentus)
-tabelas = soup.find_all("table", class_="w728")
+    # Monta DataFrame
+    df = pd.DataFrame(rows, columns=headers)
+    return df
 
-# Itera e imprime cada tabela formatada
-for i, tabela in enumerate(tabelas, 1):
-    print(f"\n📊 Tabela {i}:")
-    for linha in tabela.find_all("tr"):
-        colunas = linha.find_all(["td", "th"])
-        texto_linha = [col.get_text(strip=True) for col in colunas]
-        print(" | ".join(texto_linha))
+if __name__ == "__main__":
+    import sys
 
-driver.quit()
+    # Recebe ticker como argumento, ou usa HGLG11 por padrão
+    ticker = sys.argv[1] if len(sys.argv) > 1 else "HGLG11"
+    df = fetch_imoveis_table(ticker)
+    if df is not None:
+        # Exibe no terminal e salva CSV para inspeção
+        print(df.to_string(index=False))
+        df.to_csv(f"{ticker}_imoveis.csv", index=False, sep=";")
