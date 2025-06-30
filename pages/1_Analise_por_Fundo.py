@@ -12,7 +12,7 @@ st.markdown("<h1 style='text-align:left;'>📊Análise por fundo</h1>", unsafe_a
 
 db_path = Path(__file__).resolve().parent.parent / "data" / "fiis.db"
 conn = sqlite3.connect(db_path)
-fiis = pd.read_sql("SELECT * FROM fiis;", conn)
+fiis = pd.read_sql("SELECT * FROM fiis WHERE ativo = 1;", conn)
 cotacoes = pd.read_sql("SELECT * FROM cotacoes;", conn)
 hf_query = """
 SELECT fi.fii_id, f.ticker, i.nome AS indicador, fi.valor, fi.data_referencia
@@ -26,16 +26,59 @@ conn.close()
 
 meses_pt = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
+def human_format(num):
+    """
+    Formata números como:
+      - até 999              → sem sufixo
+      - milhares (>= 1e3)    → ‘x.xxx Mil’
+      - milhões (>= 1e6)     → ‘x,xx Mi’
+      - bilhões (>= 1e9)     → ‘x,xx Bi’
+    """
+    if pd.isna(num):
+        return "–"
+    n = float(num)
+    if abs(n) >= 1e9:
+        return f"{n/1e9:.2f} Bi"
+    if abs(n) >= 1e6:
+        return f"{n/1e6:.2f} Mi"
+    if abs(n) >= 1e3:
+        return f"{n/1e3:.2f} Mil"
+    return f"{n:,.2f}"
+
 st.sidebar.title("Seleção de FII")
-ticker = st.sidebar.selectbox("FII", sorted(fiis["ticker"]))
+tickers = sorted(fiis["ticker"])
+if "ticker" not in st.session_state:
+    st.session_state.ticker = tickers[0]
+
+ticker = st.sidebar.selectbox(
+    "FII",
+    tickers,
+    index=tickers.index(st.session_state.ticker),
+    key="ticker_select"      # ← chave alterada
+)
+st.session_state.ticker = ticker
+
+f = fiis[fiis["ticker"] == st.session_state.ticker].iloc[0]
+
 years_div = st.sidebar.slider("Dividendos (anos)", 1, 10, 1)
 years_cot = st.sidebar.slider("Cotação (anos)", 1, 10, 5)
 
 f = fiis[fiis["ticker"] == ticker].iloc[0]
 setor = setores.set_index('id').loc[f["setor_id"], 'nome']
-st.sidebar.markdown(f"**Ticker:** {ticker} **Setor:** {setor}")
-if f.get('gestao'): st.sidebar.markdown(f"**Gestora:** {f['gestao']}")
-if f.get('admin'): st.sidebar.markdown(f"**Administrador:** {f['admin']}")
+f = fiis[fiis["ticker"] == ticker].iloc[0]
+
+tickers = sorted(fiis["ticker"])
+current_ticker = st.session_state.get("ticker", tickers[0])
+
+# listar fundos da mesma gestora
+gest = f.get("gestao")
+if gest:
+    mesmos = fiis[(fiis["gestao"] == gest) & (fiis["ticker"] != f["ticker"])]
+    st.sidebar.markdown("**Fundos da mesma gestora**")
+    for t in sorted(mesmos["ticker"]):
+        if st.sidebar.button(t, key=f"btn_{t}"):
+            st.session_state.ticker = t
+            st.rerun()
 
 fiid = int(f["id"])
 df_cot = cotacoes[cotacoes['fii_id']==fiid].copy()
@@ -77,6 +120,26 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
+
+with sqlite3.connect(db_path) as conn_im:
+    df_im = pd.read_sql(
+        "SELECT endereco FROM fiis_imoveis WHERE fii_id = ?",
+        conn_im,
+        params=(int(f["id"]),)
+    )
+
+# define a variável para usar adiante
+qtd_imoveis = len(df_im)
+
+# Dados do Fundo
+st.subheader(f"Dados do Fundo {ticker}")
+st.markdown(f"**Nome:** {f['nome']}")
+st.markdown(f"**Gestora:** {f['gestao'] or 'N/D'}")
+st.markdown(f"**Administradora:** {f['admin'] or 'N/D'}")
+if qtd_imoveis > 0:
+    st.markdown(f"**Quantidade de imóveis:** {qtd_imoveis}")
+st.markdown("---")
+
 st.subheader(f"{ticker} — Ultimo fechamento em {latest_date}")
 cols = st.columns(4)
 labels = ["Preço Atual", "Máx 52 Semanas", "Mín 52 Semanas", "Variação 30d"]
@@ -91,41 +154,134 @@ st.markdown("---")
 st.subheader(f"Indicadores do fundo {ticker}")
 cols2 = st.columns(4)
 labels2 = ["VPA", "P/VP", "Patrimônio Líquido", "Valor de Mercado"]
-values2 = [f"R$ {VPA:,.2f}", f"{PVP:.2f}%", f"R$ {pl:,.2f}", f"R$ {mkt:,.2f}"]
-tips2 = ["Valor patrimonial por cota", "Preço ÷ valor patrimonial", "Ativos menos passivos", "Capitalização total"]
-for col, lab, val, tip in zip(cols2, labels2, values2, tips2):
-    col.markdown(f"<div class='metric-label tooltip'>{lab} ℹ️<span class='tooltiptext'>{tip}</span></div>", unsafe_allow_html=True)
-    col.metric(label="", value=val)
+values2 = [
+    f"R$ {VPA:,.2f}",
+    f"{PVP:.2f}%",
+    f"R$ {human_format(pl)}",
+    f"R$ {human_format(mkt)}"]
+tips2 = [
+    "Valor patrimonial por cota",
+    "Preço ÷ valor patrimonial",
+    "Ativos menos passivos (ativos – passivos)",
+    "Capitalização total (preço × número de cotas)"
+]
 
-st.subheader("Dividend Yield")
+for col, lab, val, tip in zip(cols2, labels2, values2, tips2):
+    col.markdown(
+        f"<div class='metric-label tooltip'>{lab} ℹ️"
+        f"<span class='tooltiptext'>{tip}</span></div>",
+        unsafe_allow_html=True
+    )
+    col.metric(label="", value=val)
+    
+st.markdown(
+    "<div class='metric-label tooltip'>Dividend Yield ℹ️"
+    "<span class='tooltiptext'>Rendimento de dividendos pagos nos últimos períodos ÷ preço atual</span>"
+    "</div>",
+    unsafe_allow_html=True
+)
 cols3 = st.columns(4)
 for col, period in zip(cols3, ['1M','3M','6M','12M']):
-    col.metric(label=f"{period}", value=f"{DYS[period]:.2f}%")
+    col.metric(label=period, value=f"{DYS[period]:.2f}%")
 
-left, right = st.columns(2)
-left.markdown("**Distribuições Mensais**")
-df_div = divs.copy(); df_div['mes']=df_div['data_referencia'].dt.to_period('M').dt.to_timestamp()
-mensal=df_div.groupby('mes')['valor'].sum().reset_index().tail(years_div*12)
-fig_div=px.bar(mensal,x='mes',y='valor',labels={'mes':'Mês/Ano','valor':'Dividendos (R$)'},color_discrete_sequence=['green'])
-fig_div.update_xaxes(tickformat='%b/%Y',dtick='M1',tickangle=-45)
-left.plotly_chart(fig_div,use_container_width=True)
 
-right.markdown("**Evolução da Cotação**")
-hc=df_cot[df_cot['data']>=now-relativedelta(years=years_cot)]
-df_sem=hc.set_index('data').resample('W-FRI')['preco_fechamento'].last().reset_index()
-fig_price=px.line(df_sem,x='data',y='preco_fechamento',labels={'data':'Ano','preco_fechamento':'R$'},color_discrete_sequence=['blue'])
+st.columns(1)
+st.markdown("**Distribuições Mensais**")
+df_div = (divs.assign(
+    mes=divs['data_referencia']
+              .dt.to_period('M')
+              .dt.to_timestamp()
+)
+).groupby('mes')['valor'].sum().reset_index().tail(years_div*12)
+
+if df_div.empty:
+    st.info(f"Sem distribuição mensal nos últimos {years_div*12} meses.")
+else:
+    fig_div = px.bar(
+        df_div, x='mes', y='valor',
+        labels={'mes':'Mês/Ano','valor':'Dividendos (R$)'}
+    )
+    fig_div.update_xaxes(
+        tickformat='%b/%Y', dtick='M1', tickangle=-45
+    )
+    st.plotly_chart(fig_div, use_container_width=True)
+
+st.markdown("**Evolução da Cotação**")
+
+hc = df_cot[df_cot['data'] >= now - relativedelta(years=years_cot)]
+df_sem = (hc.set_index('data')['preco_fechamento'].resample('W-FRI').last().ffill().reset_index())
+fig_price = px.line(df_sem,x='data',y='preco_fechamento',labels={'data': 'Ano', 'preco_fechamento': 'R$'})
 fig_price.update_traces(hovertemplate='%{x|%d/%m/%Y}<br>R$ %{y:,.2f}<extra></extra>')
-min_date,max_date=df_sem['data'].min(),df_sem['data'].max()
-fig_price.update_xaxes(range=[min_date,max_date],tickformat='%Y',dtick='M12')
-right.plotly_chart(fig_price,use_container_width=True)
+x = df_sem['data'].map(pd.Timestamp.toordinal).values
+y = df_sem['preco_fechamento'].values
+m, b = np.polyfit(x, y, 1)
+trend_y = m * x + b
+fig_price.add_scatter(x=df_sem['data'],y=trend_y,mode='lines',name='Tendência',line=dict(color='red', dash='dash'))
+min_date, max_date = df_sem['data'].min(), df_sem['data'].max()
+fig_price.update_xaxes(range=[min_date, max_date], tickformat='%Y', dtick='M12')
 
-st.subheader("Vacância Física")
-# Vacância Física
+st.plotly_chart(fig_price, use_container_width=True)
+
+st.subheader("Imóveis")
 with sqlite3.connect(db_path) as conn_im:
-    has_table = pd.read_sql("SELECT count(*) as cnt FROM sqlite_master WHERE type='table' AND name='imoveis';", conn_im)['cnt'].iat[0] > 0
-if has_table:
-# Verifica se existe a tabela de imóveis
-    with sqlite3.connect(db_path) as conn_im:
-        tables = pd.read_sql("SELECT name FROM sqlite_master WHERE type='table' AND name='imoveis';", conn_im)
-        st.info("Nenhum dado de imóveis disponível para este fundo.")
+    df_imoveis = pd.read_sql(
+        """
+        SELECT area_m2,
+               num_unidades,
+               tx_ocupacao
+        FROM fiis_imoveis
+        WHERE fii_id = ?
+        """,
+        conn_im,
+        params=(fiid,)
+    )
 
+if df_imoveis.empty:
+    st.info("Nenhum dado de imóveis disponível para este fundo.")
+else:
+    total_imoveis   = len(df_imoveis)
+    total_unidades  = df_imoveis["num_unidades"].sum()
+    total_area = df_imoveis["area_m2"].sum()
+    weighted_ocup   = (df_imoveis["area_m2"] * df_imoveis["tx_ocupacao"]).sum() / total_area
+    vac_phys        = 100 - weighted_ocup
+
+    area_str = (
+    f"{total_area:,.2f}"     
+    .replace(",", "X")           
+    .replace(".", ",")          
+    .replace("X", "."))
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    col1.markdown(
+        "<span class='tooltip'>Total de imóveis ℹ️"
+        "<span class='tooltiptext'>Número total de imóveis que compõem o portfólio do fundo</span>",
+        unsafe_allow_html=True
+    )
+    col1.metric(label="", value=total_imoveis)
+
+    col2.markdown(
+        "<span class='tooltip'>Total de unidades ℹ️"
+        "<span class='tooltiptext'>Soma de todas as unidades habitacionais/comerciais</span>"
+        "</span>",
+        unsafe_allow_html=True
+    )
+    col2.metric(label="", value=total_unidades)
+
+    # Área total (m²)
+    col3.markdown(
+        "<span class='tooltip'>Área total (m²) ℹ️"
+        "<span class='tooltiptext'>Total da área em metros quadrados de todos os imóveis</span>"
+        "</span>",
+        unsafe_allow_html=True
+    )
+    col3.metric(label="", value=area_str)
+
+    # Vacância Física (%)
+    col4.markdown(
+        "<span class='tooltip'>Vacância Física (%) ℹ️"
+        "<span class='tooltiptext'>Percentual de área vaga calculado como 100% menos a ocupação ponderada</span>"
+        "</span>",
+        unsafe_allow_html=True
+    )
+    col4.metric(label="", value=f"{vac_phys:.2f}%")
