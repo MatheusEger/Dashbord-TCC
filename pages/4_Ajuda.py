@@ -31,7 +31,7 @@ st.header("🚀 Por onde começar")
 st.info("Siga os passos abaixo clicando em cada item para ver mais detalhes:")
 
 with st.expander("1. Defina seu valor inicial"):
-    st.write("- Estabeleça um valor que caiba no seu orçamento; sugerimos a partir de **R$ 1.000,00**.")
+    st.write("- Escolha um valor que não comprometa suas despesas. Comece com o que for confortável, por exemplo, **R$ 500,00**.")
     st.write("- Confira o valor mínimo de investimento exigido pela corretora.")
 
 with st.expander("2. Abra sua conta em uma corretora"):
@@ -53,10 +53,36 @@ with st.expander("5. Monitore indicadores-chave"):
     st.write("- Acompanhe mensalmente Dividend Yield, P/VP e Vacância. 📈")
 
 # Vídeos de apoio (exemplos)
-st.video("https://www.youtube.com/watch?v=EXEMPLO1", format="youtube")  # Abrindo conta na corretora
-st.video("https://www.youtube.com/watch?v=EXEMPLO2", format="youtube")  # Montagem de carteira diversificada
-st.video("https://www.youtube.com/watch?v=EXEMPLO3", format="youtube")  # Monitoramento e rebalanceamento
 
+st.header("Videos aulas sobre como abrir uma conta em uma corretora")
+
+st.subheader("COMO abrir conta na RICO corretora de valores | NA PRÁTICA!")
+st.video("https://www.youtube.com/watch?v=W4wgdekEjuI", format="youtube")
+st.info("11.353 visualizações  16 de set. de 2019")
+
+st.subheader("COMO abrir conta na XP Corretora de valores | NA PRÁTICA!")
+st.video("https://www.youtube.com/watch?v=Q7guEK_o3o0", format="youtube")
+st.info("16.498 visualizações  22 de set. de 2019")
+
+st.subheader("COMO abrir conta na EasyInvest corretora de valores | NA PRÁTICA!")
+st.video("https://www.youtube.com/watch?v=AAT4iPy8vOs", format="youtube")
+st.info("3.290 visualizações  19 de set. de 2019")
+
+st.header("Montagem de carteira diversificada")
+
+st.subheader("Aula sobre Fundos Imobiliários (do Zero para Iniciantes)")
+st.video("https://www.youtube.com/watch?v=k_dku4WdyMk", format="youtube") 
+st.info("73.537 visualizações  26 de jun. de 2018")
+
+st.header("Videoaulas sobre Fundos Imobiliários")
+
+st.subheader("Aula sobre Fundos Imobiliários (do Zero para Iniciantes)")
+st.video("https://www.youtube.com/watch?v=z3fTzc0q10M", format="youtube")
+st.info("Estreou em 3 de set. de 2024. Mais de 1.3 mi de visualizações  ")
+
+st.header("Monitoramento e rebalanceamento")
+
+st.video("https://www.youtube.com/watch?v=EXEMPLO3", format="youtube") 
 st.markdown("---")
 
 # Conteúdo de ajuda aprimorado
