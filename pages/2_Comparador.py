@@ -172,13 +172,22 @@ for c, data in zip([col1, col2], [data1, data2]):
         unsafe_allow_html=True
     )
     r3[0].metric(label="", value=f"{pvp:.2f}%" if pvp else "N/A")
-    r3[1].markdown(
-        f"<div class='tooltip'>DY {years_div}A ℹ️"
-        "<span class='tooltiptext'>Dividend Yield nos últimos "
-        f"{years_div} anos</span></div>",
-        unsafe_allow_html=True
+    with sqlite3.connect(DB_PATH) as conn_im:
+        df_qt = pd.read_sql(
+        "SELECT COUNT(*) AS qtd FROM fiis_imoveis WHERE fii_id = ?",
+        conn_im,
+        params=(int(row["id"]),),
     )
-    r3[1].metric(label="", value=f"{dy:.2f}%" if dy else "N/A")
+    qtd_imoveis = int(df_qt["qtd"].iloc[0]) if not df_qt.empty else 0
+
+    if qtd_imoveis > 0:
+        # exibe Número de Imóveis
+        r3[1].markdown(
+            "<div class='tooltip'>Número de Imóveis ℹ️"
+            "<span class='tooltiptext'>Total de imóveis no portfólio do fundo</span></div>",
+            unsafe_allow_html=True
+        )
+    r3[1].metric(label="", value=f"{qtd_imoveis}")
 
     c.markdown("---")
 

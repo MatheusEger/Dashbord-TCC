@@ -54,7 +54,9 @@ ticker = st.sidebar.selectbox(
     "FII",
     tickers,
     index=tickers.index(st.session_state.ticker),
-    key="ticker")
+    key="ticker_select"      # ← chave alterada
+)
+st.session_state.ticker = ticker
 
 f = fiis[fiis["ticker"] == st.session_state.ticker].iloc[0]
 
@@ -65,33 +67,18 @@ f = fiis[fiis["ticker"] == ticker].iloc[0]
 setor = setores.set_index('id').loc[f["setor_id"], 'nome']
 f = fiis[fiis["ticker"] == ticker].iloc[0]
 
-# cabeçalho de dados da empresa
-st.sidebar.markdown("## Dados do Fundo")
-st.sidebar.markdown(f"**Nome:** {f['nome']}")
-st.sidebar.markdown(f"**Gestora:** {f['gestao'] or 'N/D'}")
-st.sidebar.markdown(f"**Administradora:** {f['admin'] or 'N/D'}")
-
-# imóveis (se existir tabela fiis_imoveis)
-with sqlite3.connect(db_path) as conn_im:
-    df_im = pd.read_sql(
-        "SELECT endereco FROM fiis_imoveis WHERE fii_id = ?",
-        conn_im,
-        params=(int(f["id"]),)
-    )
-if not df_im.empty:
-    st.sidebar.markdown(f"**Quantidade de imóveis:** {len(df_im)}")
+tickers = sorted(fiis["ticker"])
+current_ticker = st.session_state.get("ticker", tickers[0])
 
 # listar fundos da mesma gestora
 gest = f.get("gestao")
 if gest:
     mesmos = fiis[(fiis["gestao"] == gest) & (fiis["ticker"] != f["ticker"])]
-    if not mesmos.empty:
-        st.sidebar.markdown("**Fundos da mesma gestora**")
-        for t in sorted(mesmos["ticker"]):
-            # cada botão, quando clicado, atualiza session_state e recarrega o app
-            if st.sidebar.button(t, key=f"btn_{t}"):
-                st.session_state.ticker = t
-                st.experimental_rerun()
+    for t in sorted(mesmos["ticker"]):
+        if st.sidebar.button(t, key=f"btn_{t}"):
+            st.session_state.ticker = t
+            st.experimental_rerun()
+
 
 fiid = int(f["id"])
 df_cot = cotacoes[cotacoes['fii_id']==fiid].copy()
@@ -132,6 +119,26 @@ st.markdown(
     </style>
     """, unsafe_allow_html=True
 )
+
+
+with sqlite3.connect(db_path) as conn_im:
+    df_im = pd.read_sql(
+        "SELECT endereco FROM fiis_imoveis WHERE fii_id = ?",
+        conn_im,
+        params=(int(f["id"]),)
+    )
+
+# define a variável para usar adiante
+qtd_imoveis = len(df_im)
+
+# Dados do Fundo
+st.subheader(f"Dados do Fundo {ticker}")
+st.markdown(f"**Nome:** {f['nome']}")
+st.markdown(f"**Gestora:** {f['gestao'] or 'N/D'}")
+st.markdown(f"**Administradora:** {f['admin'] or 'N/D'}")
+if qtd_imoveis > 0:
+    st.markdown(f"**Quantidade de imóveis:** {qtd_imoveis}")
+st.markdown("---")
 
 st.subheader(f"{ticker} — Ultimo fechamento em {latest_date}")
 cols = st.columns(4)
