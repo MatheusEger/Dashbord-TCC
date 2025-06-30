@@ -73,12 +73,14 @@ current_ticker = st.session_state.get("ticker", tickers[0])
 # listar fundos da mesma gestora
 gest = f.get("gestao")
 if gest:
-    mesmos = fiis[(fiis["gestao"] == gest) & (fiis["ticker"] != f["ticker"])]
     st.sidebar.markdown("**Fundos da mesma gestora**")
+    mesmos = fiis[(fiis["gestao"] == gest) & (fiis["ticker"] != f["ticker"])]
     for t in sorted(mesmos["ticker"]):
         if st.sidebar.button(t, key=f"btn_{t}"):
             st.session_state.ticker = t
             st.rerun()
+else:
+    st.sidebar.write("Somente o fundo pertence a mesma gestora")
 
 fiid = int(f["id"])
 df_cot = cotacoes[cotacoes['fii_id']==fiid].copy()
