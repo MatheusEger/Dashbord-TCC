@@ -112,9 +112,6 @@ f2 = col2.selectbox(
 data1 = prepare(f1, years_div)
 data2 = prepare(f2, years_div)
 
-_, _, pl1, cotas1, price1, vpa1, pvp1, dy1, _, _ = data1
-_, _, pl2, cotas2, price2, vpa2, pvp2, dy2, _, _ = data2
-
 for c, data in zip([col1, col2], [data1, data2]):
     row, setor, pl, cotas, price, vpa, pvp, dy, df_price, df_ind = data
     c.markdown(f"### {row['ticker']} — {row['nome']}")
@@ -227,3 +224,73 @@ for c, data in zip([col1, col2], [data1, data2]):
         )
         fig2.update_xaxes(tickformat='%b/%Y', dtick='M1', tickangle=-45)
         c.plotly_chart(fig2, use_container_width=True)
+
+    # 1) Seção Imóveis
+    c.subheader("Imóveis")
+    fii_id = int(row["id"])  # usa row, não 'f'
+
+    # 2) Consulta ao banco
+    with sqlite3.connect(DB_PATH) as conn_im:
+        df_imoveis = pd.read_sql(
+            """
+            SELECT area_m2,
+                   num_unidades,
+                   tx_ocupacao
+            FROM fiis_imoveis
+            WHERE fii_id = ?
+            """,
+            conn_im,
+            params=(fii_id,),
+        )
+
+    # 3) Exibe ou informação de ausência de dados
+    if df_imoveis.empty:
+        c.info("Nenhum dado de imóveis disponível para este fundo.")
+    else:
+        total_imoveis  = len(df_imoveis)
+        total_unidades = df_imoveis["num_unidades"].sum()
+        total_area     = df_imoveis["area_m2"].sum()
+        weighted_ocup  = (df_imoveis["area_m2"] * df_imoveis["tx_ocupacao"]).sum() / total_area
+        vac_phys       = 100 - weighted_ocup
+
+        # 4) Formata a área em BR
+        area_str = (
+            f"{total_area:,.2f}"
+            .replace(",", "X")
+            .replace(".", ",")
+            .replace("X", ".")
+        )
+
+        # 5) Duas métricas por linha
+        # primeira linha: Total de imóveis + Total de unidades
+        r1c1, r1c2 = c.columns(2)
+        r1c1.markdown(
+            "<div class='tooltip'>Total de imóveis ℹ️"
+            "<span class='tooltiptext'>Número total de imóveis que compõem o portfólio do fundo</span></div>",
+            unsafe_allow_html=True
+        )
+        r1c1.metric(label="", value=total_imoveis)
+
+        r1c2.markdown(
+            "<div class='tooltip'>Total de unidades ℹ️"
+            "<span class='tooltiptext'>Soma de todas as unidades habitacionais/comerciais</span></div>",
+            unsafe_allow_html=True
+        )
+        r1c2.metric(label="", value=total_unidades)
+
+        # segunda linha: Área total + Vacância Física
+        r2c1, r2c2 = c.columns(2)
+        r2c1.markdown(
+            "<div class='tooltip'>Área total (m²) ℹ️"
+            "<span class='tooltiptext'>Total da área em metros quadrados de todos os imóveis</span></div>",
+            unsafe_allow_html=True
+        )
+        r2c1.metric(label="", value=area_str)
+
+        r2c2.markdown(
+            "<div class='tooltip'>Vacância Física (%) ℹ️"
+            "<span class='tooltiptext'>Percentual de área vaga calculado como 100% menos a ocupação ponderada</span></div>",
+            unsafe_allow_html=True
+        )
+        r2c2.metric(label="", value=f"{vac_phys:.2f}%")
+

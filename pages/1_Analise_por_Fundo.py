@@ -74,11 +74,11 @@ current_ticker = st.session_state.get("ticker", tickers[0])
 gest = f.get("gestao")
 if gest:
     mesmos = fiis[(fiis["gestao"] == gest) & (fiis["ticker"] != f["ticker"])]
+    st.sidebar.markdown("**Fundos da mesma gestora**")
     for t in sorted(mesmos["ticker"]):
         if st.sidebar.button(t, key=f"btn_{t}"):
             st.session_state.ticker = t
-            st.experimental_rerun()
-
+            st.rerun()
 
 fiid = int(f["id"])
 df_cot = cotacoes[cotacoes['fii_id']==fiid].copy()
@@ -222,13 +222,66 @@ fig_price.update_xaxes(range=[min_date, max_date], tickformat='%Y', dtick='M12')
 
 st.plotly_chart(fig_price, use_container_width=True)
 
-st.subheader("Vacância Física")
-# Vacância Física
+st.subheader("Imóveis")
 with sqlite3.connect(db_path) as conn_im:
-    has_table = pd.read_sql("SELECT count(*) as cnt FROM sqlite_master WHERE type='table' AND name='imoveis';", conn_im)['cnt'].iat[0] > 0
-if has_table:
-# Verifica se existe a tabela de imóveis
-    with sqlite3.connect(db_path) as conn_im:
-        tables = pd.read_sql("SELECT name FROM sqlite_master WHERE type='table' AND name='imoveis';", conn_im)
-        st.info("Nenhum dado de imóveis disponível para este fundo.")
+    df_imoveis = pd.read_sql(
+        """
+        SELECT area_m2,
+               num_unidades,
+               tx_ocupacao
+        FROM fiis_imoveis
+        WHERE fii_id = ?
+        """,
+        conn_im,
+        params=(fiid,)
+    )
 
+if df_imoveis.empty:
+    st.info("Nenhum dado de imóveis disponível para este fundo.")
+else:
+    total_imoveis   = len(df_imoveis)
+    total_unidades  = df_imoveis["num_unidades"].sum()
+    total_area = df_imoveis["area_m2"].sum()
+    weighted_ocup   = (df_imoveis["area_m2"] * df_imoveis["tx_ocupacao"]).sum() / total_area
+    vac_phys        = 100 - weighted_ocup
+
+    area_str = (
+    f"{total_area:,.2f}"     
+    .replace(",", "X")           
+    .replace(".", ",")          
+    .replace("X", "."))
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    col1.markdown(
+        "<span class='tooltip'>Total de imóveis ℹ️"
+        "<span class='tooltiptext'>Número total de imóveis que compõem o portfólio do fundo</span>",
+        unsafe_allow_html=True
+    )
+    col1.metric(label="", value=total_imoveis)
+
+    col2.markdown(
+        "<span class='tooltip'>Total de unidades ℹ️"
+        "<span class='tooltiptext'>Soma de todas as unidades habitacionais/comerciais</span>"
+        "</span>",
+        unsafe_allow_html=True
+    )
+    col2.metric(label="", value=total_unidades)
+
+    # Área total (m²)
+    col3.markdown(
+        "<span class='tooltip'>Área total (m²) ℹ️"
+        "<span class='tooltiptext'>Total da área em metros quadrados de todos os imóveis</span>"
+        "</span>",
+        unsafe_allow_html=True
+    )
+    col3.metric(label="", value=area_str)
+
+    # Vacância Física (%)
+    col4.markdown(
+        "<span class='tooltip'>Vacância Física (%) ℹ️"
+        "<span class='tooltiptext'>Percentual de área vaga calculado como 100% menos a ocupação ponderada</span>"
+        "</span>",
+        unsafe_allow_html=True
+    )
+    col4.metric(label="", value=f"{vac_phys:.2f}%")
