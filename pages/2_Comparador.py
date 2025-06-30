@@ -16,6 +16,14 @@ st.markdown(
     .tooltip:hover .tooltiptext{visibility:visible;opacity:1}
     </style>
     """, unsafe_allow_html=True)
+
+# +++ Slider de período para dividendos +++
+years_div = st.sidebar.slider("Período de Dividendos (anos)", 1, 10, 1)
+
+# Slider de período para cotação na sidebar
+years_cot = st.sidebar.slider("Período da Cotação (anos)", 1, 10, 5)
+
+
 # Explicação dos Indicadores e Gráficos na sidebar
 st.sidebar.header("ℹ️ O que são esses Indicadores?")
 st.sidebar.markdown(
@@ -34,7 +42,7 @@ st.markdown("<h1 style='text-align:center;'>📑 Comparador de Fundos Imobiliár
 
 DB_PATH = Path(__file__).resolve().parents[1] / "data" / "fiis.db"
 with sqlite3.connect(DB_PATH) as conn:
-    fiis = pd.read_sql("SELECT id, ticker, nome, gestao, admin, setor_id FROM fiis", conn)
+    fiis = pd.read_sql("SELECT id, ticker, nome, gestao, admin, setor_id FROM fiis WHERE ativo = 1", conn)    
     setores = pd.read_sql("SELECT id, nome FROM setor", conn)
     cot = pd.read_sql("SELECT fii_id, data, preco_fechamento FROM cotacoes", conn, parse_dates=['data'])
     inds = pd.read_sql(
@@ -44,14 +52,15 @@ with sqlite3.connect(DB_PATH) as conn:
         JOIN indicadores i ON fi.indicador_id = i.id
         """, conn, parse_dates=['data_referencia']
     )
-# Slider de período para cotação na sidebar
-years_cot = st.sidebar.slider("Período da Cotação (anos)", 1, 10, 5)
 
-def prepare(ticker):
+def prepare(ticker, years_div):
+    dy = 0.0
     row = fiis[fiis['ticker']==ticker].iloc[0]
-    setor = setores.set_index('id').loc[row['setor_id'], 'nome'] if row['setor_id'] in setores['id'].values else 'N/A'
+    setor = setores.set_index('id').loc[row['setor_id'], 'nome'] \
+               if row['setor_id'] in setores['id'].values else 'N/A'
     df_ind = inds[inds['fii_id']==row['id']].copy()
     df_ind.set_index('data_referencia', inplace=True)
+    df_ind = inds[inds['fii_id']==row['id']].copy()
     pl = None
     if 'Patrimônio Líquido' in df_ind['indicador'].values:
         pl = float(df_ind[df_ind['indicador']=='Patrimônio Líquido']['valor'].iloc[-1])
@@ -62,53 +71,117 @@ def prepare(ticker):
     price = df_price.sort_values('data')['preco_fechamento'].iloc[-1] if not df_price.empty else None
     vpa = pl/cotas if pl and cotas else None
     pvp = price/vpa if price and vpa else None
-    one_year_ago = datetime.now() - relativedelta(years=1)
-    divs = df_ind[df_ind['indicador']=='Dividendos']
-    dy12 = None
-    if price and not divs.empty:
-        dy12 = divs[divs.index>=one_year_ago]['valor'].sum()/price*100
-    return row, setor, pl, cotas, price, vpa, pvp, dy12, df_price, df_ind
+    one_period_ago = datetime.now() - relativedelta(years=years_div)
 
+    # filtra dividendos daquele ticker e período
+    divs_all = df_ind[
+        (df_ind['indicador'] == 'Dividendos') &
+        (df_ind['data_referencia'] >= one_period_ago)
+    ]
+
+    if price and not divs_all.empty:
+         dy = divs_all['valor'].sum() / price * 100
+
+    # … cálculos de pl, cotas, price, vpa, pvp, df_price, df_ind …
+    return row, setor, pl, cotas, price, vpa, pvp, dy, df_price, df_ind
+
+setores_validos = setores[setores['id'].isin(fiis['setor_id'])]
+setor_names    = sorted(setores_validos['nome'].unique())
+selected_setor = st.selectbox("Selecione o Setor", setor_names)
+
+# 2) Descobre o ID do setor e filtra os FIIs ativos daquele setor
+setor_id = setores_validos.loc[setores_validos['nome'] == selected_setor, 'id'].iloc[0]
+fiis_setor = fiis[fiis['setor_id'] == setor_id]
+
+# ── Agora, na área principal, crie as duas colunas:
 col1, col2 = st.columns(2)
-f1 = col1.selectbox("Selecione Fundo 1", fiis['ticker'].sort_values(), key='f1')
-f2 = col2.selectbox("Selecione Fundo 2", fiis['ticker'].sort_values(), index=1, key='f2')
 
-data1 = prepare(f1)
-data2 = prepare(f2)
+f1 = col1.selectbox(
+    "Selecione Fundo 1",
+    fiis_setor['ticker'].sort_values(),
+    key='f1'
+)
+
+tickers_f2 = fiis_setor.loc[fiis_setor['ticker'] != f1, 'ticker'].sort_values()
+f2 = col2.selectbox(
+    "Selecione Fundo 2",
+    tickers_f2,
+    key='f2'
+)
+
+data1 = prepare(f1, years_div)
+data2 = prepare(f2, years_div)
+
+_, _, pl1, cotas1, price1, vpa1, pvp1, dy1, _, _ = data1
+_, _, pl2, cotas2, price2, vpa2, pvp2, dy2, _, _ = data2
 
 for c, data in zip([col1, col2], [data1, data2]):
-    row, setor, pl, cotas, price, vpa, pvp, dy12, df_price, df_ind = data
+    row, setor, pl, cotas, price, vpa, pvp, dy, df_price, df_ind = data
     c.markdown(f"### {row['ticker']} — {row['nome']}")
-    c.markdown(f"**Setor:** {setor}  &nbsp; **Gestora:** {row['gestao']}  &nbsp; **Admin:** {row['admin']}")
-    # Métricas principais organizadas em duas linhas de três colunas
-    # Função para formatar valores grandes
+    c.markdown(
+        f"**Setor:** {setor}  &nbsp; "
+        f"**Gestora:** {row['gestao']}  &nbsp; "
+        f"**Admin:** {row['admin']}"
+    )
+
+    # função human_format como você já tinha
     def human_format(num):
-        if num is None:
-            return "N/A"
+        if num is None: return "N/A"
         magnitude = 0
-        for unit in ['',' mil',' Mi',' Bi']:
+        for unit in ['', ' mil', ' Mi', ' Bi']:
             if abs(num) < 1000.0:
                 return f"{num:,.2f}{unit}"
             num /= 1000.0
         return f"{num:,.2f} Bi"
 
-    row1 = c.columns(3)
-    # Tooltips nos indicadores
-    row1[0].markdown("<div class='tooltip'>Preço Atual ℹ️<span class='tooltiptext'>Último preço de fechamento</span></div>", unsafe_allow_html=True)
-    row1[0].metric(label="", value=f"R$ {price:,.2f}" if price else "N/A")
-    row1[1].markdown("<div class='tooltip'>Patrimônio Líquido ℹ️<span class='tooltiptext'>Valor dos ativos do fundo menos passivos</span></div>", unsafe_allow_html=True)
-    row1[1].metric(label="", value=f"R$ {human_format(pl)}" if pl else "N/A")
-    row1[2].markdown("<div class='tooltip'>Quantidade Cotas ℹ️<span class='tooltiptext'>Total de cotas emitidas</span></div>", unsafe_allow_html=True)
-    row1[2].metric(label="", value=f"{human_format(cotas)}" if cotas else "N/A")
-    row2 = c.columns(3)
-    # Tooltips segunda linha
-    row2[0].markdown("<div class='tooltip'>VPA ℹ️<span class='tooltiptext'>Valor patrimonial por cota (PL ÷ Cotas)</span></div>", unsafe_allow_html=True)
-    row2[0].metric(label="", value=f"R$ {vpa:,.2f}" if vpa else "N/A")
-    row2[1].markdown("<div class='tooltip'>P/VP ℹ️<span class='tooltiptext'>Preço de mercado ÷ VPA</span></div>", unsafe_allow_html=True)
-    row2[1].metric(label="", value=f"{pvp:.2f}x" if pvp else "N/A")
-    row2[2].markdown("<div class='tooltip'>DY 12M ℹ️<span class='tooltiptext'>Dividend Yield últimos 12 meses</span></div>", unsafe_allow_html=True)
-    row2[2].metric(label="", value=f"{dy12:.2f}%" if dy12 else "N/A")
+    # 1ª linha: Preço Atual / Patrimônio Líquido
+    r1 = c.columns(2)
+    r1[0].markdown(
+        "<div class='tooltip'>Preço Atual ℹ️"
+        "<span class='tooltiptext'>Último preço de fechamento</span></div>",
+        unsafe_allow_html=True
+    )
+    r1[0].metric(label="", value=f"R$ {price:,.2f}" if price else "N/A")
+    r1[1].markdown(
+        "<div class='tooltip'>Patrimônio Líquido ℹ️"
+        "<span class='tooltiptext'>Ativos menos passivos</span></div>",
+        unsafe_allow_html=True
+    )
+    r1[1].metric(label="", value=f"R$ {human_format(pl)}" if pl else "N/A")
+
+    # 2ª linha: Quantidade Cotas / VPA
+    r2 = c.columns(2)
+    r2[0].markdown(
+        "<div class='tooltip'>Quantidade Cotas ℹ️"
+        "<span class='tooltiptext'>Total de cotas emitidas</span></div>",
+        unsafe_allow_html=True
+    )
+    r2[0].metric(label="", value=f"{human_format(cotas)}" if cotas else "N/A")
+    r2[1].markdown(
+        "<div class='tooltip'>VPA ℹ️"
+        "<span class='tooltiptext'>Valor patrimonial por cota (PL ÷ Cotas)</span></div>",
+        unsafe_allow_html=True
+    )
+    r2[1].metric(label="", value=f"R$ {vpa:,.2f}" if vpa else "N/A")
+
+    # 3ª linha: P/VP / DY
+    r3 = c.columns(2)
+    r3[0].markdown(
+        "<div class='tooltip'>P/VP ℹ️"
+        "<span class='tooltiptext'>Preço de mercado ÷ VPA</span></div>",
+        unsafe_allow_html=True
+    )
+    r3[0].metric(label="", value=f"{pvp:.2f}%" if pvp else "N/A")
+    r3[1].markdown(
+        f"<div class='tooltip'>DY {years_div}A ℹ️"
+        "<span class='tooltiptext'>Dividend Yield nos últimos "
+        f"{years_div} anos</span></div>",
+        unsafe_allow_html=True
+    )
+    r3[1].metric(label="", value=f"{dy:.2f}%" if dy else "N/A")
+
     c.markdown("---")
+
     # Gráficos empilhados verticalmente
     # Cotação Semanal
     if not df_price.empty:
@@ -129,13 +202,19 @@ for c, data in zip([col1, col2], [data1, data2]):
                 # aumenta espessura da linha para maior nitidez
         fig1.update_traces(line=dict(width=3), selector=dict(type='scatter'))
         c.plotly_chart(fig1, use_container_width=True)
+
     # Dividendos 12 Meses
     if not df_ind[df_ind['indicador']=='Dividendos'].empty:
         df_div = df_ind[df_ind['indicador']=='Dividendos'].copy()
-        df_div['mes'] = df_div.index.to_period('M').to_timestamp()
+        # usa a coluna data_referencia para extrair mês
+        df_div['mes'] = pd.to_datetime(df_div['data_referencia']).dt.to_period('M').dt.to_timestamp()
         mensal = df_div.groupby('mes')['valor'].sum().reset_index()
-        fig2 = px.bar(mensal.tail(12), x='mes', y='valor', title='Dividendos 12 Meses', labels={'mes':'Mês/Ano','valor':'R$'})
+        fig2 = px.bar(
+            mensal.sort_values('mes').tail(12),
+            x='mes',
+            y='valor',
+            title='Dividendos 12 Meses',
+            labels={'mes': 'Mês/Ano', 'valor': 'R$'}
+        )
+        fig2.update_xaxes(tickformat='%b/%Y', dtick='M1', tickangle=-45)
         c.plotly_chart(fig2, use_container_width=True)
-    c.markdown("---")
-
-st.markdown("<p style='text-align:center;color:#888;'>Dados extraídos de fiis.db</p>", unsafe_allow_html=True)

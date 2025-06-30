@@ -1,7 +1,11 @@
 import streamlit as st
 from datetime import datetime
 
-st.set_page_config(page_title="Dashboard de FIIs", layout="centered")
+st.set_page_config(
+    page_title="Dashboard de FIIs",
+    layout="centered",
+    initial_sidebar_state="expanded"
+)
 
 # Estilo customizado
 st.markdown("""

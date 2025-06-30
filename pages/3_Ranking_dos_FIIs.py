@@ -15,6 +15,7 @@ def carregar_dados():
         SELECT f.id, f.ticker, f.nome, s.nome as setor
         FROM fiis f
         JOIN setor s ON f.setor_id = s.id
+        WHERE f.ativo = 1
     """, conn)
     indicadores = pd.read_sql("""
         SELECT fi.fii_id, f.ticker AS ticker_fii, i.nome AS indicador, fi.valor, fi.data_referencia
