@@ -21,13 +21,11 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = ROOT_DIR / "data" / "fiis.db"
 ENV_PATH = ROOT_DIR / ".env"
 
-# Conecta DB e ativa WAL
 def abrir_conexao_db():
     conn = sqlite3.connect(DB_PATH)
     conn.execute("PRAGMA journal_mode=WAL;")
     return conn
 
-# Autentica na Plexa
 def autenticar():
     global TOKEN
     resp = requests.post(
@@ -51,7 +49,6 @@ def autenticar():
     else:
         raise RuntimeError(f"Falha na autenticação: {data}")
 
-# Obtém dividendos da API
 def obter_dividendos(ticker, meses=3600):
     url = DIVIDENDO_ENDPOINT.format(ticker=ticker, meses=meses)
     try:
@@ -70,13 +67,12 @@ def obter_dividendos(ticker, meses=3600):
     payload = resp.json()
     return payload.get('data', []) if payload.get('ok') else []
 
-# Salva dataCom + valor, sem duplicar, usando SELECT antes de INSERT
 def salvar_dividendos(pausa=1):
     print(f"🚀 Iniciando importação de dividendos em {DB_PATH}")
     conn = abrir_conexao_db()
     cur = conn.cursor()
 
-    # 1) Criar índice único para evitar duplicatas
+    # Índice único para evitar duplicatas
     cur.execute("""
         CREATE UNIQUE INDEX IF NOT EXISTS ux_divs_unicidade
         ON fiis_indicadores(fii_id, indicador_id, data_referencia)
@@ -87,76 +83,82 @@ def salvar_dividendos(pausa=1):
     fiis = cur.fetchall()
 
     # Busca ou cria indicador 'Dividendos'
-    cur.execute(
-        "SELECT id FROM indicadores WHERE LOWER(nome)='dividendos'"
-    )
+    cur.execute("SELECT id FROM indicadores WHERE LOWER(nome)='dividendos'")
     row = cur.fetchone()
     if row:
         ind_id = row[0]
     else:
         cur.execute(
             "INSERT INTO indicadores(nome,descricao) VALUES(?,?)",
-            ("Dividendos","Rendimentos distribuídos mensalmente")
+            ("Dividendos", "Rendimentos distribuídos mensalmente")
         )
         ind_id = cur.lastrowid
         print(f"✔ Indicador 'Dividendos' criado: id={ind_id}")
 
-    count_api = 0
-    count_inserted = 0
+    total_api = 0
+    total_inserted = 0
 
     for fii_id, ticker in fiis:
         print(f"\n🔎 Processando {ticker}…")
-        entries = obter_dividendos(ticker, meses=24)
-        count_api += len(entries)
+        entries = obter_dividendos(ticker, meses=3600)
+        total_api += len(entries)
         print(f"   → {len(entries)} registros na API para {ticker}")
 
+        # contador local para este ticker
+        inserted_this = 0
+
         for item in entries:
-            tipo = item.get('tipo ') or item.get('tipo') or ''
-            if tipo.strip().upper() != 'RENDIMENTO':
-            # Ignora amortizações, juros sobre capital, etc.
+            # Filtrar apenas rendimentos (detecta chave 'tipo' com ou sem espaço)
+            tipo_key = next((k for k in item.keys() if k.strip().lower() == 'tipo'), None)
+            tipo = item.get(tipo_key, '') if tipo_key else ''
+            if 'RENDIMENTO' not in tipo.upper():
                 continue
-            # --- extrai data_referencia ---
-            mes_ref_str = item.get('mesReferencia', '') or ''
+
+            # Extrai data_referencia (prioriza mesReferencia)
+            mes_ref = item.get('mesReferencia', '')
             try:
-                m, a = mes_ref_str.split('/')
-                ultimo_dia = monthrange(int(a), int(m))[1]
-                dt = datetime(year=int(a), month=int(m), day=ultimo_dia).date()
-                # --- filtra meses futuros ---
-                hoje = date.today()
-                ultimo_mes_completo = (hoje.replace(day=1) - timedelta(days=1))
-                if dt > ultimo_mes_completo:
-                    print(f"   ! Ignorando futuro: {ticker} | {dt.isoformat()}")
-                continue
-            except:
+                m, y = mes_ref.split('/')
+                ultimo_dia = monthrange(int(y), int(m))[1]
+                dt = date(int(y), int(m), ultimo_dia)
+            except Exception:
+                # fallback para dataCom
                 try:
-                    dt = datetime.strptime(item['dataCom'], '%d/%m/%Y').date()
-                except:
+                    dt = datetime.strptime(item.get('dataCom', ''), '%d/%m/%Y').date()
+                except Exception:
                     continue
 
-            date_ref = dt.isoformat()
-            valor_str = item.get('valor')
-            if not valor_str:
+            # Filtra meses futuros
+            hoje = date.today()
+            ultimo_mes = (hoje.replace(day=1) - timedelta(days=1))
+            if dt > ultimo_mes:
                 continue
-            valor = float(valor_str.replace('.', '').replace(',', '.'))
 
-            # --- verifica existência antes do INSERT ---
+            date_ref = dt.isoformat()
+            val_str = item.get('valor', '')
+            try:
+                valor = float(val_str.replace('.', '').replace(',', '.'))
+            except Exception:
+                continue
+
+            # Verifica duplicata
             cur.execute(
-                "SELECT 1 FROM fiis_indicadores "
-                "WHERE fii_id=? AND indicador_id=? AND data_referencia=?",
+                "SELECT 1 FROM fiis_indicadores WHERE fii_id=? AND indicador_id=? AND data_referencia=?",
                 (fii_id, ind_id, date_ref)
             )
             if cur.fetchone():
                 continue
 
-            # --- insere só os que não existiam ---
+            # Insere registro
             cur.execute(
-                "INSERT INTO fiis_indicadores "
-                "(fii_id, indicador_id, data_referencia, valor) "
-                "VALUES (?, ?, ?, ?)",
+                "INSERT INTO fiis_indicadores(fii_id, indicador_id, data_referencia, valor) VALUES(?,?,?,?)",
                 (fii_id, ind_id, date_ref, valor)
             )
-            count_inserted += 1
+            inserted_this += 1
+            total_inserted += 1
             print(f"   + Inseriu: {ticker} | {date_ref} | R$ {valor}")
+
+        # resumo por ticker
+        print(f"   → Inseridos para {ticker}: {inserted_this}")
 
         if pausa:
             time.sleep(pausa)
@@ -164,8 +166,8 @@ def salvar_dividendos(pausa=1):
     conn.commit()
     conn.close()
 
-    print(f"\n✅ Total API registros: {count_api}")
-    print(f"✅ Total novos inseridos: {count_inserted}")
+    print(f"\n✅ Total registros API analisados: {total_api}")
+    print(f"✅ Total novos inseridos: {total_inserted}")
 
 if __name__ == '__main__':
     if not TOKEN:
