@@ -103,11 +103,15 @@ def salvar_dados_no_banco(dados):
         cur.execute("SELECT id FROM setor WHERE nome = ?", (setor_nome,))
         setor_id = cur.fetchone()[0]
 
-        # Insere FII
-        cur.execute("""
-        INSERT OR IGNORE INTO fiis (ticker, nome, gestao, admin, setor_id, created_at)
-        VALUES (?, ?, ?, ?, ?, ?)
-        """, (ticker, nome, gestao, admin, setor_id, data_atual))
+        # Insere FII sem tipo_id (será atribuído depois por adicionaTIpo.py)
+        cur.execute(
+           """
+            INSERT OR IGNORE INTO fiis (
+                ticker, nome, gestao, admin, setor_id, tipo_id, created_at
+           ) VALUES (?, ?, ?, ?, ?, NULL, ?)
+            """,
+            (ticker, nome, gestao, admin, setor_id, data_atual)
+        )
         if cur.rowcount:
             count_fiis += 1
             print(f"Novo FII adicionado: {ticker}")

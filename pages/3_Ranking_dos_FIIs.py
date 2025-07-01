@@ -5,162 +5,121 @@ from pathlib import Path
 import plotly.graph_objects as go
 
 st.set_page_config(layout="wide")
-st.title("🏅 Ranking: Top 10 FIIs por Indicador")
+st.title("🏅 Ranking: Top 10 FIIs por Métrica e por Tipo/Setor")
 DB_PATH = Path(__file__).parents[1] / "data" / "fiis.db"
 
 @st.cache_data
 def carregar_dados():
     conn = sqlite3.connect(DB_PATH)
-    fiis = pd.read_sql("""
-        SELECT f.id, f.ticker, f.nome, s.nome as setor
+    fiis = pd.read_sql(
+        """
+        SELECT f.id, f.ticker, f.nome, s.nome AS setor, t.nome AS tipo
         FROM fiis f
         JOIN setor s ON f.setor_id = s.id
-    """, conn)
-    indicadores = pd.read_sql("""
+        JOIN tipo_fii t ON f.tipo_id = t.id
+        WHERE f.ativo = 1
+        """, conn)
+    indicadores = pd.read_sql(
+        """
         SELECT fi.fii_id, f.ticker AS ticker_fii, i.nome AS indicador, fi.valor, fi.data_referencia
         FROM fiis_indicadores fi
         JOIN indicadores i ON i.id = fi.indicador_id
         JOIN fiis f ON f.id = fi.fii_id
         WHERE fi.valor IS NOT NULL
-    """, conn)
+        """, conn)
     conn.close()
     return fiis, indicadores
 
 fiis, indicadores = carregar_dados()
 
-# ───── Sidebar de filtros ──────────────────────────────────────────────────────
+# ── Sidebar de filtros ───────────────────────────────────────────────────────
 st.sidebar.subheader("🔍 Filtros")
 
-# 1) Filtro de Setor
-setores = sorted(fiis['setor'].unique())
-filtro_setor = st.sidebar.multiselect("Setores:", setores, default=setores)
-
-# Narrow down pelos setores
-fiis_filtrados = fiis[fiis['setor'].isin(filtro_setor)]
-ids_filtrados  = fiis_filtrados['id'].tolist()
-
-# 2) Prepara DataFrame de indicadores válidos
-df_validos = indicadores[indicadores['fii_id'].isin(ids_filtrados)].copy()
-
-# Exclui vacância/ocupação
-indicadores_ocultar = [
-    "Vacância Percentual", "Vacância m²",
-    "Ocupação Percentual", "Ocupação m²"
-]
-df_validos = df_validos[~df_validos['indicador'].isin(indicadores_ocultar)]
-
-# Unifica todas as janelas de Dividend Yield em um só
-df_validos['indicador'] = df_validos['indicador'].replace({
-    "Dividend Yield 1M": "Dividend Yield",
-    "Dividend Yield 3M": "Dividend Yield",
-    "Dividend Yield 6M": "Dividend Yield",
-    "Dividend Yield 12M": "Dividend Yield"
-})
-
-# 3) Filtro de indicadores
-indicadores_disponiveis = sorted(df_validos['indicador'].unique())
-indicadores_padrao     = ["P/VP", "Patrimônio Líquido", "Dividend Yield"]
-filtro_inds = st.sidebar.multiselect(
-    "Indicadores:", 
-    indicadores_disponiveis,
-    default=[i for i in indicadores_padrao if i in indicadores_disponiveis]
+tipos = sorted(fiis['tipo'].unique())
+filtro_tipo = st.sidebar.multiselect(
+    "Tipos:", tipos, default=[], key="filtro_tipo"
 )
 
-# Aplica filtro de indicadores
-df_validos = df_validos[df_validos['indicador'].isin(filtro_inds)]
+# Setores dinâmicos conforme Tipo selecionado
+if filtro_tipo:
+    setores_opcoes = sorted(fiis[fiis['tipo'].isin(filtro_tipo)]['setor'].unique())
+else:
+    setores_opcoes = sorted(fiis['setor'].unique())
 
-# ───── Função de plot Top10 ────────────────────────────────────────────────────
-def plot_top10(indicador_nome, container):
-    df_i = df_validos[df_validos['indicador'] == indicador_nome].copy()
-    df_i = df_i.sort_values("valor", ascending=False)
-    top10 = df_i.head(10)
+filtro_setor = st.sidebar.multiselect(
+    "Setores:", setores_opcoes, default=[], key="filtro_setor"
+)
 
+# Filtro de Métricas (sem indicadores de dividendos)
+metricas_disponiveis = sorted(indicadores['indicador'].unique())
+metricas_disponiveis = [m for m in metricas_disponiveis if 'Dividend' not in m]
+metricas_padrao = [m for m in ["P/VP", "Valor Patrimonial por Cota", "Preço Atual"] if m in metricas_disponiveis]
+filtro_metrica = st.sidebar.multiselect(
+    "Métricas:", metricas_disponiveis, default=metricas_padrao, key="filtro_metrica"
+)
+
+# ── Filtra dados conforme seleção ────────────────────────────────────────────
+fiis_filtrados = fiis.copy()
+if filtro_tipo:
+    fiis_filtrados = fiis_filtrados[fiis_filtrados['tipo'].isin(filtro_tipo)]
+if filtro_setor:
+    fiis_filtrados = fiis_filtrados[fiis_filtrados['setor'].isin(filtro_setor)]
+ids_filtrados = fiis_filtrados['id'].tolist()
+
+df_validos = indicadores[indicadores['fii_id'].isin(ids_filtrados)].copy()
+irrelevantes = ["Vacância Percentual", "Vacância m²", "Ocupação Percentual", "Ocupação m²"]
+df_validos = df_validos[~df_validos['indicador'].isin(irrelevantes)]
+df_validos = df_validos[~df_validos['indicador'].str.contains('Dividend', case=False, na=False)]
+
+df_validos['indicador'] = df_validos['indicador'].replace({
+    "Valor Patrimonial por Cota": "VPA",
+    "Preço Atual": "Preço Atual",
+    "P/VP": "P/VP"
+})
+selected_mets = filtro_metrica or metricas_disponiveis
+
+# ── Função de plotagem ───────────────────────────────────────────────────────
+def plot_top10(metrica, df_source, container, key):
+    df_i = df_source[df_source['indicador'] == metrica].nlargest(10, 'valor')
+    if df_i.empty:
+        container.info(f"Sem dados para {metrica}.")
+        return
     fig = go.Figure(go.Bar(
-        x=top10['valor'],
-        y=top10['ticker_fii'],
-        orientation='h'
+        x=df_i['valor'],
+        y=df_i['ticker_fii'],
+        orientation='h',
+        hovertemplate="<b>%{y}</b><br>Valor (R$): %{x:,.2f}<extra></extra>"
     ))
     fig.update_layout(
-        title={'text': indicador_nome, 'x': 0.5, 'xanchor': 'center'},
-        xaxis_title="Valor",
-        yaxis_title="FII",
-        paper_bgcolor='rgba(0,0,0,0)',         
-        plot_bgcolor='rgba(0,0,0,0)',         
-        font=dict(family='Arial', size=12),
-        margin=dict(l=80, r=40, t=50, b=40),
-        height=350,
+        title={'text': metrica, 'x': 0.5},
+        xaxis_title="Valor (R$)",
+        yaxis_title="Código do FII",
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        height=300,
         yaxis=dict(autorange='reversed')
     )
-    container.plotly_chart(fig, use_container_width=True)
+    container.plotly_chart(fig, use_container_width=True, key=key)
 
-# ───── Desenha os gráficos selecionados ────────────────────────────────────────
-if not filtro_inds:
-    st.warning("Selecione ao menos 1 indicador na sidebar para exibir os gráficos.")
-else:
-    col1, col2 = st.columns(2)
-    half = (len(filtro_inds) + 1) // 2
-    col1_inds = filtro_inds[:half]
-    col2_inds = filtro_inds[half:]
+# ── Ranking por Métrica ───────────────────────────────────────────────────────
+st.subheader("📈 Top 10 por Métrica")
+cols_mets = st.columns(2)
+for idx, metrica in enumerate(selected_mets):
+    plot_top10(metrica, df_validos, cols_mets[idx % 2], key=f"met-{metrica}-{idx}")
 
-    with col1:
-        for ind in col1_inds:
-            plot_top10(ind, col1)
-    with col2:
-        for ind in col2_inds:
-            plot_top10(ind, col2)
-
-st.subheader("📊 Comparativo de Ocupação e Vacância Física")
-
-with sqlite3.connect(DB_PATH) as conn:
-    df_im = pd.read_sql(
-        f"""
-        SELECT f.id AS fii_id,
-               f.ticker,
-               im.area_m2,
-               im.tx_ocupacao
-        FROM fiis_imoveis im
-        JOIN fiis f ON f.id = im.fii_id
-        WHERE im.fii_id IN ({','.join('?' for _ in ids_filtrados)})
-        """,
-        conn,
-        params=ids_filtrados
-    )
-
-if df_im.empty:
-    st.info("Não há dados de imóveis para calcular ocupação/vacância.")
-else:
-    # 2) Calcula ocupação ponderada e vacância para cada FII
-    grp = df_im.groupby(['fii_id', 'ticker']).apply(
-        lambda g: pd.Series({
-            'ocupacao': (g.area_m2 * g.tx_ocupacao).sum() / g.area_m2.sum(),
-            'vacancia': 100 - (g.area_m2 * g.tx_ocupacao).sum() / g.area_m2.sum()
-        })
-    ).reset_index()
-
-    # 3) Ordena pelo menor valor de vacância e pega Top 20
-    top20 = grp.sort_values('vacancia', ascending=True).head(20)
-
-    # 4) Plota
-    import plotly.graph_objects as go
-    fig = go.Figure()
-    fig.add_trace(go.Bar(
-        x=top20['ticker'],
-        y=top20['ocupacao'],
-        name="Ocupação (%)"
-    ))
-    fig.add_trace(go.Bar(
-        x=top20['ticker'],
-        y=top20['vacancia'],
-        name="Vacância (%)",
-        marker_color='indianred'
-    ))
-    fig.update_layout(
-        barmode='group',
-        title={'text': "Top 20 FIIs por Melhor Ocupação e Menor Vacância", 'x':0.5},
-        xaxis_title="FII",
-        yaxis_title="Percentual",
-        font=dict(family='Arial', size=12),
-        margin=dict(l=80, r=40, t=60, b=50),
-        height=500
-    )
-    st.plotly_chart(fig, use_container_width=True)
+# ── Ranking por Tipo e Setor ─────────────────────────────────────────────────
+st.subheader("🏆 Top 10 FIIs por Tipo e Setor")
+for tipo in (filtro_tipo or tipos):
+    st.markdown(f"### Tipo: {tipo}")
+    setores_disp = sorted(fiis_filtrados[fiis_filtrados['tipo'] == tipo]['setor'].unique())
+    for setor in (filtro_setor or setores_disp):
+        st.markdown(f"#### Setor: {setor}")
+        ids_grp = fiis_filtrados[(fiis_filtrados['tipo'] == tipo) & (fiis_filtrados['setor'] == setor)]['id']
+        df_grp = df_validos[df_validos['fii_id'].isin(ids_grp)]
+        if df_grp.empty:
+            st.write("Sem dados para este grupo.")
+            continue
+        cols_group = st.columns(2)
+        for idx, metrica in enumerate(selected_mets):
+            plot_top10(metrica, df_grp, cols_group[idx % 2], key=f"grp-{tipo}-{setor}-{metrica}")
+            
