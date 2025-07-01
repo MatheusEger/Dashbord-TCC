@@ -37,7 +37,7 @@ st.title("📊 Bem-vindo(a) ao Dashboard de FIIs")
 st.page_link("pages/1_Analise_por_Fundo.py", label="Análise por Fundo")
 st.page_link("pages/2_Comparador.py", label="Ranking dos FIIs")
 st.page_link("pages/3_Ranking_dos_FIIs.py", label="Comparador")
-st.page_link("pages/4_Ajuda.py", label="Ajuda")
+st.page_link("pages/4_Comece_por_aqui.py.py", label="Comece por aqui")
 
 # Descrição inferior
 st.markdown("""

@@ -108,8 +108,18 @@ low52 = d52['preco_fechamento'].min() if not d52.empty else np.nan
 
 divs = hf[hf['indicador'].str.lower()=='dividendos'].sort_values('data_referencia', ascending=False)
 price_val = price if price else 1
-def DY_last(n): return divs['valor'].head(n).sum()/price_val*100
-DYS = {'1M': DY_last(1), '3M': DY_last(3), '6M': DY_last(6), '12M': DY_last(12)}
+
+def DY_months(months):
+    cutoff = now - relativedelta(months=months)
+    total = divs.loc[divs['data_referencia'] >= cutoff, 'valor'].sum()
+    return total / price_val * 100
+
+DYS = {
+    '1M': DY_months(1),
+    '3M': DY_months(3),
+    '6M': DY_months(6),
+    '12M': DY_months(12)
+}
 
 st.markdown(
     """
@@ -135,6 +145,7 @@ qtd_imoveis = len(df_im)
 
 # Dados do Fundo
 st.subheader(f"Dados do Fundo {ticker}")
+#st.markdown(f"**Setor:** {f['setor']}")
 st.markdown(f"**Nome:** {f['nome']}")
 st.markdown(f"**Gestora:** {f['gestao'] or 'N/D'}")
 st.markdown(f"**Administradora:** {f['admin'] or 'N/D'}")
