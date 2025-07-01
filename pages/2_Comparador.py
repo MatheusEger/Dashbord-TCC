@@ -18,34 +18,60 @@ st.markdown(
     """, unsafe_allow_html=True)
 
 # +++ Slider de período para dividendos +++
-years_div = st.sidebar.slider("Período de Dividendos (anos)", 1, 10, 1)
+years_div = 1 #st.sidebar.slider("Período de Dividendos (anos)", 1, 10, 1)
 
 # Slider de período para cotação na sidebar
 years_cot = st.sidebar.slider("Período da Cotação (anos)", 1, 10, 5)
 
 
 # Explicação dos Indicadores e Gráficos na sidebar
-st.sidebar.header("ℹ️ O que são esses Indicadores?")
-st.sidebar.markdown(
-    """
-    **Preço Atual**: último preço de fechamento.  
-    **PL (Patrimônio Líquido)**: valor dos ativos do fundo menos seus passivos.  
-    **Quantidade Cotas**: total de cotas emitidas pelo fundo.  
-    **VPA**: valor patrimonial por cota = PL ÷ quantidade de cotas.  
-    **P/VP**: relação preço de mercado ÷ VPA.  
-    **DY 12M**: soma de dividendos pagos nos últimos 12 meses ÷ preço atual.  
-    **Cotação Semanal**: evolução do preço, última cotação de cada semana.  
-    **Dividendos 12 Meses**: soma de dividendos mensais nos últimos 12 meses.  
-    """, unsafe_allow_html=True)
+st.sidebar.header("ℹ️ O que são esses Indicadores e Gráficos?")
+st.sidebar.markdown(r"""
+    - **Preço Atual**: último preço de fechamento na Bolsa, serve como referência para compra e venda.  
+
+    - **Patrimônio Líquido (PL)**: total dos ativos do fundo (imóveis, títulos, caixa etc.) menos as dívidas e obrigações.  
+      Mostra o “tamanho real” do fundo.
+
+    - **Quantidade de Cotas**: número total de cotas emitidas pelo fundo.  
+      Usado para calcular valores por cota.
+
+    - **Valor Patrimonial por Cota (VPA)**: PL ÷ quantidade de cotas.  
+      Ex.: se o PL é R\$ 100 mi e há 1 mi de cotas, o VPA é R\$ 100 por cota.
+
+    - **Preço/VPA (P/VP)**: mostra quanto você “paga” pela cota em relação ao valor patrimonial.  
+      - **P/VP < 1 (Desconto)** → cotação abaixo do valor contábil (você paga menos que R\$ 1,00 para cada R\$ 1,00 de patrimônio).  
+        • Ex.: P/VP = 0,90 → você paga R\$ 0,90 por cada R\$ 1,00 de patrimônio (desconto de 10%).  
+      - **P/VP > 1 (Ágio)** → cotação acima do valor contábil (você paga mais que R\$ 1,00 para cada R\$ 1,00 de patrimônio).  
+        • Ex.: P/VP = 1,10 → você paga R\$ 1,10 por cada R\$ 1,00 de patrimônio (ágio de 10%).
+
+    - **Dividend Yield 12M (DY 12M)**: soma dos dividendos pagos nos últimos 12 meses ÷ preço atual da cota.  
+      Indica a rentabilidade anual “por dividendos”.  
+
+    - **Cotação Semanal**: sequência do preço de fechamento de cada semana, ajudando a identificar tendências de curto/médio prazo.  
+
+    - **Dividendos nos Últimos 12 Meses**: total dos dividendos mensais acumulados no período, mostrando o rendimento bruto.
+""", unsafe_allow_html=True)
+
+
+st.sidebar.markdown(r"""
+- **Exemplo**: custo de administração: R\$0,50% ao ano  
+- Para indicar um range: de R\$10 a R\$20  
+""", unsafe_allow_html=True)
+
+st.sidebar.markdown("""
+- **Exemplo**: custo de administração: R&#36;0,50% ao ano  
+- Para indicar um range: de R&#36;10 a R&#36;20  
+""", unsafe_allow_html=True)
 
 st.markdown("<h1 style='text-align:center;'>📑 Comparador de Fundos Imobiliários</h1>", unsafe_allow_html=True)
 
 DB_PATH = Path(__file__).resolve().parents[1] / "data" / "fiis.db"
 with sqlite3.connect(DB_PATH) as conn:
-    fiis = pd.read_sql("SELECT id, ticker, nome, gestao, admin, setor_id FROM fiis WHERE ativo = 1", conn)    
+    # 1) carrega FIIs e demais tabelas
+    fiis    = pd.read_sql("SELECT id, ticker, nome, gestao, admin, setor_id, tipo_id FROM fiis WHERE ativo = 1", conn)
     setores = pd.read_sql("SELECT id, nome FROM setor", conn)
-    cot = pd.read_sql("SELECT fii_id, data, preco_fechamento FROM cotacoes", conn, parse_dates=['data'])
-    inds = pd.read_sql(
+    cot    = pd.read_sql("SELECT fii_id, data, preco_fechamento FROM cotacoes", conn, parse_dates=['data'])
+    inds   = pd.read_sql(
         """
         SELECT fi.fii_id, i.nome AS indicador, fi.valor, fi.data_referencia
         FROM fiis_indicadores fi
@@ -53,6 +79,14 @@ with sqlite3.connect(DB_PATH) as conn:
         """, conn, parse_dates=['data_referencia']
     )
 
+    # ───> aqui, carregue também a tabela de tipos:
+    tipos = pd.read_sql(
+        "SELECT id AS tipo_id, nome AS tipo, descricao AS tipo_desc FROM tipo_fii",
+        conn
+    )
+
+# 2) faça o merge de tipos com o DataFrame de FIIs
+fiis = fiis.merge(tipos, on="tipo_id", how="left")
 def prepare(ticker, years_div):
     dy = 0.0
     row = fiis[fiis['ticker']==ticker].iloc[0]
@@ -84,6 +118,13 @@ def prepare(ticker, years_div):
 
     # … cálculos de pl, cotas, price, vpa, pvp, df_price, df_ind …
     return row, setor, pl, cotas, price, vpa, pvp, dy, df_price, df_ind
+
+# +++ filtro por Tipo +++
+tipo_names    = tipos['tipo'].tolist()
+selected_tipo = st.selectbox("Selecione o Tipo", tipo_names)
+
+# aplica o filtro de tipo
+fiis = fiis[fiis['tipo'] == selected_tipo]
 
 setores_validos = setores[setores['id'].isin(fiis['setor_id'])]
 setor_names    = sorted(setores_validos['nome'].unique())
@@ -140,7 +181,7 @@ for c, data in zip([col1, col2], [data1, data2]):
     )
     r1[0].metric(label="", value=f"R$ {price:,.2f}" if price else "N/A")
     r1[1].markdown(
-        "<div class='tooltip'>Patrimônio Líquido ℹ️"
+        "<div class='tooltip'>Patrimônio Líquido (PL) ℹ️"
         "<span class='tooltiptext'>Ativos menos passivos</span></div>",
         unsafe_allow_html=True
     )
@@ -168,7 +209,7 @@ for c, data in zip([col1, col2], [data1, data2]):
         "<span class='tooltiptext'>Preço de mercado ÷ VPA</span></div>",
         unsafe_allow_html=True
     )
-    r3[0].metric(label="", value=f"{pvp:.2f}%" if pvp else "N/A")
+    r3[0].metric(label="", value=f"{pvp:.2f}" if pvp else "N/A")
     with sqlite3.connect(DB_PATH) as conn_im:
         df_qt = pd.read_sql(
         "SELECT COUNT(*) AS qtd FROM fiis_imoveis WHERE fii_id = ?",
@@ -191,23 +232,43 @@ for c, data in zip([col1, col2], [data1, data2]):
     # Gráficos empilhados verticalmente
     # Cotação Semanal
     if not df_price.empty:
-        cutoff = datetime.now() - relativedelta(years=years_cot)
-        df_week = df_price[df_price['data']>=cutoff] \
-            .set_index('data') \
-            .resample('W-FRI')['preco_fechamento'] \
-            .last() \
-            .reset_index()
-        fig1 = px.line(
-            df_week,
-            x='data',
-            y='preco_fechamento',
-            title='Cotação Semanal',
-            labels={'data':'Ano','preco_fechamento':'R$'}
-        )
-        fig1.update_xaxes(tickformat='%Y', dtick='M12')
-                # aumenta espessura da linha para maior nitidez
-        fig1.update_traces(line=dict(width=3), selector=dict(type='scatter'))
-        c.plotly_chart(fig1, use_container_width=True)
+        # data mínima disponível para este fundo
+        data_min = df_price['data'].min()
+
+        # determina cutoff: anos atrás, mas não antes do primeiro dado
+        cutoff_user = datetime.now() - relativedelta(years=years_cot)
+        cutoff = max(cutoff_user, data_min)
+
+        # filtra pelo período ajustado
+        df_filtered = df_price[df_price['data'] >= cutoff]
+
+        if df_filtered.empty:
+            c.info("Sem dados de cotação para o período selecionado.")
+        else:
+            # resample semanal genérico e descarta NaN
+            df_week = (
+                df_filtered
+                .set_index('data')
+                .resample('W')['preco_fechamento']
+                .last()
+                .dropna()
+                .reset_index()
+            )
+
+            if df_week.empty:
+                c.info("Não há cotações semanais suficientes para plotar o gráfico.")
+            else:
+                fig1 = px.line(
+                    df_week,
+                    x='data',
+                    y='preco_fechamento',
+                    title='Cotação Semanal',
+                    labels={'data':'Data','preco_fechamento':'R$'}
+                )
+                # opcional: ajustar formatação dinâmica do eixo X
+                fig1.update_xaxes(tickformat='%Y-%m', nticks=6)
+                fig1.update_traces(line=dict(width=3), selector=dict(type='scatter'))
+                c.plotly_chart(fig1, use_container_width=True)
 
     # Dividendos 12 Meses
     if not df_ind[df_ind['indicador']=='Dividendos'].empty:

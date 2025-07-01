@@ -101,6 +101,8 @@ d52 = df_cot[df_cot['data'] >= now - timedelta(weeks=52)]
 high52 = d52['preco_fechamento'].max() if not d52.empty else np.nan
 low52 = d52['preco_fechamento'].min() if not d52.empty else np.nan
 
+delta52 = ((price - low52) / low52 * 100) if pd.notna(low52) and low52 else np.nan
+
 # Dividend Yield
 # Filtra apenas os registros de dividendos
 # Filtra dividendos e converte datas
@@ -118,22 +120,24 @@ df_div_mensal = (
 
 price_val = price or 1.0
 
-def DY_n_months(n):
-    # 1) Último dia do mês anterior
-    last_day_prev_month = (now.replace(day=1) - timedelta(days=1))
-    # 2) Primeiro dia do período: n-1 meses antes, no dia 1
-    first_day_period = (last_day_prev_month.replace(day=1)
-                        - relativedelta(months=n-1))
-    # 3) Filtra os meses completos desse intervalo
-    mask = (
-        (df_div_mensal['mes'] >= first_day_period) &
-        (df_div_mensal['mes'] <= last_day_prev_month.replace(day=1))
-    )
-    total_divs = df_div_mensal.loc[mask, 'valor'].sum()
-    # 4) Aplica a fórmula
-    return (total_divs / price_val) * 100
+def preco_em(data):
+    tmp = df_cot[df_cot['data'] <= data]
+    if tmp.empty:
+        return price
+    return tmp.iloc[-1]['preco_fechamento']
 
-# Agora calcula os DY exatos
+def DY_n_months(n):
+    # Último dia do mês anterior
+    last_day_prev_month = (now.replace(day=1) - timedelta(days=1))
+    # Primeiro dia do período: exatamente n meses atrás, dia 1
+    start_period = (now.replace(day=1) - relativedelta(months=n))
+    mask = (
+        (divs['data_referencia'] >= start_period) &
+        (divs['data_referencia'] <= last_day_prev_month)
+    )
+    total_divs = divs.loc[mask, 'valor'].sum()
+    return (total_divs / price) * 100
+
 DYS = {
     '1M':  DY_n_months(1),
     '3M':  DY_n_months(3),
@@ -172,10 +176,26 @@ st.subheader(f"{ticker} — Ultimo fechamento em {latest_date}")
 cols = st.columns(4)
 labels = ["Preço Atual", "Máx 52 Semanas", "Mín 52 Semanas", "Variação 30d"]
 values = [f"R$ {price:,.2f}", f"R$ {high52:,.2f}", f"R$ {low52:,.2f}", f"{delta30:.2f}%"]
-tips = ["Último fechamento", "Maior nas últimas 52 semanas", "Menor nas últimas 52 semanas", "Comparação: hoje vs 30 dias atrás"]
-for col, lab, val, tip in zip(cols, labels, values, tips):
-    col.markdown(f"<div class='metric-label tooltip'>{lab} ℹ️<span class='tooltiptext'>{tip}</span></div>", unsafe_allow_html=True)
-    col.metric(label="", value=val)
+tips   = ["Último fechamento\nVariação nos ultimso 12 meses", "Maior nas últimas 52 semanas", "Menor nas últimas 52 semanas", "Comparação: hoje vs 30 dias atrás"]
+col = cols[0]
+col.markdown(
+    f"<div class='metric-label tooltip'>Preço Atual ℹ️"
+    f"<span class='tooltiptext'>{tips[0]}</span></div>",
+    unsafe_allow_html=True
+)
+col.metric(label="", value=values[0], delta=f"{delta52:.2f}%")
+col.caption("Variação das últimas 52 semanas")
+
+
+# As outras continuam como antes:
+for idx in range(1, 4):
+    col = cols[idx]
+    col.markdown(
+        f"<div class='metric-label tooltip'>{labels[idx]} ℹ️"
+        f"<span class='tooltiptext'>{tips[idx]}</span></div>",
+        unsafe_allow_html=True
+    )
+    col.metric(label="", value=values[idx])
 
 st.markdown("---")
 
@@ -204,10 +224,12 @@ for col, lab, val, tip in zip(cols2, labels2, values2, tips2):
     
 st.markdown(
     "<div class='metric-label tooltip'>Dividend Yield ℹ️"
-    "<span class='tooltiptext'>Rendimento de dividendos pagos nos últimos períodos ÷ preço atual</span>"
-    "</div>",
+    "<span class='tooltiptext'>"
+    "Soma de dividendos dos últimos n meses ÷ preço de fechamento atual × 100"
+    "</span></div>",
     unsafe_allow_html=True
 )
+
 cols3 = st.columns(4)
 for col, period in zip(cols3, ['1M','3M','6M','12M']):
     col.metric(label=period, value=f"{DYS[period]:.2f}%")

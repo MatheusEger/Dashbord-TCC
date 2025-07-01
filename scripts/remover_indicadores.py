@@ -1,20 +1,18 @@
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path("C:/Dashbord-TCC/data/fiis.db")
+ROOT_DIR = Path(__file__).resolve().parent.parent
+DB_PATH = ROOT_DIR / "data" / "fiis.db"
 conn = sqlite3.connect(DB_PATH)
 cur = conn.cursor()
 
-# Nome do indicador que você quer limpar
-nome_indicador = 'Dividendos'
+#cur.execute("DELETE FROM sqlite_sequence WHERE name = ?", ('tipo_fii',))
 
-cur.execute("""
-    DELETE FROM fiis_indicadores
-    WHERE indicador_id IN (
-        SELECT id FROM indicadores WHERE nome = ?
-    )
-""", (nome_indicador,))
+cur.execute("DELETE FROM fiis_indicadores")
+cur.execute("DELETE FROM sqlite_sequence WHERE name = ?", ('fiis_indicadores',))
 
 conn.commit()
+cur.execute("VACUUM")
+
 conn.close()
-print(f"✅ Removidos todos os '{nome_indicador}' de fiis_indicadores")
+print(f"✅ Remoção realizada com sucesso.")

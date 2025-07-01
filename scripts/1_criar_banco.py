@@ -34,6 +34,15 @@ def criar_banco():
     for setor in setores_padrao:
         cur.execute("INSERT OR IGNORE INTO setor (nome) VALUES (?)", (setor,))
 
+    # Tabela de Tipos de FII
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS tipo_fii (
+            id        INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome      VARCHAR UNIQUE,
+            descricao VARCHAR
+        );
+    """)
+
     # Tipos básicos
     tipos_padrao = [
         ("Papel",           "Fundos de Papel (CRI, LCI etc.)"),
@@ -45,14 +54,7 @@ def criar_banco():
     for nome, desc in tipos_padrao:
         cur.execute("INSERT OR IGNORE INTO tipo_fii(nome, descricao) VALUES (?, ?)", (nome, desc))
 
-    # Tabela de Tipos de FII
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS tipo_fii (
-            id        INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome      VARCHAR UNIQUE,
-            descricao VARCHAR
-        );
-    """)
+
 
     # FIIs
     cur.execute("""
