@@ -1,10 +1,12 @@
 import streamlit as st
 import pandas as pd
 import sqlite3
+import numpy as np
 import plotly.express as px
 from pathlib import Path
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+import plotly.graph_objects as go  # no topo do arquivo
 
 st.set_page_config(page_title="Comparador de FIIs - Iniciante", layout="wide")
 # CSS tooltips
@@ -50,17 +52,6 @@ st.sidebar.markdown(r"""
     - **Cotação Semanal**: sequência do preço de fechamento de cada semana, ajudando a identificar tendências de curto/médio prazo.  
 
     - **Dividendos nos Últimos 12 Meses**: total dos dividendos mensais acumulados no período, mostrando o rendimento bruto.
-""", unsafe_allow_html=True)
-
-
-st.sidebar.markdown(r"""
-- **Exemplo**: custo de administração: R\$0,50% ao ano  
-- Para indicar um range: de R\$10 a R\$20  
-""", unsafe_allow_html=True)
-
-st.sidebar.markdown("""
-- **Exemplo**: custo de administração: R&#36;0,50% ao ano  
-- Para indicar um range: de R&#36;10 a R&#36;20  
 """, unsafe_allow_html=True)
 
 st.markdown("<h1 style='text-align:center;'>📑 Comparador de Fundos Imobiliários</h1>", unsafe_allow_html=True)
@@ -119,58 +110,209 @@ def prepare(ticker, years_div):
     # … cálculos de pl, cotas, price, vpa, pvp, df_price, df_ind …
     return row, setor, pl, cotas, price, vpa, pvp, dy, df_price, df_ind
 
-# +++ filtro por Tipo +++
-tipo_names    = tipos['tipo'].tolist()
-selected_tipo = st.selectbox("Selecione o Tipo", tipo_names)
+# lista de tipos e setores para cada coluna
+tipo_names = tipos['tipo'].tolist()
 
-# aplica o filtro de tipo
-fiis = fiis[fiis['tipo'] == selected_tipo]
+# cria duas colunas para filtros
+fcol1, fcol2 = st.columns(2)
 
-setores_validos = setores[setores['id'].isin(fiis['setor_id'])]
-setor_names    = sorted(setores_validos['nome'].unique())
-selected_setor = st.selectbox("Selecione o Setor", setor_names)
+with fcol1:
+    selected_tipo1 = st.selectbox(
+        "Selecione o Tipo (Fundo 1)",
+        tipo_names,
+        key="tipo1"
+    )
+    # filtra setores válidos para o tipo 1
+    setores1 = setores[setores['id'].isin(
+        fiis[fiis['tipo']==selected_tipo1]['setor_id']
+    )]
+    setor_names1 = sorted(setores1['nome'].unique())
+    selected_setor1 = st.selectbox(
+        "Selecione o Setor (Fundo 1)",
+        setor_names1,
+        key="setor1"
+    )
+    # FIIs para o primeiro filtro
+    fiis1 = fiis[
+        (fiis['tipo']==selected_tipo1) &
+        (fiis['setor_id']==setores1.loc[setores1['nome']==selected_setor1,'id'].iloc[0])
+    ]
 
-# 2) Descobre o ID do setor e filtra os FIIs ativos daquele setor
-setor_id = setores_validos.loc[setores_validos['nome'] == selected_setor, 'id'].iloc[0]
-fiis_setor = fiis[fiis['setor_id'] == setor_id]
+with fcol2:
+    # inicializa com mesmo valor do filtro 1
+    default_idx = tipo_names.index(selected_tipo1)
+    selected_tipo2 = st.selectbox(
+        "Selecione o Tipo (Fundo 2)",
+        tipo_names,
+        index=default_idx,
+        key="tipo2"
+    )
+    setores2 = setores[setores['id'].isin(
+        fiis[fiis['tipo']==selected_tipo2]['setor_id']
+    )]
+    setor_names2 = sorted(setores2['nome'].unique())
+    # define índice padrão igual ao selecionado em setor1, se existir
+    default_set_idx = (
+        setor_names2.index(selected_setor1)
+        if selected_setor1 in setor_names2 else 0
+    )
+    selected_setor2 = st.selectbox(
+        "Selecione o Setor (Fundo 2)",
+        setor_names2,
+        index=default_set_idx,
+        key="setor2"
+    )
+    fiis2 = fiis[
+        (fiis['tipo']==selected_tipo2) &
+        (fiis['setor_id']==setores2.loc[setores2['nome']==selected_setor2,'id'].iloc[0])
+    ]
 
-# ── Agora, na área principal, crie as duas colunas:
+# agora cada coluna de fundos filtra a partir dos seus próprios fiis1 e fiis2
 col1, col2 = st.columns(2)
+# converte para listas ordenadas
+tickers1 = fiis1['ticker'].sort_values().tolist()
+tickers2 = fiis2['ticker'].sort_values().tolist()
 
+# Fundo 1
 f1 = col1.selectbox(
     "Selecione Fundo 1",
-    fiis_setor['ticker'].sort_values(),
+    tickers1,
     key='f1'
 )
 
-tickers_f2 = fiis_setor.loc[fiis_setor['ticker'] != f1, 'ticker'].sort_values()
+# calcula índice padrão para Fundo 2: próximo ao selecionado em f1
+if f1 in tickers2 and len(tickers2) > 1:
+    idx1 = tickers2.index(f1)
+    default_idx2 = idx1 + 1 if idx1 + 1 < len(tickers2) else 0
+else:
+    default_idx2 = 0
+
+# Fundo 2 já herda o próximo da lista por padrão
 f2 = col2.selectbox(
     "Selecione Fundo 2",
-    tickers_f2,
+    tickers2,
+    index=default_idx2,
     key='f2'
 )
 
 data1 = prepare(f1, years_div)
 data2 = prepare(f2, years_div)
 
-for c, data in zip([col1, col2], [data1, data2]):
-    row, setor, pl, cotas, price, vpa, pvp, dy, df_price, df_ind = data
-    c.markdown(f"### {row['ticker']} — {row['nome']}")
-    c.markdown(
-        f"**Setor:** {setor}  &nbsp; "
-        f"**Gestora:** {row['gestao']}  &nbsp; "
-        f"**Admin:** {row['admin']}"
-    )
+# --- após calcular price, pl, cotas, vpa, pvp e qtd_imoveis para C1 e C2 ---
+# desempacota os retornos para o Fundo 1
+row1, setor1, pl1, cotas1, price1, vpa1, pvp1, dy1, df_price1, df_ind1 = data1
 
-    # função human_format como você já tinha
-    def human_format(num):
-        if num is None: return "N/A"
-        magnitude = 0
-        for unit in ['', ' mil', ' Mi', ' Bi']:
-            if abs(num) < 1000.0:
-                return f"{num:,.2f}{unit}"
-            num /= 1000.0
-        return f"{num:,.2f} Bi"
+row2, setor2, pl2, cotas2, price2, vpa2, pvp2, dy2, df_price2, df_ind2 = data2
+
+
+with sqlite3.connect(DB_PATH) as conn_im:
+    df_qt1 = pd.read_sql(
+        "SELECT COUNT(*) AS qtd FROM fiis_imoveis WHERE fii_id = ?",
+        conn_im,
+        params=(int(row1["id"]),)
+    )
+    qtd_imoveis1 = int(df_qt1["qtd"].iloc[0]) if not df_qt1.empty else 0
+
+    df_qt2 = pd.read_sql(
+        "SELECT COUNT(*) AS qtd FROM fiis_imoveis WHERE fii_id = ?",
+        conn_im,
+        params=(int(row2["id"]),)
+    )
+    qtd_imoveis2 = int(df_qt2["qtd"].iloc[0]) if not df_qt2.empty else 0
+
+# funções de formatação genérica
+def human_format(num):
+    if num is None:
+        return "N/A"
+    for unit in ['', ' mil', ' Mi', ' Bi']:
+        if abs(num) < 1000.0:
+            return f"{num:,.2f}{unit}"
+        num /= 1000.0
+    return f"{num:,.2f} Bi"
+
+def fmt_val(label, v):
+    if v is None:
+        return "N/A"
+    
+    # R$ com duas casas e vírgula decimal
+    if label in ["Preço Atual", "VPA"]:
+        s = f"{v:,.2f}"              # ex: "1,234.56"
+        s = s.replace(",", "#")      # "1#234.56"
+        s = s.replace(".", ",")      # "1#234,56"
+        s = s.replace("#", ".")      # "1.234,56"
+        return f"R$ {s}"
+    
+    # formata grandes números com sufixos e vírgula
+    if label in ["Patrimônio Líquido (PL)", "Quantidade Cotas"]:
+        s = human_format(v)          # ex: "1,23 Mi"
+        return s.replace(".", ",")   # ex: "1,23 Mi" → "1,23 Mi"
+    
+    # P/VP com 2 decimais e vírgula decimal
+    if label == "P/VP":
+        s = f"{v:.2f}"               # ex: "0.86"
+        return s.replace(".", ",")   # "0,86"
+    
+    # Número de Imóveis como inteiro (opcional), com vírgula se quiser
+    if label == "Número de Imóveis":
+        return f"{int(v)}"
+    
+    # fallback genérico
+    return str(v)
+
+# lista de tuplas: (label, função de comparação: True se v1 melhor que v2)
+metrics = [
+    ("Preço Atual",               lambda a, b: a > b),
+    ("Patrimônio Líquido (PL)",   lambda a, b: a > b),
+    ("Quantidade Cotas",          lambda a, b: a > b),
+    ("VPA",                       lambda a, b: a > b),
+    ("P/VP",                      lambda a, b: a < b),  # menor = melhor
+    ("Número de Imóveis",         lambda a, b: a > b),
+]
+
+# extraia os valores em dois dicionários
+values1 = {
+    "Preço Atual":            price1,
+    "Patrimônio Líquido (PL)": pl1,
+    "Quantidade Cotas":       cotas1,
+    "VPA":                    vpa1,
+    "P/VP":                   pvp1,
+    "Número de Imóveis":      qtd_imoveis1,
+}
+values2 = {
+    "Preço Atual":            price2,
+    "Patrimônio Líquido (PL)": pl2,
+    "Quantidade Cotas":       cotas2,
+    "VPA":                    vpa2,
+    "P/VP":                   pvp2,
+    "Número de Imóveis":      qtd_imoveis2,
+}
+
+# pré-calcule os troféus para não ter que rodar lambda dentro do loop de renderização
+trofeus1 = {lbl: " 🏆" if cmp(values1[lbl], values2[lbl]) else "" for lbl, cmp in metrics}
+trofeus2 = {lbl: " 🏆" if cmp(values2[lbl], values1[lbl]) else "" for lbl, cmp in metrics}
+
+rows      = [row1,        row2]
+values    = [values1,     values2]
+trofeus   = [trofeus1,    trofeus2]
+dfs_price = [df_price1,   df_price2]
+dfs_ind   = [df_ind1,     df_ind2]
+
+col_f1, col_f2 = st.columns(2)
+for idx, c in enumerate([col_f1, col_f2]):
+    row      = rows[idx]
+    vals     = values[idx]
+    trofs    = trofeus[idx]
+    df_price = dfs_price[idx]
+    df_ind   = dfs_ind[idx]
+
+    # agora, quando for buscar imóveis:
+    with sqlite3.connect(DB_PATH) as conn_im:
+        df_qt = pd.read_sql(
+            "SELECT COUNT(*) AS qtd FROM fiis_imoveis WHERE fii_id = ?",
+            conn_im,
+            params=(int(row["id"]),),  # <-- row está definido!
+        )
+        qtd_imoveis = int(df_qt["qtd"].iloc[0]) if not df_qt.empty else 0
 
     # 1ª linha: Preço Atual / Patrimônio Líquido
     r1 = c.columns(2)
@@ -179,13 +321,16 @@ for c, data in zip([col1, col2], [data1, data2]):
         "<span class='tooltiptext'>Último preço de fechamento</span></div>",
         unsafe_allow_html=True
     )
-    r1[0].metric(label="", value=f"R$ {price:,.2f}" if price else "N/A")
+    r1[0].metric(label="",
+                 value=fmt_val("Preço Atual", vals["Preço Atual"]) + trofs["Preço Atual"])
     r1[1].markdown(
         "<div class='tooltip'>Patrimônio Líquido (PL) ℹ️"
         "<span class='tooltiptext'>Ativos menos passivos</span></div>",
         unsafe_allow_html=True
     )
-    r1[1].metric(label="", value=f"R$ {human_format(pl)}" if pl else "N/A")
+    r1[1].metric(label="",
+                 value=fmt_val("Patrimônio Líquido (PL)", vals["Patrimônio Líquido (PL)"]) 
+                       + trofs["Patrimônio Líquido (PL)"])
 
     # 2ª linha: Quantidade Cotas / VPA
     r2 = c.columns(2)
@@ -194,38 +339,38 @@ for c, data in zip([col1, col2], [data1, data2]):
         "<span class='tooltiptext'>Total de cotas emitidas</span></div>",
         unsafe_allow_html=True
     )
-    r2[0].metric(label="", value=f"{human_format(cotas)}" if cotas else "N/A")
+    r2[0].metric(label="",
+                 value=fmt_val("Quantidade Cotas", vals["Quantidade Cotas"]) 
+                       + trofs["Quantidade Cotas"])
     r2[1].markdown(
         "<div class='tooltip'>VPA ℹ️"
         "<span class='tooltiptext'>Valor patrimonial por cota (PL ÷ Cotas)</span></div>",
         unsafe_allow_html=True
     )
-    r2[1].metric(label="", value=f"R$ {vpa:,.2f}" if vpa else "N/A")
+    r2[1].metric(label="",
+                 value=fmt_val("VPA", vals["VPA"]) + trofs["VPA"])
 
-    # 3ª linha: P/VP / DY
+    # 3ª linha: P/VP / Número de Imóveis
     r3 = c.columns(2)
     r3[0].markdown(
         "<div class='tooltip'>P/VP ℹ️"
         "<span class='tooltiptext'>Preço de mercado ÷ VPA</span></div>",
         unsafe_allow_html=True
     )
-    r3[0].metric(label="", value=f"{pvp:.2f}" if pvp else "N/A")
-    with sqlite3.connect(DB_PATH) as conn_im:
-        df_qt = pd.read_sql(
-        "SELECT COUNT(*) AS qtd FROM fiis_imoveis WHERE fii_id = ?",
-        conn_im,
-        params=(int(row["id"]),),
-    )
-    qtd_imoveis = int(df_qt["qtd"].iloc[0]) if not df_qt.empty else 0
-
-    if qtd_imoveis > 0:
-        # exibe Número de Imóveis
+    r3[0].metric(label="",
+                 value=fmt_val("P/VP", vals["P/VP"]) + trofs["P/VP"])
+    # se quiser repetir a lógica condicional pra imóveis, mantenha como antes
+    if vals["Número de Imóveis"] > 0:
         r3[1].markdown(
             "<div class='tooltip'>Número de Imóveis ℹ️"
             "<span class='tooltiptext'>Total de imóveis no portfólio do fundo</span></div>",
             unsafe_allow_html=True
         )
-    r3[1].metric(label="", value=f"{qtd_imoveis}")
+        r3[1].metric(
+            label="",
+            value=fmt_val("Número de Imóveis", vals["Número de Imóveis"]) 
+                + trofs["Número de Imóveis"]
+        )
 
     c.markdown("---")
 
@@ -258,6 +403,11 @@ for c, data in zip([col1, col2], [data1, data2]):
             if df_week.empty:
                 c.info("Não há cotações semanais suficientes para plotar o gráfico.")
             else:
+                x = df_week['data'].map(pd.Timestamp.toordinal).values
+                y = df_week['preco_fechamento'].values
+                m, b = np.polyfit(x, y, 1)
+                trend_y = m * x + b
+
                 fig1 = px.line(
                     df_week,
                     x='data',
@@ -265,11 +415,48 @@ for c, data in zip([col1, col2], [data1, data2]):
                     title='Cotação Semanal',
                     labels={'data':'Data','preco_fechamento':'R$'}
                 )
-                # opcional: ajustar formatação dinâmica do eixo X
-                fig1.update_xaxes(tickformat='%Y-%m', nticks=6)
+                fig1.update_xaxes(
+                    tickformat='%Y',    # mostra apenas o ano
+                    dtick='M12',        # passo de um tick a cada 12 meses
+                    ticklabelmode='period'  # garante que o rótulo seja o início de cada período
+                )                
                 fig1.update_traces(line=dict(width=3), selector=dict(type='scatter'))
-                c.plotly_chart(fig1, use_container_width=True)
 
+                fig1.add_trace(
+                    go.Scatter(
+                        x=df_week['data'],
+                        y=trend_y,
+                        mode='lines',
+                        name='Tendência',
+                        line=dict(color='red', dash='dash', width=2)  # aqui o color='red'
+                    )
+                )
+                fig1.data[0].name = "Cotação Semanal"
+                fig1.data[1].name = "Tendência"
+
+                # nova configuração de legenda
+                fig1.update_layout(
+                    legend=dict(
+                        title_text="",            # sem título
+                        orientation="h",          # legenda horizontal
+                        x=1,                    # centralizada
+                        y=1.10,                   # acima do gráfico
+                        xanchor="center",
+                        yanchor="bottom",
+                        bgcolor="rgba(255,255,255,0.6)",  # fundo semitransparente
+                        bordercolor="black",
+                        borderwidth=1,
+                        font=dict(size=11)
+                    ),
+                    margin=dict(t=80, b=40, l=40, r=40)  # espaço extra no topo
+                )
+
+                c.plotly_chart(
+                    fig1,
+                    use_container_width=True,
+                    key=f"cotacao_semanal_{idx}"
+                )
+                                
     # Dividendos 12 Meses
     if not df_ind[df_ind['indicador']=='Dividendos'].empty:
         df_div = df_ind[df_ind['indicador']=='Dividendos'].copy()
@@ -284,10 +471,13 @@ for c, data in zip([col1, col2], [data1, data2]):
             labels={'mes': 'Mês/Ano', 'valor': 'R$'}
         )
         fig2.update_xaxes(tickformat='%b/%Y', dtick='M1', tickangle=-45)
-        c.plotly_chart(fig2, use_container_width=True)
+        c.plotly_chart(
+            fig2,
+            use_container_width=True,
+            key=f"dividendos_12m_{idx}"
+        )
 
-    # 1) Seção Imóveis
-    c.subheader("Imóveis")
+            # 1) Seção Imóveis
     fii_id = int(row["id"])  # usa row, não 'f'
 
     # 2) Consulta ao banco
@@ -295,8 +485,8 @@ for c, data in zip([col1, col2], [data1, data2]):
         df_imoveis = pd.read_sql(
             """
             SELECT area_m2,
-                   num_unidades,
-                   tx_ocupacao
+                num_unidades,
+                tx_ocupacao
             FROM fiis_imoveis
             WHERE fii_id = ?
             """,
@@ -304,17 +494,17 @@ for c, data in zip([col1, col2], [data1, data2]):
             params=(fii_id,),
         )
 
-    # 3) Exibe ou informação de ausência de dados
-    if df_imoveis.empty:
-        c.info("Nenhum dado de imóveis disponível para este fundo.")
-    else:
+    # Só exibe a seção se houver dados
+    if not df_imoveis.empty:
+        c.subheader("Imóveis")
+
         total_imoveis  = len(df_imoveis)
         total_unidades = df_imoveis["num_unidades"].sum()
         total_area     = df_imoveis["area_m2"].sum()
         weighted_ocup  = (df_imoveis["area_m2"] * df_imoveis["tx_ocupacao"]).sum() / total_area
         vac_phys       = 100 - weighted_ocup
 
-        # 4) Formata a área em BR
+    # formata área
         area_str = (
             f"{total_area:,.2f}"
             .replace(",", "X")

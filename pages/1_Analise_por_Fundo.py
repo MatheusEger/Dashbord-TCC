@@ -155,21 +155,26 @@ st.markdown("""
 </style>
 """,unsafe_allow_html=True)
 
-# Dados do Fundo na tela
-st.subheader(f"Dados do Fundo {ticker}")
-st.markdown(f"**Nome:** {df_f['nome']}")
-st.markdown(f"**Setor:** {setor}")
-st.markdown(f"**Tipo:** {tipo}")
-st.markdown(f"**Gestora:** {df_f['gestao'] or 'N/D'}")
-st.markdown(f"**Administradora:** {df_f['admin'] or 'N/D'}")
-
 with sqlite3.connect(db_path) as conn_im:
     df_im = pd.read_sql(
         "SELECT endereco FROM fiis_imoveis WHERE fii_id = ?", conn_im, params=(fiid,)
     )
 qtd_imoveis = len(df_im)
-if qtd_imoveis>0:
-    st.markdown(f"**Quantidade de imóveis:** {qtd_imoveis}")
+
+# Dados do Fundo na tela
+# cria 3 colunas pra distribuir os campos
+col1, col2 = st.columns(2)
+with col1:
+    st.metric("Nome do fundo", df_f["nome"])
+    st.metric("Gestora", df_f["gestao"] or "N/D")
+    st.metric("Administradora", df_f["admin"] or "N/D")
+
+with col2:
+    st.metric("Setor", setor)
+    st.metric("Tipo", tipo)
+    if qtd_imoveis>0:
+        st.metric("Quantidade de imóveis", qtd_imoveis)
+
 st.markdown("---")
 
 st.subheader(f"{ticker} — Ultimo fechamento em {latest_date}")
@@ -272,7 +277,6 @@ fig_price.update_xaxes(range=[min_date, max_date], tickformat='%Y', dtick='M12')
 
 st.plotly_chart(fig_price, use_container_width=True)
 
-st.subheader("Imóveis")
 with sqlite3.connect(db_path) as conn_im:
     df_imoveis = pd.read_sql(
         """
@@ -286,9 +290,8 @@ with sqlite3.connect(db_path) as conn_im:
         params=(fiid,)
     )
 
-if df_imoveis.empty:
-    st.info("Nenhum dado de imóveis disponível para este fundo.")
-else:
+if not df_imoveis.empty:
+    st.subheader("Imóveis")
     total_imoveis   = len(df_imoveis)
     total_unidades  = df_imoveis["num_unidades"].sum()
     total_area = df_imoveis["area_m2"].sum()

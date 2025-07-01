@@ -3,12 +3,57 @@ import streamlit as st
 # Configuração da página
 st.set_page_config(page_title="Glossário de FIIs", layout="wide")
 
+# === Índice na sidebar ===
+with st.sidebar:
+    st.markdown("## Índice")
+    toc = [
+        ("O que é um Fundo?",       "oque-fundo"),
+        ("Fundo de Investimento",    "fundo-investimento"),
+        ("O que é um FII?",          "oque-fii"),
+        ("O que é uma Cota?",        "oque-cota"),
+        ("Dividendo (Provento)",     "dividendo"),
+        ("🔠 Ticker",                "ticker"),
+        ("📂 Tipos de FIIs",         "tipos-fiis"),
+        ("🏷️ Setores",              "setores"),
+        ("📊 Indicadores e Fórmulas", "indicadores"),
+        ("🛠️ Como usar o Dashboard", "como-usar"),
+    ]
+    for label, anchor in toc:
+        st.markdown(f"- [{label}](#{anchor})", unsafe_allow_html=True)
+
+secoes = [
+    "Comparador",
+    "Cotação Semanal",
+    "Dividendos 12M",
+    "Imóveis"
+]
+
+# 2) Menu horizontal que parece abas
+secao_escolhida = st.radio(
+    "Navegar por:",
+    options=secoes,
+    horizontal=True
+)
+
+# 3) Conteúdo de cada “aba” — somente o que for escolhido
+if secao_escolhida == "Comparador":
+    st.markdown("<h1 style='text-align:center;'>📑 Comparador de Fundos Imobiliários</h1>", unsafe_allow_html=True)
+    # todo o seu bloco de filtros + r1/r2/r3...
+
+elif secao_escolhida == "Cotação Semanal":
+    st.sidebar.slider("Período da Cotação (anos)", 1, 10, key="scot")
+    # apenas todo o bloco que monta e plota o fig1…
+
+elif secao_escolhida == "Dividendos 12M":
+    # todo o código que gera fig2…
+
+else 
+    secao_escolhida == "Imóveis":
+    # todo o bloco que consulta e exibe a seção Imóveis…
+
 # Título da página
 st.title("📖 Glossário Completo de FIIs e Indicadores")
 
-# ==============================================
-# Seção: O que é um Fundo?
-# ==============================================
 st.header("O que é um Fundo?")
 st.write(
     "Um **fundo** é como um condomínio de pessoas que se juntam para investir em algo maior do que conseguiriam sozinhas."
@@ -17,9 +62,6 @@ st.write(
     "Para iniciantes: Imagine um grupo de amigos comprando juntos um imóvel. Cada um contribui com parte do valor e recebe uma porcentagem proporcional dos ganhos quando alugam ou vendem esse imóvel."
 )
 
-# ==============================================
-# Seção: O que é um Fundo de Investimento?
-# ==============================================
 st.header("O que é um Fundo de Investimento?")
 st.write(
     "Um **Fundo de Investimento** é um veículo regulamentado pela CVM para reunir recursos de diversos investidores."
@@ -30,9 +72,6 @@ st.expander("Como funciona na prática?").write(
     "3. Você recebe resultados conforme a performance desses ativos."
 )
 
-# ==============================================
-# Seção: O que é um FII? (Fundo de Investimento Imobiliário)
-# ==============================================
 st.header("O que é um FII? (Fundo de Investimento Imobiliário)")
 st.write(
     "Um **FII** reúne dinheiro de várias pessoas para investir em imóveis e renda imobiliária."
@@ -45,9 +84,6 @@ st.success(
     "Por que isso é bom para iniciantes? Você não precisa comprar um imóvel inteiro: basta adquirir uma cota, que geralmente custa um valor acessível e permite participar dos lucros."
 )
 
-# ==============================================
-# Seção: O que é uma Cota?
-# ==============================================
 st.header("O que é uma Cota?")
 st.write(
     "A **cota** é a menor parte que você pode comprar de um fundo."
@@ -56,9 +92,6 @@ st.write(
     "Exemplo para iniciantes: Se um FII tem patrimônio total de R$ 100 milhões e 1 milhão de cotas, cada cota vale R$ 100."
 )
 
-# ==============================================
-# Seção: O que é um Dividendo? (Provento)
-# ==============================================
 st.header("O que é um Dividendo? (Provento)")
 st.write(
     "Um **dividendo** é a parte do lucro ou renda que o fundo distribui periodicamente aos cotistas."
@@ -70,9 +103,6 @@ st.write(
     "Exemplo: Se você possui 10 cotas e cada cota paga R$ 1 no mês, você recebe R$ 10 no total."
 )
 
-# ==============================================
-# Seção: O que é um Ticker?
-# ==============================================
 st.header("🔠 O que é um Ticker?")
 st.write(
     "O **ticker** é o código que identifica um FII na Bolsa de Valores."
@@ -93,9 +123,6 @@ st.write(
     "- **Análise histórica:** use o ticker para baixar séries de preço e volume."
 )
 
-# ==============================================
-# Seção: Tipos de FIIs
-# ==============================================
 st.header("📂 Tipos de FIIs")
 st.write(
     "Os **tipos** de FIIs ajudam a entender a estratégia de investimento de cada fundo."
@@ -109,9 +136,6 @@ st.write(
     "- **Outros:** agrupam fundos com características não classificadas nas categorias acima."
 )
 
-# ==============================================
-# Seção: Setores de Atuação
-# ==============================================
 st.header("🏷️ Setores de Atuação")
 st.write(
     "Os **setores** representam o segmento de mercado ou tipo de ativo em que o FII atua."
@@ -126,9 +150,6 @@ st.write(
     "- **Títulos e Valores Mobiliários:** investimento em papéis diversos do setor imobiliário."
 )
 
-# ==============================================
-# Indicadores principais com explicações detalhadas
-# ==============================================
 st.header("📊 Indicadores e Fórmulas (Linha a linha)")
 
 # Dividend Yield
@@ -201,9 +222,6 @@ st.warning(
     "Para iniciantes: maior volatilidade significa mais risco de oscilações bruscas. Considere fundos mais estáveis se preferir segurança."
 )
 
-# ==============================================
-# Como usar o Dashboard
-# ==============================================
 st.header("🛠️ Como usar o Dashboard")
 st.write(
     "1. Selecione o período (6 meses, 1 ano, 5 anos).\n"
