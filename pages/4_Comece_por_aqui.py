@@ -58,30 +58,33 @@ st.header("Videos aulas sobre como abrir uma conta em uma corretora")
 
 st.subheader("COMO abrir conta na RICO corretora de valores | NA PRÁTICA!")
 st.video("https://www.youtube.com/watch?v=W4wgdekEjuI", format="youtube")
-st.info("11.353 visualizações  16 de set. de 2019")
+st.info("Postado em 16 de set. de 2019 - 11.353 visualizações")
 
 st.subheader("COMO abrir conta na XP Corretora de valores | NA PRÁTICA!")
 st.video("https://www.youtube.com/watch?v=Q7guEK_o3o0", format="youtube")
-st.info("16.498 visualizações  22 de set. de 2019")
+st.info("Postado em 22 de set. de 2019 - 16.498 visualizações ")
 
 st.subheader("COMO abrir conta na EasyInvest corretora de valores | NA PRÁTICA!")
 st.video("https://www.youtube.com/watch?v=AAT4iPy8vOs", format="youtube")
-st.info("3.290 visualizações  19 de set. de 2019")
+st.info("Postado em 19 de set. de 2019 - 3.290 visualizações  ")
 
 st.header("Montagem de carteira diversificada")
 
-st.subheader("Aula sobre Fundos Imobiliários (do Zero para Iniciantes)")
+st.subheader("Como montar sua carteira de investimentos")
 st.video("https://www.youtube.com/watch?v=k_dku4WdyMk", format="youtube") 
-st.info("73.537 visualizações  26 de jun. de 2018")
+st.info("Postado em 26 de jun. de 2018 - 73.537 visualizações  ")
 
 st.header("Videoaulas sobre Fundos Imobiliários")
 
 st.subheader("Aula sobre Fundos Imobiliários (do Zero para Iniciantes)")
 st.video("https://www.youtube.com/watch?v=z3fTzc0q10M", format="youtube")
-st.info("Estreou em 3 de set. de 2024. Mais de 1.3 mi de visualizações  ")
+st.info("Postado em 3 de set. de 2024 - 1.3 mi visualizações  ")
 
 st.header("Monitoramento e rebalanceamento")
 
+st.subheader("Aula sobre Fundos Imobiliários (do Zero para Iniciantes)")
 st.video("https://www.youtube.com/watch?v=EXEMPLO3", format="youtube") 
+st.info("Postado em xxxx. Mais de xxx visualizações  ")
+
 st.markdown("---")
 
