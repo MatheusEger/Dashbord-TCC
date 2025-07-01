@@ -21,36 +21,6 @@ with st.sidebar:
     for label, anchor in toc:
         st.markdown(f"- [{label}](#{anchor})", unsafe_allow_html=True)
 
-secoes = [
-    "Comparador",
-    "Cotação Semanal",
-    "Dividendos 12M",
-    "Imóveis"
-]
-
-# 2) Menu horizontal que parece abas
-secao_escolhida = st.radio(
-    "Navegar por:",
-    options=secoes,
-    horizontal=True
-)
-
-# 3) Conteúdo de cada “aba” — somente o que for escolhido
-if secao_escolhida == "Comparador":
-    st.markdown("<h1 style='text-align:center;'>📑 Comparador de Fundos Imobiliários</h1>", unsafe_allow_html=True)
-    # todo o seu bloco de filtros + r1/r2/r3...
-
-elif secao_escolhida == "Cotação Semanal":
-    st.sidebar.slider("Período da Cotação (anos)", 1, 10, key="scot")
-    # apenas todo o bloco que monta e plota o fig1…
-
-elif secao_escolhida == "Dividendos 12M":
-    # todo o código que gera fig2…
-
-else 
-    secao_escolhida == "Imóveis":
-    # todo o bloco que consulta e exibe a seção Imóveis…
-
 # Título da página
 st.title("📖 Glossário Completo de FIIs e Indicadores")
 
