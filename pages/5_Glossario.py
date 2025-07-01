@@ -13,7 +13,6 @@ st.header("O que é um Fundo?")
 st.write(
     "Um **fundo** é como um condomínio de pessoas que se juntam para investir em algo maior do que conseguiriam sozinhas."
 )
-# Destaque para iniciantes, texto claro sem símbolos confusos
 st.write(
     "Para iniciantes: Imagine um grupo de amigos comprando juntos um imóvel. Cada um contribui com parte do valor e recebe uma porcentagem proporcional dos ganhos quando alugam ou vendem esse imóvel."
 )
@@ -42,7 +41,6 @@ st.write(
     "- Imóveis físicos: shoppings, edifícios, galpões.\n"
     "- Títulos imobiliários: CRIs, LCIs, recebíveis imobiliários."
 )
-# Benefício para iniciantes sem símbolos confusos
 st.success(
     "Por que isso é bom para iniciantes? Você não precisa comprar um imóvel inteiro: basta adquirir uma cota, que geralmente custa um valor acessível e permite participar dos lucros."
 )
@@ -55,7 +53,7 @@ st.write(
     "A **cota** é a menor parte que você pode comprar de um fundo."
 )
 st.write(
-    "Exemplo para iniciantes: Se um FII tem patrimônio total de R\$ 100 milhões e 1 milhão de cotas, cada cota vale R\$ 100."
+    "Exemplo para iniciantes: Se um FII tem patrimônio total de R$ 100 milhões e 1 milhão de cotas, cada cota vale R$ 100."
 )
 
 # ==============================================
@@ -69,10 +67,9 @@ st.write(
     "Em FIIs, os dividendos normalmente vêm dos aluguéis pagos pelos imóveis que o fundo possui."
 )
 st.write(
-    "Exemplo: Se você possui 10 cotas e cada cota paga R\$ 1 no mês, você recebe R\$ 10 no total."
+    "Exemplo: Se você possui 10 cotas e cada cota paga R$ 1 no mês, você recebe R$ 10 no total."
 )
 
-# ==============================================
 # ==============================================
 # Seção: O que é um Ticker?
 # ==============================================
@@ -80,7 +77,6 @@ st.header("🔠 O que é um Ticker?")
 st.write(
     "O **ticker** é o código que identifica um FII na Bolsa de Valores."
 )
-# Características do ticker
 st.write(
     "**Características:**"
 )
@@ -90,20 +86,48 @@ st.write(
 st.write(
     "- Indica tipo de fundo (ex.: LOG para logística, HGLG para galpões logísticos)."
 )
-# Exemplos de uso
 st.subheader("Usos do ticker")
 st.write(
-    "- **Ordem de compra/venda:** informe o ticker no seu home broker."
-)
-st.write(
-    "- **Consulta de preços:** pesquise o ticker em sites e apps financeiros."
-)
-st.write(
+    "- **Ordem de compra/venda:** informe o ticker no seu home broker.\n"
+    "- **Consulta de preços:** pesquise o ticker em sites e apps financeiros.\n"
     "- **Análise histórica:** use o ticker para baixar séries de preço e volume."
 )
-# ====================================================================
+
+# ==============================================
+# Seção: Tipos de FIIs
+# ==============================================
+st.header("📂 Tipos de FIIs")
+st.write(
+    "Os **tipos** de FIIs ajudam a entender a estratégia de investimento de cada fundo."
+)
+st.write(
+    "- **Tijolo:** investem em imóveis físicos, como shoppings, galpões logísticos e lajes corporativas.\n"
+    "- **Papel:** aplicam em títulos de crédito imobiliário (CRIs, LCIs, LHs), recebendo juros e correções.\n"
+    "- **Desenvolvimento:** financiam projetos imobiliários em construção, obtendo lucro na entrega das unidades.\n"
+    "- **Fundo de Fundos (FOF):** investem em cotas de outros FIIs, diversificando em várias estratégias.\n"
+    "- **Multiestratégia:** combinam ativos imobiliários e derivativos, buscando otimizar retorno e risco.\n"
+    "- **Outros:** agrupam fundos com características não classificadas nas categorias acima."
+)
+
+# ==============================================
+# Seção: Setores de Atuação
+# ==============================================
+st.header("🏷️ Setores de Atuação")
+st.write(
+    "Os **setores** representam o segmento de mercado ou tipo de ativo em que o FII atua."
+)
+st.write(
+    "- **Logísticos:** galpões para armazenamento e distribuição de mercadorias.\n"
+    "- **Varejo/Shopping:** centros comerciais e lojas em shoppings.\n"
+    "- **Lajes Corporativas:** escritórios e espaços corporativos.\n"
+    "- **Residencial:** empreendimentos habitacionais.\n"
+    "- **Hotéis:** ativos hoteleiros e resorts.\n"
+    "- **Recebíveis Imobiliários:** títulos lastreados em crédito imobiliário (CRI/LCI).\n"
+    "- **Títulos e Valores Mobiliários:** investimento em papéis diversos do setor imobiliário."
+)
+
+# ==============================================
 # Indicadores principais com explicações detalhadas
-# ==================================================================== com explicações detalhadas
 # ==============================================
 st.header("📊 Indicadores e Fórmulas (Linha a linha)")
 
@@ -112,7 +136,7 @@ st.subheader("1. Dividend Yield (DY)")
 st.write("Fórmula: (Total de dividendos pagos ÷ preço da cota) × 100")
 st.write(
     "O que significa: representa o percentual de retorno em proventos em relação ao preço pago pela cota.\n"
-    "Exemplo fácil: se o fundo paga R\$ 1 de dividendos e cada cota custa R\$ 100, o DY será 1% (1 ÷ 100 × 100)."
+    "Exemplo fácil: se o fundo paga R$ 1 de dividendos e cada cota custa R$ 100, o DY será 1% (1 ÷ 100 × 100)."
 )
 st.write(
     "Dica para iniciantes: compare o DY com a taxa Selic para avaliar se é melhor investir em FIIs ou na renda fixa do Tesouro Direto."
@@ -150,9 +174,9 @@ st.write(
 # Patrimônio Líquido
 st.subheader("5. Patrimônio Líquido (PL)")
 st.write("O que é: soma do valor de todos os ativos do fundo (imóveis e títulos).\n"
-         "Exemplo: um FII com patrimônio líquido de R\$ 200 milhões possui esse montante investido em bens imobiliários.")
+         "Exemplo: um FII com patrimônio líquido de R$ 200 milhões possui esse montante investido em bens imobiliários.")
 st.success(
-    "Dica para iniciantes: fundos maiores podem ter projetos e contratos mais estáveis, mas avalie também o setor de atuação."
+    "Dica para iniciantes: fundos maiores podem ter projetos e contratos mais estáis, mas avalie também o setor de atuação."
 )
 
 # Cap Rate
@@ -160,7 +184,7 @@ st.subheader("6. Cap Rate")
 st.write("Fórmula: (receita anual de aluguéis ÷ valor de mercado dos imóveis) × 100")
 st.write(
     "O que mede: retorno anual esperado apenas com a renda de aluguéis.\n"
-    "Exemplo: R\$ 10 milhões de aluguel ÷ R\$ 200 milhões de imóveis = cap rate de 5%."
+    "Exemplo: R$ 10 milhões de aluguel ÷ R$ 200 milhões de imóveis = cap rate de 5%."
 )
 st.write(
     "Dica iniciante: cap rate alto pode parecer atrativo, mas verifique vacância, localização e risco de inadimplência."
