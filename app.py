@@ -34,9 +34,11 @@ st.markdown("""
 st.title("📊 Bem-vindo(a) ao Dashboard de FIIs")
 
 # Navegação com botões internos estilizados
-st.page_link("pages/1_Analise_por_Fundo.py", label="Análise por Fundo")
-st.page_link("pages/2_Comparador.py", label="Ranking dos FIIs")
-st.page_link("pages/3_Ranking_dos_FIIs.py", label="Comparador")
+st.page_link("pages/1_Comece_por_aqui.py", label="Análise por Fundo")
+st.page_link("pages/2_Comparador.py", label="Comparador")
+st.page_link("pages/3_Analise_por_Fundo.py", label="Ranking dos FIIs")
+st.page_link("pages/4_Ranking_dos_FIIs.py", label="Análise por Fundo")
+st.page_link("pages/5_Glossario.py", label="Glossario")
 
 # Descrição inferior
 st.markdown("""
