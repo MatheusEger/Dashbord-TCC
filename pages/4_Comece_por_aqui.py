@@ -31,7 +31,7 @@ st.header("🚀 Por onde começar")
 st.info("Siga os passos abaixo clicando em cada item para ver mais detalhes:")
 
 with st.expander("1. Defina seu valor inicial"):
-    st.write("- Escolha um valor que não comprometa suas despesas. Comece com o que for confortável, por exemplo, **R$ 500,00**.")
+    st.write("- Escolha um valor que não comprometa suas despesas. Comece com o que for confortável, por exemplo, **R$ 100,00**.")
     st.write("- Confira o valor mínimo de investimento exigido pela corretora.")
 
 with st.expander("2. Abra sua conta em uma corretora"):
