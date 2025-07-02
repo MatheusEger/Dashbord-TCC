@@ -123,3 +123,4 @@ for tipo in (filtro_tipo or tipos):
         for idx, metrica in enumerate(selected_mets):
             plot_top10(metrica, df_grp, cols_group[idx % 2], key=f"grp-{tipo}-{setor}-{metrica}")
             
+        

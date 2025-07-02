@@ -7,9 +7,10 @@ conn = sqlite3.connect(DB_PATH)
 cur = conn.cursor()
 
 #cur.execute("DELETE FROM sqlite_sequence WHERE name = ?", ('tipo_fii',))
+cur.execute("DELETE capital_fiis")
+#cur.execute("DROP TABLE capital_fiis")
 
-cur.execute("DELETE FROM fiis_indicadores")
-cur.execute("DELETE FROM sqlite_sequence WHERE name = ?", ('fiis_indicadores',))
+cur.execute("DELETE FROM sqlite_sequence WHERE name = ?", ('capital_fiis',))
 
 conn.commit()
 cur.execute("VACUUM")
