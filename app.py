@@ -24,13 +24,35 @@ cotacoes = pd.read_sql_query(
     "SELECT fii_id, data, preco_fechamento FROM cotacoes", 
     conn, parse_dates=['data']
 )
+
 inds = pd.read_sql_query(
-    "SELECT fi.fii_id, i.nome AS indicador, fi.valor, fi.data_referencia "
+    "SELECT fi.fii_id, fi.indicador_id, i.nome AS indicador, fi.valor, fi.data_referencia "
     "FROM fiis_indicadores fi "
     "JOIN indicadores i ON i.id=fi.indicador_id", 
     conn, parse_dates=['data_referencia']
 )
+desdobramentos = pd.read_sql(
+    "SELECT fii_id, com_date, fator_novo FROM capital_fiis", 
+    conn, 
+    parse_dates=['com_date']
+)
+
 conn.close()
+
+# função para ajustar dividendos
+def ajustar_dividendo(row, desdobramentos_df):
+    """
+    Ajusta o dividendo conforme desdobramentos do fundo antes da data do provento.
+    row: linha do DataFrame de dividendos (precisa de 'fii_id' e 'data_referencia')
+    desdobramentos_df: DataFrame com colunas 'fii_id', 'com_date', 'fator_novo'
+    """
+    fii_id = row['fii_id']
+    data = row['data_referencia']
+    fator = 1.0
+    # Seleciona todos os desdobramentos para esse FII e data maior que o provento
+    for _, d in desdobramentos_df[(desdobramentos_df['fii_id']==fii_id) & (data <= desdobramentos_df['com_date'])].iterrows():
+        fator *= d['fator_novo']
+    return row['valor'] / fator
 
 # --- Construção DataFrame ---
 df = df_meta.copy()
@@ -50,15 +72,23 @@ pivot[['pl','qt']] = pivot[['pl','qt']].apply(pd.to_numeric, errors='coerce')
 df = df.merge(pivot[['pl','qt']], left_on='id', right_index=True, how='left')
 df['vpa_calc'] = df['pl']/df['qt']
 df['pvp_calc'] = df['preco_atual']/df['vpa_calc']
+
 # DY 12M (soma últimos 12 meses / preço atual)
+# Aplicar ajustes aos dividendos
+# Ajuste os dividendos ANTES do agrupamento dos últimos 12 meses!
 divs = inds[inds['indicador']=='Dividendos'].copy()
+divs['valor_ajustado'] = divs.apply(lambda row: ajustar_dividendo(row, desdobramentos), axis=1)
+
+# Agora calcule o total dos últimos 12 meses usando o valor ajustado
 divs['periodo'] = divs['data_referencia'].dt.to_period('M')
 ult = divs['periodo'].max()
 ini = ult - 11
-d12 = divs[divs['periodo'].between(ini,ult)]
-soma = d12.groupby('fii_id')['valor'].sum().rename('div12m')
+d12 = divs[divs['periodo'].between(ini, ult)]
+soma = d12.groupby('fii_id')['valor_ajustado'].sum().rename('div12m')
+
+# Junta no DataFrame principal
 df = df.merge(soma, left_on='id', right_index=True, how='left')
-df['dy_calc'] = (df['div12m']/df['preco_atual'])*100
+df['dy_calc'] = (df['div12m'] / df['preco_atual']) * 100
 
 # --- Filtros e opções ---
 setores = ['Todos'] + sorted(df['setor'].dropna().unique())
@@ -118,6 +148,7 @@ else:
 
 st.markdown("### ✨ Fundos em destaque")
 cols = st.columns(3)
+detalhes = {}
 for c,(_,row) in zip(cols, top.iterrows()):
     with c:
         st.subheader(f"{row.ticker} ({row.tipo})")
@@ -125,14 +156,26 @@ for c,(_,row) in zip(cols, top.iterrows()):
         st.metric("VPA", f"R$ {row.vpa_calc:,.2f}")
         st.metric("P/VP", f"{row.pvp_calc:.2f}")
         st.metric("DY 12M", f"{row.dy_calc:.2f}%")
-        # Indicadores adicionais
         if 'pl' in row and pd.notna(row.pl):
             st.metric("PL (Mi)", f"{row.pl/1e6:.2f}")
-        if 'num_imoveis' in row and pd.notna(row.num_imoveis):
-            st.metric("Imóveis", f"{int(row.num_imoveis)}")
-        if 'vacancia_fisica' in row and pd.notna(row.vacancia_fisica):
-            st.metric("Vacância (%)", f"{row.vacancia_fisica:.2f}")
-        st.button("Ver Detalhes", key=f"detail_{row.ticker}")
+        botao = st.button("Ver Detalhes", key=f"detail_{row.ticker}")
+        detalhes[row.ticker] = botao
+
+for ticker, clicado in detalhes.items():
+    if clicado:
+        st.markdown(f"### Últimos 12 dividendos de {ticker}")
+        id_fii = df[df['ticker'] == ticker]['id'].values[0]
+        
+        # Filtrar só os dividendos, pelo indicador_id == 1
+        dividendos_fii = inds[
+            (inds['fii_id'] == id_fii) & (inds['indicador'] == 'Dividendos')
+        ].sort_values('data_referencia', ascending=False).head(12)
+                
+        st.dataframe(
+            dividendos_fii[['data_referencia', 'valor']].rename(
+                columns={'data_referencia': 'Data', 'valor': 'Dividendo'}
+            )
+        )
 
 # Tabela
 st.markdown("---")
