@@ -64,7 +64,9 @@ pivot = pivot.rename(
 pivot[['pl', 'qt']] = pivot[['pl', 'qt']].apply(pd.to_numeric, errors='coerce')
 # Mescla no DataFrame principal
 df = df.merge(pivot[['pl', 'qt']], left_on='id', right_index=True, how='left')
+# Calcula VPA e P/VP
 df['vpa_calc'] = df['pl'] / df['qt']
+df['pvp_calc'] = df['preco_atual'] / df['vpa_calc']
 
 # --- Cálculo de DY 12M ---
 divs = inds[inds['indicador'] == 'Dividendos'].copy()
@@ -92,7 +94,7 @@ faixa_preco = st.sidebar.slider(
     (pmin, pmax),
     format="R$ %.2f"
 )
-faixa_pvp = st.sidebar.slider("Faixa de P/VP", 0.0, 5.0, (0.0, 5.0))
+faixa_pvp = st.sidebar.slider("Faixa de P/VP", float(df['pvp_calc'].min()), float(df['pvp_calc'].max()), (0.0, float(df['pvp_calc'].max())))
 max_dy = float(df['dy_calc'].fillna(0).max())
 faixa_dy = st.sidebar.slider(
     "Faixa de DY 12M (%)",
