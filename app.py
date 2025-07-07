@@ -41,6 +41,9 @@ conn.close()
 # --- Preparação do DataFrame principal ---
 df = df_meta.copy()
 
+def format_brl(valor):
+    return f"R$ {valor:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
+
 # --- Aviso Legal no topo ---
 st.warning(
     """
@@ -236,8 +239,8 @@ cols = st.columns(3)
 for i, row in top3.iterrows():
     with cols[i]:
         st.subheader(f"{row['ticker']} ({row['tipo']})")
-        st.metric("Preço Atual", f"R$ {row['preco_atual']:,.2f}")
-        st.metric("VPA",          f"R$ {row['vpa_calc']:,.2f}")
+        st.metric("Preço Atual", format_brl(row['preco_atual']))
+        st.metric("VPA", format_brl(row['vpa_calc']))
         st.metric("P/VP",         f"{row['pvp_calc']:.2f}")
         st.metric("DY 12M",       f"{row['dy_calc']:.2f}%")
         if not pd.isna(row.get('cap_rate')):
