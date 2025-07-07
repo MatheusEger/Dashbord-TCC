@@ -22,6 +22,8 @@ cur.execute("""
             FOREIGN KEY (indicador_id) REFERENCES indicadores(id)
         );
     """)
+
+
 conn.commit()
 cur.execute("VACUUM")
 

@@ -29,30 +29,34 @@ years_cot = st.sidebar.slider("Período da Cotação (anos)", 1, 10, 5)
 # Explicação dos Indicadores e Gráficos na sidebar
 st.sidebar.header("ℹ️ O que são esses Indicadores e Gráficos?")
 st.sidebar.markdown(r"""
-    - **Preço Atual**: último preço de fechamento na Bolsa, serve como referência para compra e venda.  
+- **Preço Atual**: É o valor mais recente pelo qual a cota do fundo foi negociada na Bolsa.  
+  *Ou seja: é quanto você pagaria para comprar 1 cota do fundo hoje.*
 
-    - **Patrimônio Líquido (PL)**: total dos ativos do fundo (imóveis, títulos, caixa etc.) menos as dívidas e obrigações.  
-      Mostra o “tamanho real” do fundo.
+- **Patrimônio Líquido (PL)**: Mostra o valor total que o fundo possui, somando todos os imóveis, títulos e o dinheiro em caixa, já descontando as dívidas.  
+  *Serve para saber o "tamanho" do fundo, como se fosse o valor de todo o patrimônio de um condomínio.*
 
-    - **Quantidade de Cotas**: número total de cotas emitidas pelo fundo.  
-      Usado para calcular valores por cota.
+- **Quantidade de Cotas**: É o número total de "pedaços" (cotas) em que o fundo foi dividido.  
+  *Se o fundo fosse uma pizza, cada fatia seria uma cota. Quanto mais cotas, mais investidores podem participar.*
 
-    - **Valor Patrimonial por Cota (VPA)**: PL ÷ quantidade de cotas.  
-      Ex.: se o PL é R\$ 100 mi e há 1 mi de cotas, o VPA é R\$ 100 por cota.
+- **Valor Patrimonial por Cota (VPA)**: Indica quanto vale cada cota em relação ao patrimônio do fundo.  
+  *Exemplo: Se o fundo tem R\$ 100 milhões e 1 milhão de cotas, cada cota “vale” R\$ 100.*
 
-    - **Preço/VPA (P/VP)**: mostra quanto você “paga” pela cota em relação ao valor patrimonial.  
-      - **P/VP < 1 (Desconto)** → cotação abaixo do valor contábil (você paga menos que R\$ 1,00 para cada R\$ 1,00 de patrimônio).  
-        • Ex.: P/VP = 0,90 → você paga R\$ 0,90 por cada R\$ 1,00 de patrimônio (desconto de 10%).  
-      - **P/VP > 1 (Ágio)** → cotação acima do valor contábil (você paga mais que R\$ 1,00 para cada R\$ 1,00 de patrimônio).  
-        • Ex.: P/VP = 1,10 → você paga R\$ 1,10 por cada R\$ 1,00 de patrimônio (ágio de 10%).
+- **Preço/VPA (P/VP)**: Mostra se a cota está barata ou cara comparada ao seu valor real.
+  - *Se P/VP < 1 (Desconto):* você compra a cota por menos do que ela realmente vale. Exemplo: P/VP = 0,90 → você paga R\$ 0,90 por cada R\$ 1,00 de valor do fundo.
+  - *Se P/VP > 1 (Ágio):* você paga mais do que a cota vale no fundo. Exemplo: P/VP = 1,10 → você paga R\$ 1,10 para cada R\$ 1,00 de valor patrimonial.
 
-    - **Dividend Yield 12M (DY 12M)**: soma dos dividendos pagos nos últimos 12 meses ÷ preço atual da cota.  
-      Indica a rentabilidade anual “por dividendos”.  
+- **Dividend Yield 12M (DY 12M)**: Mostra a porcentagem de rendimento que o fundo pagou em dividendos (aluguéis e rendimentos) nos últimos 12 meses, comparando com o preço atual da cota.  
+  *Exemplo: Se você tem uma cota que custa R\$ 100 e recebeu R\$ 8 de dividendos no ano, o DY é 8%.*
 
-    - **Cotação Semanal**: sequência do preço de fechamento de cada semana, ajudando a identificar tendências de curto/médio prazo.  
+- **Cotação Semanal**: Um gráfico mostrando como o preço da cota mudou semana a semana. Ajuda a perceber se o valor está subindo ou caindo ao longo do tempo.
 
-    - **Dividendos nos Últimos 12 Meses**: total dos dividendos mensais acumulados no período, mostrando o rendimento bruto.
+- **Dividendos nos Últimos 12 Meses**: Mostra, em gráfico, o total de dividendos pagos mês a mês durante o último ano.  
+  *Assim, você pode ver em quais meses o fundo pagou mais ou menos rendimento.*
+
+- **Cap Rate**: (quando disponível) Mostra quanto o fundo recebe de aluguel por ano em relação ao valor dos imóveis que ele possui.  
+  *Exemplo: Se um fundo tem imóveis que valem R\$ 200 mil e recebe R\$ 10 mil de aluguel por ano, o Cap Rate é 5%. Ajuda a comparar qual fundo gera mais renda com seus imóveis.*
 """, unsafe_allow_html=True)
+
 
 st.markdown("<h1 style='text-align:center;'>📑 Comparador de Fundos Imobiliários</h1>", unsafe_allow_html=True)
 
@@ -92,6 +96,10 @@ def prepare(ticker, years_div):
     cotas = None
     if 'Quantidade de Cotas' in df_ind['indicador'].values:
         cotas = float(df_ind[df_ind['indicador']=='Quantidade de Cotas']['valor'].iloc[-1])
+    # --- Cap Rate ---
+    cap_rate = None
+    if 'Cap Rate' in df_ind['indicador'].values:
+        cap_rate = float(df_ind[df_ind['indicador']=='Cap Rate']['valor'].iloc[-1])
     df_price = cot[cot['fii_id']==row['id']]
     price = df_price.sort_values('data')['preco_fechamento'].iloc[-1] if not df_price.empty else None
     vpa = pl/cotas if pl and cotas else None
@@ -107,8 +115,8 @@ def prepare(ticker, years_div):
     if price and not divs_all.empty:
          dy = divs_all['valor'].sum() / price * 100
 
-    # … cálculos de pl, cotas, price, vpa, pvp, df_price, df_ind …
-    return row, setor, pl, cotas, price, vpa, pvp, dy, df_price, df_ind
+    # Agora retorna cap_rate também
+    return row, setor, pl, cotas, price, vpa, pvp, dy, cap_rate, df_price, df_ind
 
 # lista de tipos e setores para cada coluna
 tipo_names = tipos['tipo'].tolist()
@@ -200,10 +208,8 @@ data2 = prepare(f2, years_div)
 
 # --- após calcular price, pl, cotas, vpa, pvp e qtd_imoveis para C1 e C2 ---
 # desempacota os retornos para o Fundo 1
-row1, setor1, pl1, cotas1, price1, vpa1, pvp1, dy1, df_price1, df_ind1 = data1
-
-row2, setor2, pl2, cotas2, price2, vpa2, pvp2, dy2, df_price2, df_ind2 = data2
-
+row1, setor1, pl1, cotas1, price1, vpa1, pvp1, dy1, cap_rate1, df_price1, df_ind1 = data1
+row2, setor2, pl2, cotas2, price2, vpa2, pvp2, dy2, cap_rate2, df_price2, df_ind2 = data2
 
 with sqlite3.connect(DB_PATH) as conn_im:
     df_qt1 = pd.read_sql(
@@ -267,6 +273,7 @@ metrics = [
     ("VPA",                       lambda a, b: a > b),
     ("P/VP",                      lambda a, b: a < b),  # menor = melhor
     ("Número de Imóveis",         lambda a, b: a > b),
+    ("Cap Rate",                  lambda a, b: (a or 0) > (b or 0)),  # maior = melhor, só se houver
 ]
 
 # extraia os valores em dois dicionários
@@ -277,6 +284,7 @@ values1 = {
     "VPA":                    vpa1,
     "P/VP":                   pvp1,
     "Número de Imóveis":      qtd_imoveis1,
+    "Cap Rate":               cap_rate1,
 }
 values2 = {
     "Preço Atual":            price2,
@@ -285,7 +293,9 @@ values2 = {
     "VPA":                    vpa2,
     "P/VP":                   pvp2,
     "Número de Imóveis":      qtd_imoveis2,
+    "Cap Rate":               cap_rate2,
 }
+
 
 # pré-calcule os troféus para não ter que rodar lambda dentro do loop de renderização
 trofeus1 = {lbl: " 🏆" if cmp(values1[lbl], values2[lbl]) else "" for lbl, cmp in metrics}
@@ -370,6 +380,18 @@ for idx, c in enumerate([col_f1, col_f2]):
             label="",
             value=fmt_val("Número de Imóveis", vals["Número de Imóveis"]) 
                 + trofs["Número de Imóveis"]
+        )
+    # Exibe Cap Rate somente se houver pelo menos um valor diferente de None
+    if vals["Cap Rate"] is not None:
+        c.markdown(
+            "<div class='tooltip'>Cap Rate ℹ️"
+            "<span class='tooltiptext'>Taxa de capitalização anual do fundo (Receita Anual de Aluguéis ÷ Valor de Mercado dos Imóveis)</span></div>",
+            unsafe_allow_html=True
+        )
+        cap_rate_fmt = f"{vals['Cap Rate']:.2f}%" if vals['Cap Rate'] is not None else "N/A"
+        c.metric(
+            label="",
+            value=cap_rate_fmt + trofs.get("Cap Rate", "")
         )
 
     c.markdown("---")

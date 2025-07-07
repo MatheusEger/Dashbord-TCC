@@ -59,7 +59,7 @@ st.write(
     "A **cota** é a menor parte que você pode comprar de um fundo."
 )
 st.write(
-    "Exemplo para iniciantes: Se um FII tem patrimônio total de R$ 100 milhões e 1 milhão de cotas, cada cota vale R$ 100."
+    "Exemplo para iniciantes: Se um FII tem patrimônio total de R\$ 100 milhões e 1 milhão de cotas, cada cota vale R\$ 100."
 )
 
 st.header("O que é um Dividendo? (Provento)")
@@ -70,7 +70,7 @@ st.write(
     "Em FIIs, os dividendos normalmente vêm dos aluguéis pagos pelos imóveis que o fundo possui."
 )
 st.write(
-    "Exemplo: Se você possui 10 cotas e cada cota paga R$ 1 no mês, você recebe R$ 10 no total."
+    "Exemplo: Se você possui 10 cotas e cada cota paga R\$ 1 no mês, você recebe R\$ 10 no total."
 )
 
 st.header("🔠 O que é um Ticker?")
@@ -127,7 +127,7 @@ st.subheader("1. Dividend Yield (DY)")
 st.write("Fórmula: (Total de dividendos pagos ÷ preço da cota) × 100")
 st.write(
     "O que significa: representa o percentual de retorno em proventos em relação ao preço pago pela cota.\n"
-    "Exemplo fácil: se o fundo paga R$ 1 de dividendos e cada cota custa R$ 100, o DY será 1% (1 ÷ 100 × 100)."
+    "Exemplo fácil: se o fundo paga R\$ 1 de dividendos e cada cota custa R\$ 100, o DY será 1% (1 ÷ 100 × 100)."
 )
 st.write(
     "Dica para iniciantes: compare o DY com a taxa Selic para avaliar se é melhor investir em FIIs ou na renda fixa do Tesouro Direto."
@@ -165,7 +165,7 @@ st.write(
 # Patrimônio Líquido
 st.subheader("5. Patrimônio Líquido (PL)")
 st.write("O que é: soma do valor de todos os ativos do fundo (imóveis e títulos).\n"
-         "Exemplo: um FII com patrimônio líquido de R$ 200 milhões possui esse montante investido em bens imobiliários.")
+         "Exemplo: um FII com patrimônio líquido de R\$ 200 milhões possui esse montante investido em bens imobiliários.")
 st.success(
     "Dica para iniciantes: fundos maiores podem ter projetos e contratos mais estáis, mas avalie também o setor de atuação."
 )
@@ -175,7 +175,7 @@ st.subheader("6. Cap Rate")
 st.write("Fórmula: (receita anual de aluguéis ÷ valor de mercado dos imóveis) × 100")
 st.write(
     "O que mede: retorno anual esperado apenas com a renda de aluguéis.\n"
-    "Exemplo: R$ 10 milhões de aluguel ÷ R$ 200 milhões de imóveis = cap rate de 5%."
+    "Exemplo: R\$ 10 milhões de aluguel ÷ R\$ 200 milhões de imóveis = cap rate de 5%."
 )
 st.write(
     "Dica iniciante: cap rate alto pode parecer atrativo, mas verifique vacância, localização e risco de inadimplência."

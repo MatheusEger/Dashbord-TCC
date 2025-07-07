@@ -21,7 +21,7 @@ con.close()
 # Separando os tickers (e IDs, se quiser)
 
 def obter_todos_indicadores_statusinvest(ticker, driver):
-    url = f"https://statusinvest.com.br/fundos-imobiliarios/{ticker.lower()}"
+    url = f"https://statusinvest.com.br/fiagros/{ticker.lower()}"
     driver.get(url)
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(3)
