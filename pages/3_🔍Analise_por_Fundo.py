@@ -127,16 +127,16 @@ def preco_em(data):
     return tmp.iloc[-1]['preco_fechamento']
 
 def DY_n_months(n):
-    # Último dia do mês anterior
-    last_day_prev_month = (now.replace(day=1) - timedelta(days=1))
-    # Primeiro dia do período: exatamente n meses atrás, dia 1
-    start_period = (now.replace(day=1) - relativedelta(months=n))
+    first_this_month = now.replace(day=1)
+    start_period = first_this_month - relativedelta(months=n)
+    last_day_prev_month = first_this_month - timedelta(days=1)
+    # O correto é considerar: datas maiores que start_period, até o último dia do mês anterior
     mask = (
-        (divs['data_referencia'] >= start_period) &
+        (divs['data_referencia'] > start_period) &
         (divs['data_referencia'] <= last_day_prev_month)
     )
     total_divs = divs.loc[mask, 'valor'].sum()
-    return (total_divs / price) * 100
+    return (total_divs / price) * 100 if price else 0
 
 DYS = {
     '1M':  DY_n_months(1),
