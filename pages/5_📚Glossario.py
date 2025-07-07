@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Configuração da página
-st.set_page_config(page_title="Glossário de FIIs", layout="wide")
+st.set_page_config(page_title="Glossário de FIIs", page_icon="📚", layout="wide")
 
 # === Índice na sidebar ===
 with st.sidebar:

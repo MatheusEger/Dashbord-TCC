@@ -2,10 +2,9 @@ import streamlit as st
 import pandas as pd
 import sqlite3
 from pathlib import Path
-from dateutil.relativedelta import relativedelta
 
 # --- Configuração da página ---
-st.set_page_config(page_title="Dashboard de FIIs", layout="wide")
+st.set_page_config(page_title="Dashboard de FIIs", page_icon="🏠", layout="wide")
 
 # --- Caminho do banco de dados ---
 DB_PATH = Path(__file__).resolve().parent / "data" / "fiis.db"

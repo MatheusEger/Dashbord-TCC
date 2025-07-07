@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Configuração da página
-st.set_page_config(page_title="Ajuda e Glossário", layout="wide")
+st.set_page_config(page_title="Ajuda e Glossário", page_icon="🚦", layout="wide")
 
 # Estilo customizado para botões e expanders
 st.markdown(

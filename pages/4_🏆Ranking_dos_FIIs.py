@@ -5,7 +5,7 @@ import sqlite3
 from pathlib import Path
 import plotly.graph_objects as go
 
-st.set_page_config(layout="wide")
+st.set_page_config(page_title="Ranking dos FIIs" ,layout="wide", page_icon="🏆")
 st.title("🏅 Ranking: Top 10 FIIs por Métrica e por Tipo/Setor")
 DB_PATH = Path(__file__).parents[1] / "data" / "fiis.db"
 

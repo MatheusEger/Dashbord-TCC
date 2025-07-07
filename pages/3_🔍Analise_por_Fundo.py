@@ -7,7 +7,7 @@ from pathlib import Path
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
-st.set_page_config(page_title="Análise de FII - Iniciante", layout="wide")
+st.set_page_config(page_title="Análise de FII - Iniciante", page_icon="🔍", layout="wide")
 st.markdown("<h1 style='text-align:left;'>📊Análise por fundo</h1>", unsafe_allow_html=True)
 
 # Caminho para o banco

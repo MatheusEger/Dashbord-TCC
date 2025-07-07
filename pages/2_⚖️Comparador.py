@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import plotly.graph_objects as go  # no topo do arquivo
 
-st.set_page_config(page_title="Comparador de FIIs - Iniciante", layout="wide")
+st.set_page_config(page_title="Comparador de FIIs - Iniciante", page_icon="⚖️", layout="wide")
 # CSS tooltips
 st.markdown(
     """
