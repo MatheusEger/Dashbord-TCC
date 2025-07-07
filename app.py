@@ -155,14 +155,27 @@ with filters_col:
     else:
         fcol1, fcol2 = st.columns(2)
         with fcol1:
-            sel_setor   = st.selectbox("Filtrar por Setor", setores, key="setor")
-            sel_tipo    = st.selectbox("Filtrar por Tipo", tipos,   key="tipo")
+            # Primeiro filtro: Tipo
+            sel_tipo = st.selectbox("Filtrar por Tipo", tipos, key="tipo")
+
+            # Filtro dependente: Setor (apenas os setores que existem no tipo selecionado)
+            if sel_tipo != "Todos":
+                setores_filtrados = (
+                    ['Todos'] +
+                    sorted(df[df['tipo'] == sel_tipo]['setor'].dropna().unique().tolist())
+                )
+            else:
+                setores_filtrados = setores
+
+            sel_setor = st.selectbox("Filtrar por Setor", setores_filtrados, key="setor")
+
             faixa_preco = st.slider(
                 "Faixa de Preço (R$)",
                 min_preco, max_preco,
                 (min_preco, max_preco),
                 key="preco"
             )
+
         with fcol2:
             faixa_pvp = st.slider(
                 "Faixa de P/VP",
@@ -198,10 +211,11 @@ if query:
     ]
 
 if not modo_ini:
-    if sel_setor != 'Todos':
-        f = f[f['setor'] == sel_setor]
     if sel_tipo != 'Todos':
         f = f[f['tipo'] == sel_tipo]
+        # Limita os setores de acordo com o tipo já filtrado
+    if sel_setor != 'Todos':
+        f = f[f['setor'] == sel_setor]
     f = f[f['preco_atual'].between(*faixa_preco)]
     f = f[f['pvp_calc'].between(*faixa_pvp)]
     f = f[f['dy_calc'].between(*faixa_dy)]
@@ -214,6 +228,7 @@ if not modo_ini:
         }[ordenar_por],
         ascending=(ordem == "Crescente")
     )
+
 
 # --- Título e resumo de resultados ---
 st.title("Dashboard de FIIs")
