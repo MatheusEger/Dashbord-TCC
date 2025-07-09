@@ -70,7 +70,7 @@ with st.expander("5. Monitore indicadores-chave"):
 
 # Vídeos de apoio (exemplos)
 
-st.header("Videos aulas sobre como abrir uma conta em uma corretora")
+st.header("Corretoras")
 
 st.subheader("Como escolher sua corretora de valores")
 st.video("https://www.youtube.com/watch?v=Ikcm-eDJ_yk", format="youtube")
