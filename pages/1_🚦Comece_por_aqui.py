@@ -72,9 +72,9 @@ with st.expander("5. Monitore indicadores-chave"):
 
 st.header("Videos aulas sobre como abrir uma conta em uma corretora")
 
-st.subheader("COMO abrir conta na RICO corretora de valores | NA PRÁTICA!")
-st.video("https://www.youtube.com/watch?v=W4wgdekEjuI", format="youtube")
-st.info("Postado em 16 de set. de 2019 - 11.353 visualizações")
+st.subheader("Como escolher sua corretora de valores")
+st.video("https://www.youtube.com/watch?v=Ikcm-eDJ_yk", format="youtube")
+st.info("Postado em  1 de out. de 2019 - 84.212 visualizações  ")
 
 st.subheader("COMO abrir conta na XP Corretora de valores | NA PRÁTICA!")
 st.video("https://www.youtube.com/watch?v=Q7guEK_o3o0", format="youtube")
