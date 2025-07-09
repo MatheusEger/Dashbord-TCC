@@ -76,14 +76,6 @@ st.subheader("Como escolher sua corretora de valores")
 st.video("https://www.youtube.com/watch?v=Ikcm-eDJ_yk", format="youtube")
 st.info("Postado em  1 de out. de 2019 - 84.212 visualizações  ")
 
-st.subheader("COMO abrir conta na XP Corretora de valores | NA PRÁTICA!")
-st.video("https://www.youtube.com/watch?v=Q7guEK_o3o0", format="youtube")
-st.info("Postado em 22 de set. de 2019 - 16.498 visualizações ")
-
-st.subheader("COMO abrir conta na EasyInvest corretora de valores | NA PRÁTICA!")
-st.video("https://www.youtube.com/watch?v=AAT4iPy8vOs", format="youtube")
-st.info("Postado em 19 de set. de 2019 - 3.290 visualizações  ")
-
 st.header("Montagem de carteira diversificada")
 
 st.subheader("Como montar sua carteira de investimentos")
