@@ -118,9 +118,9 @@ st.subheader("1️⃣ VPA (Valor Patrimonial por Cota)")
 st.write(
     "\nFórmula: VPA = Patrimônio Líquido (PL) ÷ Quantidade de Cotas\n"
     "\nO que significa: mostra quanto, teoricamente, cada cota do fundo representa do total de patrimônio do FII.\n "
-    "É como se você pegasse todo o valor do fundo e dividisse igualmente entre todas as cotas emitidas.\n"
-    "Exemplo prático: se um fundo tem R\$ 100 milhões de patrimônio líquido e 1 milhão de cotas, cada cota vale, patrimonialmente, R\$ 100.\n"
-    "Dica para iniciantes: o VPA é um parâmetro para comparar com o preço de mercado da cota (usado no cálculo do P/VP). Quando o preço de mercado está abaixo do VPA, a cota está sendo negociada com desconto em relação ao valor contábil do fundo."
+    "\nÉ como se você pegasse todo o valor do fundo e dividisse igualmente entre todas as cotas emitidas.\n"
+    "\nExemplo prático: se um fundo tem R\$ 100 milhões de patrimônio líquido e 1 milhão de cotas, cada cota vale, patrimonialmente, R\$ 100.\n"
+    "\nDica para iniciantes: o VPA é um parâmetro para comparar com o preço de mercado da cota (usado no cálculo do P/VP). Quando o preço de mercado está abaixo do VPA, a cota está sendo negociada com desconto em relação ao valor contábil do fundo."
 )
 st.subheader("2️⃣ Dividend Yield (DY)")
 st.write(fix_real(
