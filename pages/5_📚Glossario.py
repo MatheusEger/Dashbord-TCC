@@ -124,17 +124,17 @@ st.write(
 )
 st.subheader("2️⃣ Dividend Yield (DY)")
 st.write(fix_real(
-    "Fórmula: (Total de dividendos pagos ÷ preço da cota) × 100\n"
-    "O que significa: representa o percentual de retorno em proventos em relação ao preço pago pela cota.\n"
-    "Exemplo fácil: se o fundo paga R\$ 1 de dividendos e cada cota custa R\$ 100, o DY será 1% (1 ÷ 100 × 100).\n"
-    "Dica para iniciantes: compare o DY com a taxa Selic para avaliar se é melhor investir em FIIs ou na renda fixa do Tesouro Direto."
+    "\nFórmula: (Total de dividendos pagos ÷ preço da cota) × 100\n"
+    "\nO que significa: representa o percentual de retorno em proventos em relação ao preço pago pela cota.\n"
+    "\nExemplo fácil: se o fundo paga R\$ 1 de dividendos e cada cota custa R\$ 100, o DY será 1% (1 ÷ 100 × 100).\n"
+    "\nDica para iniciantes: compare o DY com a taxa Selic para avaliar se é melhor investir em FIIs ou na renda fixa do Tesouro Direto."
 ))
 
 st.subheader("3️⃣ P/VP (Preço sobre Valor Patrimonial)")
 st.write(fix_real(
-    "Fórmula: preço da cota ÷ valor patrimonial por cota\n"
-    "O que mostra: indica se a cota está sendo negociada com desconto (<1) ou ágio (>1) em relação ao valor contábil.\n"
-    "Exemplo: P/VP de 0,8 significa que o mercado paga 20% a menos que o valor patrimonial."
+    "\nFórmula: preço da cota ÷ valor patrimonial por cota\n"
+    "\nO que mostra: indica se a cota está sendo negociada com desconto (<1) ou ágio (>1) em relação ao valor contábil.\n"
+    "\nExemplo: P/VP de 0,8 significa que o mercado paga 20% a menos que o valor patrimonial."
 ))
 st.success(
     "Para iniciantes: cotas com P/VP abaixo de 1 podem indicar oportunidade de compra, mas pesquise o motivo do desconto."
