@@ -143,8 +143,8 @@ st.success(
 st.subheader("4️⃣ Vacância Física / Ocupação")
 st.write(
     "Fórmula: vacância (%) = 100 – ocupação (%)\n"
-    "O que é: percentual de área dos imóveis do fundo que está desocupada.\n"
-    "Exemplo: se a ocupação é 90%, a vacância é 10%."
+    "\nO que é: percentual de área dos imóveis do fundo que está desocupada.\n"
+    "\nExemplo: se a ocupação é 90%, a vacância é 10%."
 )
 st.warning(
     "Atenção: vacância alta reduz a geração de renda e pode impactar seus dividendos."
@@ -153,13 +153,13 @@ st.warning(
 st.subheader("5️⃣ Número de Cotistas")
 st.write(
     "O que é: quantidade de pessoas que possuem cotas do fundo.\n"
-    "Por que importa: mais cotistas normalmente significam maior liquidez, ou seja, mais facilidade para comprar ou vender cotas."
+    "\nPor que importa: mais cotistas normalmente significam maior liquidez, ou seja, mais facilidade para comprar ou vender cotas."
 )
 
 st.subheader("6️⃣ Patrimônio Líquido (PL)")
 st.write(fix_real(
     "O que é: soma do valor de todos os ativos do fundo (imóveis e títulos).\n"
-    "Exemplo: um FII com patrimônio líquido de R$ 200 milhões possui esse montante investido em bens imobiliários."
+    "\nExemplo: um FII com patrimônio líquido de R$ 200 milhões possui esse montante investido em bens imobiliários."
 ))
 st.success(
     "Dica para iniciantes: fundos maiores podem ter projetos e contratos mais estáis, mas avalie também o setor de atuação."
@@ -168,16 +168,16 @@ st.success(
 st.subheader("7️⃣ Cap Rate")
 st.write(fix_real(
     "Fórmula: (receita anual de aluguéis ÷ valor de mercado dos imóveis) × 100\n"
-    "O que mede: retorno anual esperado apenas com a renda de aluguéis.\n"
-    "Exemplo: R$ 10 milhões de aluguel ÷ R$ 200 milhões de imóveis = cap rate de 5%.\n"
-    "Dica iniciante: cap rate alto pode parecer atrativo, mas verifique vacância, localização e risco de inadimplência."
+    "\nO que mede: retorno anual esperado apenas com a renda de aluguéis.\n"
+    "\nExemplo: R$ 10 milhões de aluguel ÷ R$ 200 milhões de imóveis = cap rate de 5%.\n"
+    "\nDica iniciante: cap rate alto pode parecer atrativo, mas verifique vacância, localização e risco de inadimplência."
 ))
 
 st.subheader("8️⃣ Volatilidade")
 st.write(
     "Fórmula: desvio padrão dos retornos mensais da cota\n"
-    "O que é: mede a variação do preço da cota ao longo do tempo.\n"
-    "Exemplo: volatilidade de 2% ao mês indica flutuações médias de 2%."
+    "\nO que é: mede a variação do preço da cota ao longo do tempo.\n"
+    "\nExemplo: volatilidade de 2% ao mês indica flutuações médias de 2%."
 )
 st.warning(
     "Para iniciantes: maior volatilidade significa mais risco de oscilações bruscas. Considere fundos mais estáveis se preferir segurança."
