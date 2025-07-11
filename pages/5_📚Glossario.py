@@ -112,9 +112,17 @@ st.write(fix_real(
     "- **Títulos e Valores Mobiliários:** investimento em papéis diversos do setor imobiliário."
 ))
 
-st.header("📊 Indicadores e Fórmulas (Linha a linha)")
+st.header("📊 Indicadores e Fórmulas")
 
-st.subheader("1️⃣ Dividend Yield (DY)")
+st.subheader("1️⃣ VPA (Valor Patrimonial por Cota)")
+st.write(
+    "Fórmula: VPA = Patrimônio Líquido (PL) ÷ Quantidade de Cotas\n"
+    "O que significa: mostra quanto, teoricamente, cada cota do fundo representa do total de patrimônio do FII. "
+    "É como se você pegasse todo o valor do fundo e dividisse igualmente entre todas as cotas emitidas.\n"
+    "Exemplo prático: se um fundo tem R$ 100 milhões de patrimônio líquido e 1 milhão de cotas, cada cota vale, patrimonialmente, R$ 100.\n"
+    "Dica para iniciantes: o VPA é um parâmetro para comparar com o preço de mercado da cota (usado no cálculo do P/VP). Quando o preço de mercado está abaixo do VPA, a cota está sendo negociada com desconto em relação ao valor contábil do fundo."
+)
+st.subheader("2️⃣ Dividend Yield (DY)")
 st.write(fix_real(
     "Fórmula: (Total de dividendos pagos ÷ preço da cota) × 100\n"
     "O que significa: representa o percentual de retorno em proventos em relação ao preço pago pela cota.\n"
@@ -122,7 +130,7 @@ st.write(fix_real(
     "Dica para iniciantes: compare o DY com a taxa Selic para avaliar se é melhor investir em FIIs ou na renda fixa do Tesouro Direto."
 ))
 
-st.subheader("2️⃣ P/VP (Preço sobre Valor Patrimonial)")
+st.subheader("3️⃣ P/VP (Preço sobre Valor Patrimonial)")
 st.write(fix_real(
     "Fórmula: preço da cota ÷ valor patrimonial por cota\n"
     "O que mostra: indica se a cota está sendo negociada com desconto (<1) ou ágio (>1) em relação ao valor contábil.\n"
@@ -132,7 +140,7 @@ st.success(
     "Para iniciantes: cotas com P/VP abaixo de 1 podem indicar oportunidade de compra, mas pesquise o motivo do desconto."
 )
 
-st.subheader("3️⃣ Vacância Física / Ocupação")
+st.subheader("4️⃣ Vacância Física / Ocupação")
 st.write(
     "Fórmula: vacância (%) = 100 – ocupação (%)\n"
     "O que é: percentual de área dos imóveis do fundo que está desocupada.\n"
@@ -142,13 +150,13 @@ st.warning(
     "Atenção: vacância alta reduz a geração de renda e pode impactar seus dividendos."
 )
 
-st.subheader("4️⃣ Número de Cotistas")
+st.subheader("5️⃣ Número de Cotistas")
 st.write(
     "O que é: quantidade de pessoas que possuem cotas do fundo.\n"
     "Por que importa: mais cotistas normalmente significam maior liquidez, ou seja, mais facilidade para comprar ou vender cotas."
 )
 
-st.subheader("5️⃣ Patrimônio Líquido (PL)")
+st.subheader("6️⃣ Patrimônio Líquido (PL)")
 st.write(fix_real(
     "O que é: soma do valor de todos os ativos do fundo (imóveis e títulos).\n"
     "Exemplo: um FII com patrimônio líquido de R$ 200 milhões possui esse montante investido em bens imobiliários."
@@ -157,7 +165,7 @@ st.success(
     "Dica para iniciantes: fundos maiores podem ter projetos e contratos mais estáis, mas avalie também o setor de atuação."
 )
 
-st.subheader("6️⃣ Cap Rate")
+st.subheader("7️⃣ Cap Rate")
 st.write(fix_real(
     "Fórmula: (receita anual de aluguéis ÷ valor de mercado dos imóveis) × 100\n"
     "O que mede: retorno anual esperado apenas com a renda de aluguéis.\n"
@@ -165,7 +173,7 @@ st.write(fix_real(
     "Dica iniciante: cap rate alto pode parecer atrativo, mas verifique vacância, localização e risco de inadimplência."
 ))
 
-st.subheader("7️⃣ Volatilidade")
+st.subheader("8️⃣ Volatilidade")
 st.write(
     "Fórmula: desvio padrão dos retornos mensais da cota\n"
     "O que é: mede a variação do preço da cota ao longo do tempo.\n"
