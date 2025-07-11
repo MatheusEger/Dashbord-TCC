@@ -268,10 +268,10 @@ f2 = f.rename(columns={
     'ticker':      'Ticker',
     'setor':       'Setor',
     'tipo':        'Tipo',
-    'preco_atual': 'Preço',
-    'vpa_calc':    'VPA',
-    'pvp_calc':    'P/VP',
-    'dy_calc':     'DY 12M',
-    'cap_rate':   'Cap Rate'
+    'preco_atual': 'Preço (R$)',
+    'vpa_calc':    'VPA (R$)',
+    'pvp_calc':    'P/VP (%)',
+    'dy_calc':     'DY 12M (%)',
+    'cap_rate':   'Cap Rate (%)'
 })
 st.dataframe(f2[['Ticker','Setor','Tipo','Preço','VPA','P/VP','DY 12M','Cap Rate']])
