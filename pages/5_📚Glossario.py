@@ -115,7 +115,7 @@ st.write(fix_real(
 st.header("📊 Indicadores e Fórmulas")
 
 st.subheader("1️⃣ VPA (Valor Patrimonial por Cota)")
-st.write(
+st.markdown(
     "Fórmula: VPA = Patrimônio Líquido (PL) ÷ Quantidade de Cotas\n"
     "O que significa: mostra quanto, teoricamente, cada cota do fundo representa do total de patrimônio do FII. "
     "É como se você pegasse todo o valor do fundo e dividisse igualmente entre todas as cotas emitidas.\n"
