@@ -193,7 +193,7 @@ st.success(
 st.header("🛠️ Como usar o Dashboard")
 st.write(
     "1. Selecione o período (1 ano, 5 anos ou 10 anos).\n"
-    "2. Filtre por setor (logística, shoppings, recebíveis, ..) ou tipo (Tijolo, Papel..).\n"
+    "2. Filtre por setor (logística, shoppings, recebíveis,...) ou tipo (Tijolo, Papel,...).\n"
     "3. Compare fundos no ‘Comparador’ para ver diferenças lado a lado.\n"
     "4. Consulte o ‘Ranking’ para identificar os melhores FIIs segundo cada indicador.\n"
     "5. Exporte em CSV para estudar offline ou incluir em relatórios.\n"
