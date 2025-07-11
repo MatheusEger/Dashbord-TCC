@@ -119,14 +119,14 @@ st.write(
     "Fórmula: VPA = Patrimônio Líquido (PL) ÷ Quantidade de Cotas\n"
     "O que significa: mostra quanto, teoricamente, cada cota do fundo representa do total de patrimônio do FII. "
     "É como se você pegasse todo o valor do fundo e dividisse igualmente entre todas as cotas emitidas.\n"
-    "Exemplo prático: se um fundo tem R$ 100 milhões de patrimônio líquido e 1 milhão de cotas, cada cota vale, patrimonialmente, R$ 100.\n"
+    "Exemplo prático: se um fundo tem R\$ 100 milhões de patrimônio líquido e 1 milhão de cotas, cada cota vale, patrimonialmente, R\$ 100.\n"
     "Dica para iniciantes: o VPA é um parâmetro para comparar com o preço de mercado da cota (usado no cálculo do P/VP). Quando o preço de mercado está abaixo do VPA, a cota está sendo negociada com desconto em relação ao valor contábil do fundo."
 )
 st.subheader("2️⃣ Dividend Yield (DY)")
 st.write(fix_real(
     "Fórmula: (Total de dividendos pagos ÷ preço da cota) × 100\n"
     "O que significa: representa o percentual de retorno em proventos em relação ao preço pago pela cota.\n"
-    "Exemplo fácil: se o fundo paga R$ 1 de dividendos e cada cota custa R$ 100, o DY será 1% (1 ÷ 100 × 100).\n"
+    "Exemplo fácil: se o fundo paga R\$ 1 de dividendos e cada cota custa R\$ 100, o DY será 1% (1 ÷ 100 × 100).\n"
     "Dica para iniciantes: compare o DY com a taxa Selic para avaliar se é melhor investir em FIIs ou na renda fixa do Tesouro Direto."
 ))
 
