@@ -175,8 +175,10 @@ st.write(fix_real(
     "Fórmula: (receita anual de aluguéis ÷ valor de mercado dos imóveis) × 100\n"
     "\nO que mede: retorno anual esperado apenas com a renda de aluguéis.\n"
     "\nExemplo: R$ 10 milhões de aluguel ÷ R$ 200 milhões de imóveis = cap rate de 5%.\n"
-    "\nDica iniciante: cap rate alto pode parecer atrativo, mas verifique vacância, localização e risco de inadimplência."
 ))
+st.warning(
+    "\nDica iniciante: cap rate alto pode parecer atrativo, mas verifique vacância, localização e risco de inadimplência."
+)
 
 st.subheader("8️⃣ Volatilidade")
 st.write(
@@ -184,7 +186,7 @@ st.write(
     "\nO que é: mede a variação do preço da cota ao longo do tempo.\n"
     "\nExemplo: volatilidade de 2% ao mês indica flutuações médias de 2%."
 )
-st.warning(
+st.success(
     "Para iniciantes: maior volatilidade significa mais risco de oscilações bruscas. Considere fundos mais estáveis se preferir segurança."
 )
 
