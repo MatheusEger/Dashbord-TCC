@@ -181,7 +181,7 @@ st.subheader(f"{ticker} — Ultimo fechamento em {latest_date}")
 cols = st.columns(4)
 labels = ["Preço Atual", "Máx 52 Semanas", "Mín 52 Semanas", "Variação 30d"]
 values = [f"R$ {price:,.2f}", f"R$ {high52:,.2f}", f"R$ {low52:,.2f}", f"{delta30:.2f}%"]
-tips   = ["Último fechamento\nVariação nos ultimso 12 meses", "Maior nas últimas 52 semanas", "Menor nas últimas 52 semanas", "Comparação: hoje vs 30 dias atrás"]
+tips   = ["Último fechamento", "Maior cotação nas últimas 52 semanas", "Menor cotação nas últimas 52 semanas", "Comparação: hoje vs 30 dias atrás"]
 col = cols[0]
 col.markdown(
     f"<div class='metric-label tooltip'>Preço Atual ℹ️"
