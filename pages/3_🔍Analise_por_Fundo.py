@@ -189,7 +189,7 @@ col.markdown(
     unsafe_allow_html=True
 )
 col.metric(label="", value=values[0], delta=f"{delta52:.2f}%")
-col.caption("Variação do ultimo ano.")
+col.caption("Variação do último ano (52 semanas).")
 
 # As outras continuam como antes:
 for idx in range(1, 4):
