@@ -267,13 +267,13 @@ def fmt_val(label, v):
 
 # lista de tuplas: (label, função de comparação: True se v1 melhor que v2)
 metrics = [
-    ("Preço Atual",               lambda a, b: a < b),
+    ("Preço Atual",               lambda a, b: a < b),   # menor = melhor
     ("Patrimônio Líquido (PL)",   lambda a, b: a > b),
     ("Quantidade Cotas",          lambda a, b: a > b),
     ("VPA",                       lambda a, b: a > b),
-    ("P/VP",                      lambda a, b: a > b),  # menor = melhor
+    ("P/VP",                      lambda a, b: a < b),   # menor = melhor
     ("Número de Imóveis",         lambda a, b: a > b),
-    ("Cap Rate",                  lambda a, b: (a or 0) > (b or 0)),  # maior = melhor, só se houver
+    ("Cap Rate",                  lambda a, b: (a or 0) > (b or 0)),  # maior = melhor
 ]
 
 # extraia os valores em dois dicionários
